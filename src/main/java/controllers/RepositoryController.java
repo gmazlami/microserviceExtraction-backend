@@ -26,9 +26,6 @@ public class RepositoryController {
 	private RepositoryRepository repository;
 	
 	@Autowired
-	private Configs config;
-	
-	@Autowired
 	private GitCloneService service;
 	
     @RequestMapping("/greeting")

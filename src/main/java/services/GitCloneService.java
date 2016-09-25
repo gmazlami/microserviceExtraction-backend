@@ -22,5 +22,6 @@ public class GitCloneService {
     	
     	Git git = Git.cloneRepository().setURI(repo.getRemotePath()).setDirectory(new File(config.localRepositoryDirectory + "/" + repo.getName() + "_" + repo.getId())).call();
     	System.out.println("FINISHED CLONING!");
+    	git.close();
     }
 }
