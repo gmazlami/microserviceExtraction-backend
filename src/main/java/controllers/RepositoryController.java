@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.RestController;
 import dtos.RepositoryDTO;
 import main.Configs;
 import models.Repository;
+import models.persistence.ClassRepository;
 import models.persistence.RepositoryRepository;
+import models.Class;
 import services.GitCloneService;
 
 @Configuration
@@ -24,6 +26,9 @@ public class RepositoryController {
 
 	@Autowired
 	private RepositoryRepository repository;
+	
+	@Autowired
+	private ClassRepository classRepository;
 	
 	@Autowired
 	private GitCloneService service;
@@ -46,8 +51,27 @@ public class RepositoryController {
     	service.cloneRepo(r);
     	
     	return saved;	
+    }
+
+    @RequestMapping(value="/test", method=RequestMethod.GET)
+    public Class test(){
     	
+    	Class cls = new Class();
+    	cls.setName("TestClass");
+    	cls.setPackageName("com.java.test");
+    	cls.setFilePath("/some/path/to/file.java");
     	
+    	Repository repo = new Repository();
+    	repo.setName("my-test-repo");
+    	repo.setRemotePath("https://github.com/my-test-repo");
+    	
+    	repository.save(repo);
+    	
+    	cls.setRepo(repo);
+    	
+    	classRepository.save(cls);
+    	
+    	return cls;
     	
     }
     
