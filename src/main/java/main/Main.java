@@ -14,7 +14,7 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 @Configuration
 @EnableAutoConfiguration
-@ComponentScan({"controllers",",main", "services"})
+@ComponentScan({"controllers",",main", "services",  "git"})
 @EnableJpaRepositories(basePackages = "models.persistence")
 @EntityScan(basePackages = {"models"})
 @EnableAsync

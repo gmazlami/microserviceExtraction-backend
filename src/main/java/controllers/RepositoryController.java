@@ -10,11 +10,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import dtos.RepositoryDTO;
-import main.Configs;
 import models.Repository;
 import models.persistence.ClassRepository;
 import models.persistence.RepositoryRepository;
-import models.Class;
+import services.AnalysisService;
 import services.GitCloneService;
 import services.ParsingService;
 
@@ -36,6 +35,9 @@ public class RepositoryController {
 	
 	@Autowired
 	private ParsingService parsingService;
+	
+	@Autowired
+	private AnalysisService analysisService;
 	
     @RequestMapping("/greeting")
     public String greeting() {
@@ -66,8 +68,8 @@ public class RepositoryController {
 //    	
 //    	repository.save(repo);
     	
-    	Repository reporepo = repository.findById(5L);
-    	parsingService.parseClasses(reporepo);
+    	Repository reporepo = repository.findById(1L);
+    	analysisService.processRepository(reporepo);
     	
     	return "OK";
     	

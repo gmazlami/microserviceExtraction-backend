@@ -19,9 +19,7 @@ public class GitCloneService {
 	
     @Async
     public void cloneRepo(Repository repo) throws Exception{
-    	
     	Git git = Git.cloneRepository().setURI(repo.getRemotePath()).setDirectory(new File(config.localRepositoryDirectory + "/" + repo.getName() + "_" + repo.getId())).call();
-    	System.out.println("FINISHED CLONING!");
     	git.close();
     }
 }
