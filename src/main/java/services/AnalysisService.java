@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
+import analysis.LogicalCouplingEngine;
 import git.GitClient;
 import main.Configs;
 import models.Repository;
@@ -26,6 +27,10 @@ public class AnalysisService {
 		
 		
 		List<List<DiffEntry>> diffHistory = filterDiffs(gitClient.getChangeHistory().getDiffHistory());
+		
+		LogicalCouplingEngine engine = new LogicalCouplingEngine(diffHistory);
+		
+		engine.computeLogicalCouplings();
 		
 	}
 	
