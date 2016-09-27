@@ -14,7 +14,6 @@ public class Repository {
 	
 	private String remotePath;
 	
-	
 	private String name;
 
 	public Long getId() {

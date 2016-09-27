@@ -16,6 +16,7 @@ import models.persistence.ClassRepository;
 import models.persistence.RepositoryRepository;
 import models.Class;
 import services.GitCloneService;
+import services.ParsingService;
 
 @Configuration
 @EnableAutoConfiguration
@@ -32,6 +33,9 @@ public class RepositoryController {
 	
 	@Autowired
 	private GitCloneService service;
+	
+	@Autowired
+	private ParsingService parsingService;
 	
     @RequestMapping("/greeting")
     public String greeting() {
@@ -54,24 +58,18 @@ public class RepositoryController {
     }
 
     @RequestMapping(value="/test", method=RequestMethod.GET)
-    public Class test(){
+    public String test() throws Exception{
     	
-    	Class cls = new Class();
-    	cls.setName("TestClass");
-    	cls.setPackageName("com.java.test");
-    	cls.setFilePath("/some/path/to/file.java");
+//    	Repository repo = new Repository();
+//    	repo.setName("my-test-repo");
+//    	repo.setRemotePath("https://github.com/my-test-repo");
+//    	
+//    	repository.save(repo);
     	
-    	Repository repo = new Repository();
-    	repo.setName("my-test-repo");
-    	repo.setRemotePath("https://github.com/my-test-repo");
+    	Repository reporepo = repository.findById(5L);
+    	parsingService.parseClasses(reporepo);
     	
-    	repository.save(repo);
-    	
-    	cls.setRepo(repo);
-    	
-    	classRepository.save(cls);
-    	
-    	return cls;
+    	return "OK";
     	
     }
     
