@@ -37,7 +37,11 @@ public class AnalysisService {
 	private List<List<DiffEntry>> filterDiffs(List<List<DiffEntry>> originalHistory){
 		Predicate<DiffEntry> isAddOrModify = (entry) ->{
 			if(entry.getChangeType() == DiffEntry.ChangeType.ADD || entry.getChangeType() == DiffEntry.ChangeType.MODIFY){
-				return true;
+				if(entry.getNewPath().endsWith(".java")){
+					return true;
+				}else{
+					return false;
+				}
 			}else{
 				return false;
 			}

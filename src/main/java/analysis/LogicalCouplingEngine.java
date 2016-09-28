@@ -1,18 +1,27 @@
 package analysis;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.jgit.diff.DiffEntry;
 
+import main.Hashing;
 import models.LogicalCoupling;
+import models.Repository;
 
 public class LogicalCouplingEngine {
 	
 	private List<List<DiffEntry>> history;
 	
-	public LogicalCouplingEngine(List<List<DiffEntry>> history){
+	private Repository repo;
+	
+	public LogicalCouplingEngine(List<List<DiffEntry>> history, Repository repo){
 		this.history = history;
+		this.repo = repo;
 	}
 	
 	
@@ -22,10 +31,27 @@ public class LogicalCouplingEngine {
 			List<String> diffSet = getStringSet(diff);
 			List<String> powerSet = powerSet(diffSet);
 			
-			System.out.println(powerSet);
 		}
 		
 		return null;
+	}
+	
+	private void processCommitCouplings(List<String> powerSet){
+		Map<String, LogicalCoupling> resultMap = new HashMap<>();
+		for(String element: powerSet){
+			String[] elements = element.split("?");
+			if (elements.length > 1){
+				List<String> elementList = Arrays.asList(elements);
+				Collections.sort(elementList);
+				String key = String.join("?", elementList);
+				String hash = Hashing.hash(key);
+				
+				//TODO: import RepositoryReposiory or ClassRepository to get classes from db for a given class name and repo
+				//TODO: Create LogicalCoupling, add classes to it, add hash, increment score/set to 1
+				//TODO: Add LogicalCoupling to resultMap with hash as key
+				
+			}
+		}
 	}
 	
 	private List<String> getStringSet(List<DiffEntry> diffList){
@@ -37,6 +63,9 @@ public class LogicalCouplingEngine {
 	}
 	
 	private List<String> powerSet(List<String> set){
+		if(set.size() == 1){
+			return new ArrayList<String>();
+		}
 		if(set.size() == 2){
 			List<String> temp = new ArrayList<>(set);
 			temp.add(merge(set.get(0),set.get(1)));
@@ -67,4 +96,5 @@ public class LogicalCouplingEngine {
 	private String merge(String str1, String str2){
 		return str1 + "?" + str2;
 	}
+	
 }

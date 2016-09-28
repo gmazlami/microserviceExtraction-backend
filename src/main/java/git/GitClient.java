@@ -38,7 +38,6 @@ public class GitClient {
 	
 	public org.eclipse.jgit.lib.Repository getGitRepository() throws IOException {
 		String path = config.localRepositoryDirectory + "/" + repo.getName()+"_"+repo.getId()+"/.git";
-		System.out.println(path);
 		File file = new File(config.localRepositoryDirectory + "/" + repo.getName()+"_"+repo.getId()+"/.git");
 		org.eclipse.jgit.lib.Repository repository = new FileRepositoryBuilder().setGitDir(file)
 				  .readEnvironment() // scan environment GIT_* variables
