@@ -30,7 +30,7 @@ public class ParsingService {
 		
 		Path repoDirectory = Paths.get(localRepoPath);
 		
-		ClassVisitor visitor = new ClassVisitor(repo);
+		ClassVisitor visitor = new ClassVisitor(repo, config);
 		Files.walkFileTree(repoDirectory, visitor);
 		
 		List<Class> classes = visitor.getClasses();

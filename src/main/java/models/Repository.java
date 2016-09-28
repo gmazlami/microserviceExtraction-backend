@@ -48,6 +48,8 @@ public class Repository {
 	}
 
 	
-	
+	public String getDirectoryName(){
+		return this.name + "_" + this.id;
+	}
 	
 }

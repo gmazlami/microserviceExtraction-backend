@@ -8,9 +8,7 @@ import java.nio.file.PathMatcher;
 import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import main.Configs;
 import models.Class;
@@ -43,6 +41,7 @@ public class ClassVisitor extends SimpleFileVisitor<Path> {
         	cls.setName(name.toString());
         	cls.setRepo(repo);
         	cls.setFilePath(path.toUri().toString());
+        	cls.setPackageName(getPackageName(cls.getFilePath()));
         	classes.add(cls);
     	}
     	return FileVisitResult.CONTINUE;
@@ -53,19 +52,25 @@ public class ClassVisitor extends SimpleFileVisitor<Path> {
     }
     
     private String getPackageName(String filePath){
-    	
-    	//FIXME: CAUTION: What if config.localRepositoryDirectory is also a valid name for a repo?? --> splitting will produce invalid result!
-    	//IDEA: Take only the first if there are multiple occurences of config.localRepositoryDirectory
     	String[] packageNameArray = filePath.split(config.localRepositoryDirectory);
     	
+    	String qualifiedPathName;
+    	if(packageNameArray.length > 2){
+    		qualifiedPathName = filePath.replace(packageNameArray[0]+config.localRepositoryDirectory, "");
+    	}else{
+    		qualifiedPathName = packageNameArray[1];
+    	}
     	
-    	//TODO: implement parsing of package name like so..
-    	// 1) Split on 'configs.localRepositoryDirectory'
-    	// 2) Take second part from split
-    	// 3) Remove regex "{repo_name}_{id_num}" from remaining string
-    	// 4) Remove "src" if it exists
-    	// 5) Remaining part of the string: Replace "/" with "." --> packageName
+    	String srcPathName = qualifiedPathName.replace(this.repo.getDirectoryName(),"");
     	
-    	return null;
+    	if(srcPathName.contains("/src/")){
+    		srcPathName = srcPathName.replace("/src/", "");
+    	}
+    	
+    	int trimIndex = srcPathName.lastIndexOf("/");
+    	String packageName = srcPathName.substring(0, trimIndex).replace("/", ".");
+    	
+    	return packageName.substring(1);
     }
+    
 }

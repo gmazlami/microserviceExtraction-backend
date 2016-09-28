@@ -51,7 +51,7 @@ public class LogicalCoupling {
 //		c.setHash(hashCode);
 //		c.setClasses(classList);
 //		return c;
-	}
+//	}
 	
 //	private static Class getFromPathName(){
 //		

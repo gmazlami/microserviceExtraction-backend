@@ -69,7 +69,8 @@ public class RepositoryController {
 //    	repository.save(repo);
     	
     	Repository reporepo = repository.findById(1L);
-    	analysisService.processRepository(reporepo);
+    	parsingService.parseClasses(reporepo);
+//    	analysisService.processRepository(reporepo);
     	
     	return "OK";
     	
