@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import main.Configs;
 import models.Class;
 import models.Repository;
 
@@ -23,10 +24,13 @@ public class ClassVisitor extends SimpleFileVisitor<Path> {
 	
 	private Repository repo;
 	
-	public ClassVisitor(Repository repo) {
+	private Configs config;
+	
+	public ClassVisitor(Repository repo, Configs config) {
 		matcher = FileSystems.getDefault().getPathMatcher("glob:*.java");
 		classes = new ArrayList<>();
 		this.repo = repo;
+		this.config = config;
 	}
 	
     @Override
@@ -46,5 +50,22 @@ public class ClassVisitor extends SimpleFileVisitor<Path> {
 
     public List<Class> getClasses(){
     	return this.classes;
+    }
+    
+    private String getPackageName(String filePath){
+    	
+    	//FIXME: CAUTION: What if config.localRepositoryDirectory is also a valid name for a repo?? --> splitting will produce invalid result!
+    	//IDEA: Take only the first if there are multiple occurences of config.localRepositoryDirectory
+    	String[] packageNameArray = filePath.split(config.localRepositoryDirectory);
+    	
+    	
+    	//TODO: implement parsing of package name like so..
+    	// 1) Split on 'configs.localRepositoryDirectory'
+    	// 2) Take second part from split
+    	// 3) Remove regex "{repo_name}_{id_num}" from remaining string
+    	// 4) Remove "src" if it exists
+    	// 5) Remaining part of the string: Replace "/" with "." --> packageName
+    	
+    	return null;
     }
 }

@@ -12,6 +12,7 @@ import org.eclipse.jgit.diff.DiffEntry;
 import main.Hashing;
 import models.LogicalCoupling;
 import models.Repository;
+import models.persistence.RepositoryRepository;
 
 public class LogicalCouplingEngine {
 	
@@ -19,9 +20,12 @@ public class LogicalCouplingEngine {
 	
 	private Repository repo;
 	
-	public LogicalCouplingEngine(List<List<DiffEntry>> history, Repository repo){
+	private RepositoryRepository repository;
+	
+	public LogicalCouplingEngine(List<List<DiffEntry>> history, Repository repo, RepositoryRepository repository){
 		this.history = history;
 		this.repo = repo;
+		this.repository = repository;
 	}
 	
 	
@@ -45,6 +49,7 @@ public class LogicalCouplingEngine {
 				Collections.sort(elementList);
 				String key = String.join("?", elementList);
 				String hash = Hashing.hash(key);
+//				LogicalCoupling coupling =  LogicalCoupling.getInstance(hash, classList);
 				
 				//TODO: import RepositoryReposiory or ClassRepository to get classes from db for a given class name and repo
 				//TODO: Create LogicalCoupling, add classes to it, add hash, increment score/set to 1

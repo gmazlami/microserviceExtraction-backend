@@ -13,6 +13,7 @@ import analysis.LogicalCouplingEngine;
 import git.GitClient;
 import main.Configs;
 import models.Repository;
+import models.persistence.RepositoryRepository;
 
 @Service
 public class AnalysisService {
@@ -20,6 +21,8 @@ public class AnalysisService {
 	@Autowired
 	Configs config;
 	
+	@Autowired
+	RepositoryRepository repository;
 	
 	@Async
 	public void processRepository(Repository repo) throws Exception{
@@ -28,7 +31,7 @@ public class AnalysisService {
 		
 		List<List<DiffEntry>> diffHistory = filterDiffs(gitClient.getChangeHistory().getDiffHistory());
 		
-		LogicalCouplingEngine engine = new LogicalCouplingEngine(diffHistory);
+		LogicalCouplingEngine engine = new LogicalCouplingEngine(diffHistory, repo, repository);
 		
 		engine.computeLogicalCouplings();
 		
