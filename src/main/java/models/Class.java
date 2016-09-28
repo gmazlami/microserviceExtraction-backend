@@ -20,7 +20,7 @@ public class Class {
 	private String filePath;
 	
 	@ManyToOne
-	private Repository repo;
+	private GitRepository repo;
 
 	public String getName() {
 		return name;
@@ -54,11 +54,11 @@ public class Class {
 		this.id = id;
 	}
 
-	public Repository getRepo() {
+	public GitRepository getRepo() {
 		return repo;
 	}
 
-	public void setRepo(Repository repo) {
+	public void setRepo(GitRepository repo) {
 		this.repo = repo;
 	}
 

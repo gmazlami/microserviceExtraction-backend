@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import main.Hashing;
 import models.LogicalCoupling;
-import models.Repository;
+import models.GitRepository;
 import models.persistence.ClassRepository;
 import models.persistence.RepositoryRepository;
 
@@ -26,7 +26,7 @@ public class LogicalCouplingService {
 	@Autowired
 	private ClassRepository classRepository;
 	
-	public LogicalCouplingService(List<List<DiffEntry>> history, Repository repo){
+	public LogicalCouplingService(List<List<DiffEntry>> history, GitRepository repo){
 		this.history = history;
 	}
 	
@@ -60,6 +60,10 @@ public class LogicalCouplingService {
 		}
 	}
 	
+	/*
+	 * Converts a list of DiffEntry instances to a list of the path strings
+	 * of the file changes in the DiffEntry instance.
+	 */
 	private List<String> getStringSet(List<DiffEntry> diffList){
 		List<String> set = new ArrayList<>();
 		for(DiffEntry entry: diffList){
@@ -68,6 +72,19 @@ public class LogicalCouplingService {
 		return set;
 	}
 	
+	
+	/*
+	 * Uses the following recursive algorithm:
+	 * https://en.wikipedia.org/wiki/Power_set#Algorithms
+	 * 
+	 * Returns the power set of the set of strings given as an input list.
+	 * Elements in the resulting powerset that are themselves sets of multiple elements
+	 * are expressed through string concatenation using the symbol "?", since it is not possible 
+	 * to nest Sets with the chosen data structures.
+	 * 
+	 * Example: Input set: {a,b,c} --> Theoretical Power set: {a,b,c,{a,b},{a,c},{b,c},{a,b,c}} --> 
+	 * --> String concatenated representation of it: {a, b, c, a?b, a?c, b?c, a?b?c}
+	 */
 	private List<String> powerSet(List<String> set){
 		if(set.size() == 1){
 			return new ArrayList<String>();

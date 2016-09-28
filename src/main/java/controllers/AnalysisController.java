@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import models.Repository;
+import models.GitRepository;
 import models.persistence.RepositoryRepository;
 import services.AnalysisService;
 
@@ -28,9 +28,9 @@ public class AnalysisController {
 	private RepositoryRepository repository;
 	
 	@RequestMapping(value="/analyze/{repositoryId}", method = RequestMethod.PUT)
-	public Repository triggerAnalysis(@PathVariable Long repositoryId) throws Exception{
+	public GitRepository triggerAnalysis(@PathVariable Long repositoryId) throws Exception{
 		
-		Repository repo = repository.findById(repositoryId);
+		GitRepository repo = repository.findById(repositoryId);
 		
 		service.processRepository(repo);
 		

@@ -12,7 +12,7 @@ import java.util.List;
 
 import main.Configs;
 import models.Class;
-import models.Repository;
+import models.GitRepository;
 
 public class ClassVisitor extends SimpleFileVisitor<Path> {
 	
@@ -21,11 +21,11 @@ public class ClassVisitor extends SimpleFileVisitor<Path> {
 	
 	private List<Class> classes;
 	
-	private Repository repo;
+	private GitRepository repo;
 	
 	private Configs config;
 	
-	public ClassVisitor(Repository repo, Configs config) {
+	public ClassVisitor(GitRepository repo, Configs config) {
 		classes = new ArrayList<>();
 		this.repo = repo;
 		this.config = config;

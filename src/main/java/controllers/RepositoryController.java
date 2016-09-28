@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import dtos.RepositoryDTO;
-import models.Repository;
+import models.GitRepository;
 import models.persistence.ClassRepository;
 import models.persistence.RepositoryRepository;
 import services.AnalysisService;
@@ -46,13 +46,13 @@ public class RepositoryController {
     
     
     @RequestMapping(value="/repository", method=RequestMethod.POST)
-    public Repository addRepository(@RequestBody RepositoryDTO repo) throws Exception{
+    public GitRepository addRepository(@RequestBody RepositoryDTO repo) throws Exception{
     	
-    	Repository r = new Repository();
+    	GitRepository r = new GitRepository();
     	r.setName(repo.getName());
     	r.setRemotePath(repo.getUri());
     	
-    	Repository saved = repository.save(r);
+    	GitRepository saved = repository.save(r);
     	
     	service.cloneRepo(r);
     	
@@ -68,7 +68,7 @@ public class RepositoryController {
 //    	
 //    	repository.save(repo);
     	
-    	Repository reporepo = repository.findById(1L);
+    	GitRepository reporepo = repository.findById(1L);
     	parsingService.parseClasses(reporepo);
 //    	analysisService.processRepository(reporepo);
     	

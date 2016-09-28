@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 
 import git.GitClient;
 import main.Configs;
-import models.Repository;
+import models.GitRepository;
 import models.persistence.RepositoryRepository;
 import services.analysis.LogicalCouplingService;
 
@@ -25,7 +25,7 @@ public class AnalysisService {
 	RepositoryRepository repository;
 	
 	@Async
-	public void processRepository(Repository repo) throws Exception{
+	public void processRepository(GitRepository repo) throws Exception{
 		GitClient gitClient = new GitClient(repo, config);
 		
 		List<List<DiffEntry>> diffHistory = filterDiffs(gitClient.getChangeHistory().getDiffHistory());
@@ -36,6 +36,10 @@ public class AnalysisService {
 		
 	}
 	
+	/*
+	 * Filters out all DiffEntry instances that are not of DiffEntry.ChangeType.ADD or DiffEntry.ChangeType.MODIFY
+	 * and don't end in .java
+	 */
 	private List<List<DiffEntry>> filterDiffs(List<List<DiffEntry>> originalHistory){
 		
 		//Define predicate to filter only files that were added or modified and end with a .java file ending

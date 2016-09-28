@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 
 import main.Configs;
 import models.Class;
-import models.Repository;
+import models.GitRepository;
 import models.persistence.ClassRepository;
 import services.filehandling.ClassVisitor;
 
@@ -25,7 +25,7 @@ public class ParsingService {
 	private ClassRepository classRepository;
 	
 	@Async
-	public void parseClasses(Repository repo) throws Exception{
+	public void parseClasses(GitRepository repo) throws Exception{
 		String localRepoPath = config.localRepositoryDirectory + "/" + repo.getName() + "_" + repo.getId();
 		
 		Path repoDirectory = Paths.get(localRepoPath);
