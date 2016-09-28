@@ -1,4 +1,4 @@
-package analysis;
+package services.analysis;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -8,26 +8,27 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.jgit.diff.DiffEntry;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import main.Hashing;
 import models.LogicalCoupling;
 import models.Repository;
+import models.persistence.ClassRepository;
 import models.persistence.RepositoryRepository;
 
-public class LogicalCouplingEngine {
+public class LogicalCouplingService {
 	
-	private List<List<DiffEntry>> history;
+	private List<List<DiffEntry>> history = null;
 	
-	private Repository repo;
+	@Autowired
+	private RepositoryRepository repoRepository;
 	
-	private RepositoryRepository repository;
+	@Autowired
+	private ClassRepository classRepository;
 	
-	public LogicalCouplingEngine(List<List<DiffEntry>> history, Repository repo, RepositoryRepository repository){
+	public LogicalCouplingService(List<List<DiffEntry>> history, Repository repo){
 		this.history = history;
-		this.repo = repo;
-		this.repository = repository;
 	}
-	
 	
 	public List<LogicalCoupling> computeLogicalCouplings(){
 		
