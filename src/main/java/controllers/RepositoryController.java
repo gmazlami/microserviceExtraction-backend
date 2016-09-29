@@ -54,11 +54,11 @@ public class RepositoryController {
     	
     	GitRepository saved = repository.save(r);
     	
-    	service.cloneRepo(r);
+    	service.processRepository(r);
     	
     	return saved;	
     }
-
+    
     @RequestMapping(value="/test", method=RequestMethod.GET)
     public String test() throws Exception{
     	
