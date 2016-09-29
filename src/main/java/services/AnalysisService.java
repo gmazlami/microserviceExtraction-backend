@@ -24,16 +24,14 @@ public class AnalysisService {
 	@Autowired
 	RepositoryRepository repository;
 	
+	@Autowired
+	LogicalCouplingService logicalCouplingService;
+	
 	@Async
 	public void processRepository(GitRepository repo) throws Exception{
 		GitClient gitClient = new GitClient(repo, config);
-		
 		List<List<DiffEntry>> diffHistory = filterDiffs(gitClient.getChangeHistory().getDiffHistory());
-		
-		LogicalCouplingService engine = new LogicalCouplingService(diffHistory, repo);
-		
-		engine.computeLogicalCouplings();
-		
+		logicalCouplingService.computeLogicalCouplings(diffHistory);
 	}
 	
 	/*

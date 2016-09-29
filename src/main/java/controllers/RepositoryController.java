@@ -68,8 +68,9 @@ public class RepositoryController {
 //    	
 //    	repository.save(repo);
     	
-    	GitRepository reporepo = repository.findById(1L);
-    	parsingService.parseClasses(reporepo);
+    	GitRepository reporepo = repository.findById(134L);
+    	System.out.println(reporepo);
+//    	parsingService.parseClasses(reporepo);
 //    	analysisService.processRepository(reporepo);
     	
     	return "OK";

@@ -6,4 +6,5 @@ import models.Class;
 
 public interface ClassRepository extends CrudRepository<Class, Long> {
 
+	Class findByFilePath(String filePath);
 }

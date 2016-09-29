@@ -1,5 +1,6 @@
 package models;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -17,7 +18,7 @@ public class LogicalCoupling {
 	private Long id;
 	
 	@ManyToMany
-	private List<Class> classes;
+	private List<Class> classes = new ArrayList<>();
 	
 	private int score;
 	
@@ -31,6 +32,10 @@ public class LogicalCoupling {
 	public void setClasses(List<Class> classes) {
 		this.classes = classes;
 	}
+	
+	public void addClass(Class cls){
+		this.classes.add(cls);
+	}
 
 	public int getScore() {
 		return score;
@@ -38,6 +43,10 @@ public class LogicalCoupling {
 
 	public void setScore(int score) {
 		this.score = score;
+	}
+	
+	public void incrementScore(){
+		this.score++;
 	}
 
 	public String getHash() {
@@ -53,21 +62,4 @@ public class LogicalCoupling {
 		return "LogicalCoupling [classes=" + classes + ", score=" + score + ", hash=" + hash + "]";
 	}
 	
-//	public static LogicalCoupling getInstance(String hashCode, List<Class> classList){
-//		LogicalCoupling c = new LogicalCoupling();
-//		c.setHash(hashCode);
-//		c.setClasses(classList);
-//		return c;
-//	}
-	
-//	public static LogicalCoupling getInstance(String hashCode, List<String> classFileNames){
-//		LogicalCoupling c = new LogicalCoupling();
-//		c.setHash(hashCode);
-//		c.setClasses(classList);
-//		return c;
-//	}
-	
-//	private static Class getFromPathName(){
-//		
-//	}
 }
