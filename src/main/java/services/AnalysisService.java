@@ -10,10 +10,10 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import git.GitClient;
+import git.RepositoryHistory;
 import main.Configs;
 import models.GitRepository;
 import models.persistence.RepositoryRepository;
-import services.analysis.LogicalCouplingService;
 
 @Service
 public class AnalysisService {
@@ -24,14 +24,12 @@ public class AnalysisService {
 	@Autowired
 	RepositoryRepository repository;
 	
-	@Autowired
-	LogicalCouplingService logicalCouplingService;
 	
-	@Async
-	public void processRepository(GitRepository repo) throws Exception{
+	public List<List<DiffEntry>> processRepository(GitRepository repo) throws Exception{
 		GitClient gitClient = new GitClient(repo, config);
-		List<List<DiffEntry>> diffHistory = filterDiffs(gitClient.getChangeHistory().getDiffHistory());
-		logicalCouplingService.computeLogicalCouplings(diffHistory);
+		RepositoryHistory h = gitClient.getChangeHistory();
+		List<List<DiffEntry>> diffs = h.getDiffHistory();
+		return filterDiffs(gitClient.getChangeHistory().getDiffHistory());
 	}
 	
 	/*

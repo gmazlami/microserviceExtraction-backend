@@ -42,6 +42,7 @@ public class ClassVisitor extends SimpleFileVisitor<Path> {
         	cls.setRepo(repo);
         	cls.setFilePath(path.toUri().toString());
         	cls.setPackageName(getPackageName(cls.getFilePath()));
+        	cls.setRelativeFilePath(getRelativeFileName(cls.getFilePath()));
         	classes.add(cls);
     	}
     	return FileVisitResult.CONTINUE;
@@ -49,6 +50,17 @@ public class ClassVisitor extends SimpleFileVisitor<Path> {
 
     public List<Class> getClasses(){
     	return this.classes;
+    }
+    
+    private String getRelativeFileName(String filePath){
+    	String[] packageNameArray = filePath.split(config.localRepositoryDirectory);
+    	String qualifiedPathName;
+    	if(packageNameArray.length > 2){
+    		qualifiedPathName = filePath.replace(packageNameArray[0]+config.localRepositoryDirectory, "");
+    	}else{
+    		qualifiedPathName = packageNameArray[1];
+    	}
+    	return qualifiedPathName.replace(this.repo.getDirectoryName(),"").substring(1);
     }
     
     /*

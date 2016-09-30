@@ -21,6 +21,9 @@ public class Class {
 	@Column(unique=true)
 	private String filePath;
 	
+	@Column(unique=true)
+	private String relativeFilePath;
+	
 	@ManyToOne
 	private GitRepository repo;
 
@@ -62,6 +65,14 @@ public class Class {
 
 	public void setRepo(GitRepository repo) {
 		this.repo = repo;
+	}
+	
+	public String getRelativeFilePath() {
+		return relativeFilePath;
+	}
+
+	public void setRelativeFilePath(String relativeFilePath) {
+		this.relativeFilePath = relativeFilePath;
 	}
 
 	@Override

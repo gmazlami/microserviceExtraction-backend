@@ -3,10 +3,14 @@ package controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import dtos.RepositoryDTO;
@@ -14,8 +18,10 @@ import models.GitRepository;
 import models.persistence.ClassRepository;
 import models.persistence.RepositoryRepository;
 import services.AnalysisService;
+import services.DecompositionService;
 import services.GitCloneService;
 import services.ParsingService;
+import services.decomposition.Decompositor;
 
 @Configuration
 @EnableAutoConfiguration
@@ -30,8 +36,9 @@ public class RepositoryController {
 	@Autowired
 	private ClassRepository classRepository;
 	
+	
 	@Autowired
-	private GitCloneService service;
+	private GitCloneService gitCloneService;
 	
 	@Autowired
 	private ParsingService parsingService;
@@ -39,13 +46,16 @@ public class RepositoryController {
 	@Autowired
 	private AnalysisService analysisService;
 	
+	@Autowired
+	private DecompositionService decompositionService;
+	
     @RequestMapping("/greeting")
     public String greeting() {
         return "Hello World!";
     }
     
     
-    @RequestMapping(value="/repository", method=RequestMethod.POST)
+    @RequestMapping(value="/repositories", method=RequestMethod.POST)
     public GitRepository addRepository(@RequestBody RepositoryDTO repo) throws Exception{
     	
     	GitRepository r = new GitRepository();
@@ -53,11 +63,18 @@ public class RepositoryController {
     	r.setRemotePath(repo.getUri());
     	
     	GitRepository saved = repository.save(r);
-    	
-    	service.processRepository(r);
+    	gitCloneService.processRepository(r);
     	
     	return saved;	
     }
+    
+    @RequestMapping(value="/repositories/{repoId}/decompose", method=RequestMethod.PUT)
+    public ResponseEntity<String> triggerDecomposition(@PathVariable Long repoId){
+    	GitRepository repo = repository.findById(repoId);
+    	decompositionService.process(repo);
+    	return new ResponseEntity<String>("OK", HttpStatus.OK);
+    }
+    
     
     @RequestMapping(value="/test", method=RequestMethod.GET)
     public String test() throws Exception{

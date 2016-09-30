@@ -34,7 +34,9 @@ public class LogicalCoupling {
 	}
 	
 	public void addClass(Class cls){
-		this.classes.add(cls);
+		if (cls != null){
+			this.classes.add(cls);
+		}
 	}
 
 	public int getScore() {

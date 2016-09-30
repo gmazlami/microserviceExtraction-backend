@@ -11,30 +11,38 @@ import org.eclipse.jgit.diff.DiffEntry;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import main.Configs;
 import main.Hashing;
 import models.Class;
+import models.GitRepository;
 import models.LogicalCoupling;
 import models.persistence.ClassRepository;
 
 @Service
 public class LogicalCouplingService {
 	
-	private final String SUBSET_DELIMITER = "?";
+	private final String ESCAPED_SUBSET_DELIMITER = "\\?";
+	private final String SUBSET_DELIMITER = "\\?";
 	
 	private Map<String, LogicalCoupling> resultMap;
+	private GitRepository currentRepo;
 	
 	@Autowired
 	private ClassRepository classRepository;
 	
+	@Autowired
+	private Configs config;
 	
-	public Map<String, LogicalCoupling> computeLogicalCouplings(List<List<DiffEntry>> history){
+	
+	public List<LogicalCoupling> computeLogicalCouplings(List<List<DiffEntry>> history, GitRepository repo){
 		resultMap = new HashMap<>();
+		currentRepo = repo;
 		for(List<DiffEntry> diff: history){
 			PowerSet powerSet = new PowerSet(getStringSet(diff));
 			List<String> powerSetOfFiles = powerSet.compute();  
 			
 			for(String element: powerSetOfFiles){
-				String[] files = element.split(SUBSET_DELIMITER);
+				String[] files = element.split(ESCAPED_SUBSET_DELIMITER);
 				
 				//only consider subsets in the power set that have more than one file/element for logical coupling analysis
 				if (files.length > 1){
@@ -46,7 +54,7 @@ public class LogicalCouplingService {
 			}
 		}
 		
-		return resultMap;
+		return new ArrayList<>(resultMap.values());
 	}
 	
 	
@@ -70,7 +78,7 @@ public class LogicalCouplingService {
 			newCoupling.setScore(1);
 			
 			for(String fileName : fileList){
-				Class cls = classRepository.findByFilePath(fileName);
+				Class cls = classRepository.findByFilePath("/"+ fileName, currentRepo.getId());
 				newCoupling.addClass(cls);
 			}
 			return newCoupling;
