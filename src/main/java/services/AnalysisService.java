@@ -6,7 +6,6 @@ import java.util.function.Predicate;
 
 import org.eclipse.jgit.diff.DiffEntry;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import git.GitClient;
@@ -63,7 +62,9 @@ public class AnalysisService {
 					eligibleDiffs.add(d);
 				}
 			}
-			filteredHistory.add(eligibleDiffs);
+			if(eligibleDiffs.size() > 0){
+				filteredHistory.add(eligibleDiffs);
+			}
 		}
 		return filteredHistory;
 	}

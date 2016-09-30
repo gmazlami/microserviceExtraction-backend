@@ -28,6 +28,7 @@ public class LogicalCouplingDecompositor implements Decompositor {
 			List<LogicalCoupling> couplings = logicalCouplingService.computeLogicalCouplings(history, repo);
 			//TODO: map couplings to Microservices using mapper
 			
+			couplings.forEach(c -> System.out.println(c.getScore()));
 		}catch(Exception e){
 			e.printStackTrace();
 		}
