@@ -1,4 +1,4 @@
-package services.git;
+package git;
 
 import java.io.IOException;
 import java.nio.file.FileSystems;
