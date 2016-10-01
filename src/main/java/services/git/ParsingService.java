@@ -1,4 +1,4 @@
-package services;
+package services.git;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -13,7 +13,6 @@ import main.utils.Configs;
 import models.Class;
 import models.GitRepository;
 import models.persistence.ClassRepository;
-import services.filehandling.ClassVisitor;
 
 @Service
 public class ParsingService {

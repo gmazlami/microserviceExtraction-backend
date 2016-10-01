@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import models.GitRepository;
 import models.persistence.RepositoryRepository;
-import services.AnalysisService;
+import services.git.HistoryService;
 
 
 
@@ -22,7 +22,7 @@ import services.AnalysisService;
 public class AnalysisController {
 	
 	@Autowired
-	private AnalysisService service;
+	private HistoryService service;
 	
 	@Autowired
 	private RepositoryRepository repository;
@@ -32,7 +32,7 @@ public class AnalysisController {
 		
 		GitRepository repo = repository.findById(repositoryId);
 		
-		service.processRepository(repo);
+		service.computeRepositoryHistory(repo);
 		
 		return repo;
 	}

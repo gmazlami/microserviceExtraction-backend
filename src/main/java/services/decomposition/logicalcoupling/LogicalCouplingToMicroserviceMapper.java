@@ -1,4 +1,4 @@
-package services.mappers;
+package services.decomposition.logicalcoupling;
 
 import java.util.ArrayList;
 import java.util.Collections;

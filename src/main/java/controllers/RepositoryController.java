@@ -17,11 +17,11 @@ import dtos.RepositoryDTO;
 import models.GitRepository;
 import models.persistence.ClassRepository;
 import models.persistence.RepositoryRepository;
-import services.AnalysisService;
-import services.GitCloneService;
-import services.ParsingService;
 import services.decomposition.DecompositionService;
 import services.decomposition.Decompositor;
+import services.git.GitCloneService;
+import services.git.HistoryService;
+import services.git.ParsingService;
 
 @Configuration
 @EnableAutoConfiguration
@@ -44,7 +44,7 @@ public class RepositoryController {
 	private ParsingService parsingService;
 	
 	@Autowired
-	private AnalysisService analysisService;
+	private HistoryService analysisService;
 	
 	@Autowired
 	private DecompositionService decompositionService;

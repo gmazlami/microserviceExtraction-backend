@@ -1,4 +1,4 @@
-package services;
+package services.git;
 
 import java.io.File;
 import java.nio.file.Files;
@@ -14,7 +14,6 @@ import main.utils.Configs;
 import models.Class;
 import models.GitRepository;
 import models.persistence.ClassRepository;
-import services.filehandling.ClassVisitor;
 
 @Service
 public class GitCloneService {

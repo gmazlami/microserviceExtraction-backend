@@ -1,4 +1,4 @@
-package services.analysis;
+package services.decomposition.logicalcoupling;
 
 import java.util.ArrayList;
 import java.util.Arrays;

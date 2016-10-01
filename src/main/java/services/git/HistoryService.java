@@ -1,4 +1,4 @@
-package services;
+package services.git;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,13 +9,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import git.GitClient;
-import git.RepositoryHistory;
 import main.utils.Configs;
 import models.GitRepository;
 import models.persistence.RepositoryRepository;
 
 @Service
-public class AnalysisService {
+public class HistoryService {
 	
 	@Autowired
 	Configs config;
@@ -23,11 +22,15 @@ public class AnalysisService {
 	@Autowired
 	RepositoryRepository repository;
 	
-	
-	public List<List<DiffEntry>> processRepository(GitRepository repo) throws Exception{
+	/**
+	 * Returns the history of a repository (@param repo) as a list of changes made at each commit.
+	 * The return format is a list of lists of @{DiffEntry}, where each @{DiffEntry} corresponds to a changed file in a commit. 
+	 * @param repo
+	 * @return
+	 * @throws Exception
+	 */
+	public List<List<DiffEntry>> computeRepositoryHistory(GitRepository repo) throws Exception{
 		GitClient gitClient = new GitClient(repo, config);
-		RepositoryHistory h = gitClient.getChangeHistory();
-		List<List<DiffEntry>> diffs = h.getDiffHistory();
 		return filterDiffs(gitClient.getChangeHistory().getDiffHistory());
 	}
 	

@@ -1,4 +1,4 @@
-package services.filehandling;
+package services.git;
 
 import java.io.IOException;
 import java.nio.file.FileSystems;
