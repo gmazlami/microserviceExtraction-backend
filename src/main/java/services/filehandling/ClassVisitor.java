@@ -10,7 +10,7 @@ import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
 import java.util.List;
 
-import main.Configs;
+import main.utils.Configs;
 import models.Class;
 import models.GitRepository;
 

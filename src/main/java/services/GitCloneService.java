@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
-import main.Configs;
+import main.utils.Configs;
 import models.Class;
 import models.GitRepository;
 import models.persistence.ClassRepository;
@@ -37,6 +37,10 @@ public class GitCloneService {
     	git.close();
     	
 		// read/parse the classes from the local copy of the repository
+    	readClassFiles(repo, localRepoPath);
+    }
+    
+    private void readClassFiles(GitRepository repo, String localRepoPath) throws Exception{
 		ClassVisitor visitor = new ClassVisitor(repo, config);
 		Files.walkFileTree(Paths.get(localRepoPath), visitor);
 		List<Class> classes = visitor.getClasses();

@@ -77,7 +77,7 @@ public class Class {
 
 	@Override
 	public String toString() {
-		return "Class [name=" + name + ", packageName=" + packageName + ", filePath=" + filePath + "]";
+		return this.relativeFilePath;
 	}
 
 	

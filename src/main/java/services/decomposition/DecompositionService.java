@@ -1,4 +1,4 @@
-package services;
+package services.decomposition;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -6,7 +6,6 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import models.GitRepository;
-import services.decomposition.Decompositor;
 
 @Service
 public class DecompositionService {

@@ -18,9 +18,9 @@ import models.GitRepository;
 import models.persistence.ClassRepository;
 import models.persistence.RepositoryRepository;
 import services.AnalysisService;
-import services.DecompositionService;
 import services.GitCloneService;
 import services.ParsingService;
+import services.decomposition.DecompositionService;
 import services.decomposition.Decompositor;
 
 @Configuration

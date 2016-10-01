@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 
 import git.GitClient;
 import git.RepositoryHistory;
-import main.Configs;
+import main.utils.Configs;
 import models.GitRepository;
 import models.persistence.RepositoryRepository;
 

@@ -11,8 +11,8 @@ import org.eclipse.jgit.diff.DiffEntry;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import main.Configs;
-import main.Hashing;
+import main.utils.Configs;
+import main.utils.Hashing;
 import models.Class;
 import models.GitRepository;
 import models.LogicalCoupling;

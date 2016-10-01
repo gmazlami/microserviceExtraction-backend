@@ -8,8 +8,10 @@ import org.springframework.stereotype.Service;
 
 import models.GitRepository;
 import models.LogicalCoupling;
+import models.Microservice;
 import services.AnalysisService;
 import services.analysis.LogicalCouplingService;
+import services.mappers.LogicalCouplingToMicroserviceMapper;
 
 @Service
 public class LogicalCouplingDecompositor implements Decompositor {
@@ -21,14 +23,17 @@ public class LogicalCouplingDecompositor implements Decompositor {
 	@Autowired
 	LogicalCouplingService logicalCouplingService;
 	
+	@Autowired
+	LogicalCouplingToMicroserviceMapper logicalCouplingToMicroserviceMapper;
+	
 	@Override
 	public void decompose(GitRepository repo) {
 		try{
 			List<List<DiffEntry>> history = analysisService.processRepository(repo); 
 			List<LogicalCoupling> couplings = logicalCouplingService.computeLogicalCouplings(history, repo);
-			//TODO: map couplings to Microservices using mapper
+			List<Microservice> microservices = logicalCouplingToMicroserviceMapper.mapToMicroservices(couplings); 
 			
-			couplings.forEach(c -> System.out.println(c.getScore()));
+			microservices.forEach(service -> System.out.println(service.getClasses()));
 		}catch(Exception e){
 			e.printStackTrace();
 		}

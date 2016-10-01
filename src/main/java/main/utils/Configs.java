@@ -1,4 +1,4 @@
-package main;
+package main.utils;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;

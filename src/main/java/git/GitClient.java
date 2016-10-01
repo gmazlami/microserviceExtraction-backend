@@ -18,7 +18,7 @@ import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
 import org.eclipse.jgit.treewalk.CanonicalTreeParser;
 
-import main.Configs;
+import main.utils.Configs;
 import models.GitRepository;
 
 public class GitClient {
