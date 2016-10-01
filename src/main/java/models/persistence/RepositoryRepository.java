@@ -1,7 +1,8 @@
 package models.persistence;
 
-import models.GitRepository;
 import org.springframework.data.repository.CrudRepository;
+
+import models.GitRepository;
 
 public interface RepositoryRepository extends CrudRepository<GitRepository,Long>{
 
