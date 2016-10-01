@@ -40,7 +40,7 @@ public class LogicalCouplingToMicroserviceMapper {
 			if(coupling.getScore() > q1){
 				
 				Microservice microservice = new Microservice();
-				microservice.setClasses(coupling.getClasses());
+				microservice.setClasses(new ArrayList<>(coupling.getClasses()));
 				microservice.setHash(coupling.getHash());
 				
 				Microservice existing;
