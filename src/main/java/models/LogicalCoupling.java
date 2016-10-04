@@ -18,24 +18,24 @@ public class LogicalCoupling {
 	private Long id;
 	
 	@ManyToMany
-	private List<Class> classes = new ArrayList<>();
+	private List<String> classFiles = new ArrayList<>();
 	
 	private int score;
 	
 	@Column(unique=true)
 	private String hash;
 
-	public List<Class> getClasses() {
-		return classes;
+	public List<String> getClasses() {
+		return classFiles;
 	}
 
-	public void setClasses(List<Class> classes) {
-		this.classes = classes;
+	public void setClasses(List<String> classes) {
+		this.classFiles = classes;
 	}
 	
-	public void addClass(Class cls){
+	public void addClass(String cls){
 		if (cls != null){
-			this.classes.add(cls);
+			this.classFiles.add(cls);
 		}
 	}
 
@@ -61,7 +61,7 @@ public class LogicalCoupling {
 
 	@Override
 	public String toString() {
-		return "LogicalCoupling [classes=" + classes + ", score=" + score + ", hash=" + hash + "]";
+		return "LogicalCoupling [classes=" + classFiles + ", score=" + score + ", hash=" + hash + "]";
 	}
 	
 }

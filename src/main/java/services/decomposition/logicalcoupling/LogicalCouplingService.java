@@ -79,8 +79,7 @@ public class LogicalCouplingService {
 			newCoupling.setScore(1);
 			
 			for(String fileName : fileList){
-				Class cls = classRepository.findByFilePath("/"+ fileName, currentRepo.getId());
-				newCoupling.addClass(cls);
+				newCoupling.addClass(fileName);
 			}
 			return newCoupling;
 		}

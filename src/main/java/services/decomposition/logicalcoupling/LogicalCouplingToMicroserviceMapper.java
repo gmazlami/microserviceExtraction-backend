@@ -45,13 +45,13 @@ public class LogicalCouplingToMicroserviceMapper {
 				
 				Microservice existing;
 				
-				for(Class cls : coupling.getClasses()){
-					if((existing = mapping.get(cls.getFilePath())) != null){ //class was already encountered in another microservice (named existing) with a higher score
+				for(String cls : coupling.getClasses()){
+					if((existing = mapping.get(cls)) != null){ //class was already encountered in another microservice (named existing) with a higher score
 						microservice.removeClass(cls);
 						microservice.addRelation(existing);
 					}
 					else{
-						mapping.put(cls.getFilePath(), microservice);
+						mapping.put(cls, microservice);
 						microservices.put(microservice.getHash(), microservice);
 					}
 				}

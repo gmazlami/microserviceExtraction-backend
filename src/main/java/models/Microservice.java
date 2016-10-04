@@ -20,7 +20,7 @@ public class Microservice {
 	private Long id;
 	
 	@OneToMany
-	private List<Class> classes = new ArrayList<>();
+	private List<String> classFiles = new ArrayList<>();
 	
 	@ManyToMany
 	private List<Microservice> relations = new ArrayList<>();
@@ -38,12 +38,12 @@ public class Microservice {
 		this.id = id;
 	}
 
-	public List<Class> getClasses() {
-		return classes;
+	public List<String> getClasses() {
+		return classFiles;
 	}
 
-	public void setClasses(List<Class> classes) {
-		this.classes = classes;
+	public void setClasses(List<String> classes) {
+		this.classFiles = classes;
 	}
 
 	public String getHash() {
@@ -74,10 +74,10 @@ public class Microservice {
 		this.score = score;
 	}
 
-	public void removeClass(Class cls){
-		for(Iterator<Class> iterator = this.classes.iterator(); iterator.hasNext();){
-			Class current = iterator.next();
-			if(current.getFilePath().equals(cls.getFilePath())){
+	public void removeClass(String cls){
+		for(Iterator<String> iterator = this.classFiles.iterator(); iterator.hasNext();){
+			String current = iterator.next();
+			if(current.equals(cls)){
 				iterator.remove();
 				return;
 			}
@@ -88,7 +88,7 @@ public class Microservice {
 
 	@Override
 	public String toString() {
-		return "Microservice [id=" + id + ", classes=" + classes + ", hash=" + hash + "]";
+		return "Microservice [id=" + id + ", classes=" + classFiles + ", hash=" + hash + "]";
 	}
 	
 }
