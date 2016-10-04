@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 
 import main.utils.Configs;
 import main.utils.Hashing;
-import models.Class;
 import models.GitRepository;
 import models.LogicalCoupling;
 import models.persistence.ClassRepository;
@@ -50,7 +49,6 @@ public class LogicalCouplingService {
 
 					LogicalCoupling coupling = generateLogicalCoupling(fileList);
 					resultMap.put(coupling.getHash(), coupling);
-					System.out.println("Adding coupling: " + coupling);
 				}
 			}
 		}

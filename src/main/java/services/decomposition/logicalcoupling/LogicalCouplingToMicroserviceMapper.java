@@ -9,7 +9,6 @@ import java.util.Map;
 import org.springframework.stereotype.Service;
 
 import main.utils.Comparators;
-import models.Class;
 import models.LogicalCoupling;
 import models.Microservice;
 

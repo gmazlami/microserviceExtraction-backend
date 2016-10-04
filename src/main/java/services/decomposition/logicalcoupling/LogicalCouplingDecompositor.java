@@ -37,11 +37,14 @@ public class LogicalCouplingDecompositor implements Decompositor {
 			System.out.println("Mapping to microservices...");
 			List<Microservice> microservices = logicalCouplingToMicroserviceMapper.mapToMicroservices(couplings); 
 			
-			microservices.forEach(service -> System.out.println(service.getClasses()));
+			int totalClasses = 0;
+			for(Microservice m: microservices){
+				totalClasses += m.getClasses().size();
+			}
 			
+			float average = (float) totalClasses / microservices.size();
+			System.out.println(average);
 			ObjectMapper mapper = new ObjectMapper();
-//			System.out.println(mapper.writeValueAsString(microservices));
-			System.out.println("Finished!");
 		}catch(Exception e){
 			e.printStackTrace();
 		}
