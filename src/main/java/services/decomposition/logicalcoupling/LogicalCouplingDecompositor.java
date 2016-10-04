@@ -6,6 +6,8 @@ import org.eclipse.jgit.diff.DiffEntry;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import models.GitRepository;
 import models.LogicalCoupling;
 import models.Microservice;
@@ -28,11 +30,18 @@ public class LogicalCouplingDecompositor implements Decompositor {
 	@Override
 	public void decompose(GitRepository repo) {
 		try{
-			List<List<DiffEntry>> history = analysisService.computeRepositoryHistory(repo); 
+			System.out.println("Computing history...");
+			List<List<DiffEntry>> history = analysisService.computeRepositoryHistory(repo);
+			System.out.println("Computing logical couplings...");
 			List<LogicalCoupling> couplings = logicalCouplingService.computeLogicalCouplings(history, repo);
+			System.out.println("Mapping to microservices...");
 			List<Microservice> microservices = logicalCouplingToMicroserviceMapper.mapToMicroservices(couplings); 
 			
 			microservices.forEach(service -> System.out.println(service.getClasses()));
+			
+			ObjectMapper mapper = new ObjectMapper();
+//			System.out.println(mapper.writeValueAsString(microservices));
+			System.out.println("Finished!");
 		}catch(Exception e){
 			e.printStackTrace();
 		}

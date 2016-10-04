@@ -27,6 +27,8 @@ public class Microservice {
 	
 	@Column(unique=true)
 	private String hash;
+	
+	private int score;
 
 	public Long getId() {
 		return id;
@@ -56,6 +58,22 @@ public class Microservice {
 		this.relations.add(m);
 	}
 	
+	public List<Microservice> getRelations() {
+		return relations;
+	}
+
+	public void setRelations(List<Microservice> relations) {
+		this.relations = relations;
+	}
+
+	public int getScore() {
+		return score;
+	}
+
+	public void setScore(int score) {
+		this.score = score;
+	}
+
 	public void removeClass(Class cls){
 		for(Iterator<Class> iterator = this.classes.iterator(); iterator.hasNext();){
 			Class current = iterator.next();
@@ -65,6 +83,8 @@ public class Microservice {
 			}
 		}
 	}
+	
+	
 
 	@Override
 	public String toString() {

@@ -50,6 +50,7 @@ public class LogicalCouplingService {
 
 					LogicalCoupling coupling = generateLogicalCoupling(fileList);
 					resultMap.put(coupling.getHash(), coupling);
+					System.out.println("Adding coupling: " + coupling);
 				}
 			}
 		}
