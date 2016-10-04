@@ -50,6 +50,6 @@ public class GitCloneService {
 		Files.walkFileTree(Paths.get(localRepoPath), visitor);
 		List<Class> classes = visitor.getClasses();
 		classes.forEach(cls -> classRepository.save(cls));
-		System.out.println("FINISHED!");
+		System.out.println("Finished parsing classes.");
     }
 }

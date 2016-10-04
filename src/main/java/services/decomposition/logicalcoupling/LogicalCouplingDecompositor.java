@@ -6,13 +6,12 @@ import org.eclipse.jgit.diff.DiffEntry;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import models.GitRepository;
 import models.LogicalCoupling;
 import models.Microservice;
 import services.decomposition.Decompositor;
 import services.git.HistoryService;
+import services.reporting.TextFileReport;
 
 @Service
 public class LogicalCouplingDecompositor implements Decompositor {
@@ -37,14 +36,9 @@ public class LogicalCouplingDecompositor implements Decompositor {
 			System.out.println("Mapping to microservices...");
 			List<Microservice> microservices = logicalCouplingToMicroserviceMapper.mapToMicroservices(couplings); 
 			
-			int totalClasses = 0;
-			for(Microservice m: microservices){
-				totalClasses += m.getClasses().size();
-			}
+			TextFileReport.generate(repo, microservices);
+			System.out.println("Finished.");
 			
-			float average = (float) totalClasses / microservices.size();
-			System.out.println(average);
-			ObjectMapper mapper = new ObjectMapper();
 		}catch(Exception e){
 			e.printStackTrace();
 		}

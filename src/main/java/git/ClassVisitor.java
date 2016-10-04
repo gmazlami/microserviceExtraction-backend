@@ -44,7 +44,6 @@ public class ClassVisitor extends SimpleFileVisitor<Path> {
         	cls.setPackageName(getPackageName(cls.getFilePath()));
         	cls.setRelativeFilePath(getRelativeFileName(cls.getFilePath()));
         	classes.add(cls);
-        	System.out.println(cls.getName());
     	}
     	return FileVisitResult.CONTINUE;
     }
