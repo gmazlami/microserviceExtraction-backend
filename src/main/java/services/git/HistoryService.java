@@ -3,6 +3,7 @@ package services.git;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 import org.eclipse.jgit.diff.DiffEntry;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import git.GitClient;
 import main.utils.Configs;
+import models.ChangeEvent;
 import models.GitRepository;
 import models.persistence.RepositoryRepository;
 
@@ -21,6 +23,18 @@ public class HistoryService {
 	
 	@Autowired
 	RepositoryRepository repository;
+	
+	/**
+	 * Returns the history of a repository (@param repo) as a list of changes made at each commit.
+	 * The return format is a list  @link{ChangeEvent}, where each @{ChangeEvent} corresponds to a commit. 
+	 * @param repo
+	 * @return
+	 * @throws Exception
+	 */
+	public List<ChangeEvent> computeChangeEvents(GitRepository repo) throws Exception{
+		GitClient gitClient = new GitClient(repo, config);
+		return gitClient.getChangeHistory().getChangeHistory().stream().filter(changeEvent -> changeEvent.getChangedfiles().size() > 1).collect(Collectors.toList());
+	}
 	
 	/**
 	 * Returns the history of a repository (@param repo) as a list of changes made at each commit.

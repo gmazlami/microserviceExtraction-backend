@@ -6,6 +6,7 @@ import org.eclipse.jgit.diff.DiffEntry;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import models.ChangeEvent;
 import models.GitRepository;
 import models.LogicalCoupling;
 import models.Microservice;
@@ -32,6 +33,7 @@ public class LogicalCouplingDecompositor implements Decompositor {
 			System.out.println("Computing history...");
 			List<List<DiffEntry>> history = analysisService.computeRepositoryHistory(repo);
 			
+			List<ChangeEvent> changeHistory = analysisService.computeChangeEvents(repo);
 			
 			System.out.println("Computing logical couplings...");
 			List<LogicalCoupling> couplings = logicalCouplingService.computeLogicalCouplings(history, repo);

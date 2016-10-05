@@ -1,16 +1,20 @@
 package models;
 
 import java.util.List;
+import java.util.function.Predicate;
 
 import org.eclipse.jgit.diff.DiffEntry;
 import org.eclipse.jgit.revwalk.RevCommit;
 
 public class ChangeEvent {
+	
 
 	public ChangeEvent(int timestamp, List<DiffEntry> diffEntries, RevCommit commit){
 		this.timestampInSeconds = timestamp;
-		this.changedfiles = diffEntries;
 		this.commitObject = commit;
+		
+		//add only the @link{DiffEntry} elements that are of the @link{DiffEntry.ChangeType} ADD or MODIFY
+		diffEntries.stream().filter(isAddOrModify).forEach(changedfiles::add);
 	}
 	
 	private int timestampInSeconds;
@@ -49,6 +53,17 @@ public class ChangeEvent {
 				+ ", commitObject=" + commitObject + "]";
 	}
 	
-	
+	//Define predicate to filter only files that were added or modified and end with a .java file ending
+	private Predicate<DiffEntry> isAddOrModify = (entry) ->{
+		if(entry.getChangeType() == DiffEntry.ChangeType.ADD || entry.getChangeType() == DiffEntry.ChangeType.MODIFY){
+			if(entry.getNewPath().endsWith(".java")){
+				return true;
+			}else{
+				return false;
+			}
+		}else{
+			return false;
+		}
+	}; 
 	
 }
