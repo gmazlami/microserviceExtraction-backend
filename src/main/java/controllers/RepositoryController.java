@@ -14,12 +14,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import dtos.RepositoryDTO;
 import models.GitRepository;
-import models.persistence.ClassRepository;
 import models.persistence.RepositoryRepository;
 import services.decomposition.DecompositionService;
 import services.git.GitCloneService;
-import services.git.HistoryService;
-import services.git.ParsingService;
 
 @Configuration
 @EnableAutoConfiguration
@@ -32,17 +29,7 @@ public class RepositoryController {
 	private RepositoryRepository repository;
 	
 	@Autowired
-	private ClassRepository classRepository;
-	
-	
-	@Autowired
 	private GitCloneService gitCloneService;
-	
-	@Autowired
-	private ParsingService parsingService;
-	
-	@Autowired
-	private HistoryService analysisService;
 	
 	@Autowired
 	private DecompositionService decompositionService;
