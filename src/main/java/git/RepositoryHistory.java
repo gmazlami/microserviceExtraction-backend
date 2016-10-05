@@ -28,6 +28,10 @@ public class RepositoryHistory {
 		return diffs.get(id);
 	}
 	
+	public List<ChangeEvent> getChangeHistory(){
+		return this.changeHistory;
+	}
+	
 	public List<List<DiffEntry>> getDiffHistory(){
 		List<List<DiffEntry>> history = new ArrayList<>();
 		

@@ -31,8 +31,11 @@ public class LogicalCouplingDecompositor implements Decompositor {
 		try{
 			System.out.println("Computing history...");
 			List<List<DiffEntry>> history = analysisService.computeRepositoryHistory(repo);
+			
+			
 			System.out.println("Computing logical couplings...");
 			List<LogicalCoupling> couplings = logicalCouplingService.computeLogicalCouplings(history, repo);
+			
 			System.out.println("Mapping to microservices...");
 			List<Microservice> microservices = logicalCouplingToMicroserviceMapper.mapToMicroservices(couplings); 
 			

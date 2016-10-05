@@ -39,6 +39,7 @@ public class HistoryService {
 	 * and don't end in .java
 	 */
 	private List<List<DiffEntry>> filterDiffs(List<List<DiffEntry>> originalHistory){
+		//TODO: rewrite for ChangeEvent, filter out all ChangeEvents with less than 2 changed classes
 		
 		//Define predicate to filter only files that were added or modified and end with a .java file ending
 		Predicate<DiffEntry> isAddOrModify = (entry) ->{
