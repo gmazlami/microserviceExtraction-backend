@@ -7,6 +7,12 @@ import org.eclipse.jgit.revwalk.RevCommit;
 
 public class ChangeEvent {
 
+	public ChangeEvent(int timestamp, List<DiffEntry> diffEntries, RevCommit commit){
+		this.timestampInSeconds = timestamp;
+		this.changedfiles = diffEntries;
+		this.commitObject = commit;
+	}
+	
 	private int timestampInSeconds;
 	
 	private List<DiffEntry> changedfiles;

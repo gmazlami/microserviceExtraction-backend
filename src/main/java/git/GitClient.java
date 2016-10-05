@@ -19,6 +19,7 @@ import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
 import org.eclipse.jgit.treewalk.CanonicalTreeParser;
 
 import main.utils.Configs;
+import models.ChangeEvent;
 import models.GitRepository;
 
 public class GitClient {
@@ -52,38 +53,45 @@ public class GitClient {
 	}
 	
 	public RepositoryHistory getChangeHistory() throws Exception{
-		org.eclipse.jgit.lib.Repository repository = getGitRepository();
+		Repository repository = getGitRepository();
 		Git git = new Git(repository);
 		ObjectReader reader = repository.newObjectReader();
 		RevWalk walk = new RevWalk(repository);
-				
+		List<ChangeEvent> changeHistory = new ArrayList<>();		
 		
 		List<RevCommit> log = getCommitLog();
 		
 		Map<ObjectId,List<DiffEntry>> diffHistory = new HashMap<>();
 		
+		
+		RevCommit first, second;
+		RevTree firstTree, secondTree;
+		CanonicalTreeParser firstTreeIter = new CanonicalTreeParser();
+		CanonicalTreeParser secondTreeIter = new CanonicalTreeParser();
+		ChangeEvent event;
+		
 		for(int i=0; i < log.size() - 1; i++){
-			RevCommit first = log.get(i);
-			RevCommit second = log.get(i+1);
+			first = log.get(i);
+			second = log.get(i+1);
 			
-			RevTree firstTree = walk.parseTree(first.getTree().getId());
-			RevTree secondTree = walk.parseTree(second.getTree().getId());
+			firstTree = walk.parseTree(first.getTree().getId());
+			secondTree = walk.parseTree(second.getTree().getId());
 			
-    		CanonicalTreeParser firstTreeIter = new CanonicalTreeParser();
     		firstTreeIter.reset(reader, firstTree);
-    		
-    		CanonicalTreeParser secondTreeIter = new CanonicalTreeParser();
     		secondTreeIter.reset(reader, secondTree);
     		
             List<DiffEntry> diffs = git.diff().setNewTree(firstTreeIter).setOldTree(secondTreeIter).call();
-            diffHistory.put(second, diffs);
-    		
+            diffHistory.put(first, diffs);
+            
+            event = new ChangeEvent(first.getCommitTime(),diffs,first);
+            changeHistory.add(event);
+            
 		}
 		
 		log.remove(0);
 		git.close();
 		walk.close();
-		return new RepositoryHistory(log, diffHistory);
+		return new RepositoryHistory(log, diffHistory, changeHistory);
 	}
 	
 	

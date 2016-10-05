@@ -8,15 +8,20 @@ import org.eclipse.jgit.diff.DiffEntry;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.revwalk.RevCommit;
 
+import models.ChangeEvent;
+
 public class RepositoryHistory {
 
 	private List<RevCommit> log;
 	
 	private Map<ObjectId, List<DiffEntry>> diffs;
 	
-	public RepositoryHistory(List<RevCommit> log, Map<ObjectId, List<DiffEntry>> diffs){
+	private List<ChangeEvent> changeHistory;
+	
+	public RepositoryHistory(List<RevCommit> log, Map<ObjectId, List<DiffEntry>> diffs, List<ChangeEvent> changeHistory ){
 		this.log = log;
 		this.diffs = diffs;
+		this.changeHistory = changeHistory;
 	}
 
 	public List<DiffEntry> getDiffsForCommit(ObjectId id){
