@@ -55,7 +55,7 @@ public class LogicalCouplingEngine {
 				String[] files = element.split(ESCAPED_SUBSET_DELIMITER);
 				
 				//only consider subsets in the power set that have pair of 2 classes coupled together
-				if (files.length == 2){
+				if (files.length == 2 ){
 					List<String> fileList = Arrays.asList(files);
 					LogicalCoupling coupling = generateLogicalCoupling(fileList, t_current, t_current + intervalInSeconds);
 					resultMap.put(coupling.getHash(), coupling);

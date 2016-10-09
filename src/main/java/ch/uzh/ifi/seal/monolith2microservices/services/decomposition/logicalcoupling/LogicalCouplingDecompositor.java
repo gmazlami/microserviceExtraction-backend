@@ -40,7 +40,9 @@ public class LogicalCouplingDecompositor implements Decompositor {
 			List<LogicalCoupling> couplings = logicalCouplingEngine.computeCouplings(changeHistory, 60600);
 			logicalCouplingEngine.reset();
 			System.out.println("Computed logical couplings.");
-			couplings.forEach(c -> System.out.println(c.getScore()));
+			couplings.forEach(c -> {
+				System.out.println("t_start: " + c.getStartTimestamp() + " t_end: " + c.getEndTimestamp() + " score: " + c.getScore() + " files: " + c.getClassFiles());
+			});
 			
 //			System.out.println("Mapping to microservices...");
 //			List<Microservice> microservices = logicalCouplingToMicroserviceMapper.mapToMicroservices(couplings); 

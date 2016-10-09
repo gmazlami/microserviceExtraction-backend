@@ -11,6 +11,12 @@ public class ClassNode {
 	
 	private List<NodeWeightPair> neighbors;
 
+	public ClassNode(String id){
+		this.id = id;
+		this.visited = false;
+		this.neighbors = new ArrayList<>();
+	}
+	
 	public ClassNode(String id, boolean visited){
 		this.id = id;
 		this.visited = visited;
@@ -53,6 +59,10 @@ public class ClassNode {
 	}
 
 
+	public void addNeighborWithWeight(ClassNode neighbor, int weight){
+		neighbors.add(new NodeWeightPair(neighbor, weight));
+	}
+	
 	@Override
 	public String toString() {
 		return "ClassNode [id=" + id + ", visited=" + visited + ", neighbors=" + neighbors + "]";

@@ -6,6 +6,8 @@ public class Edge {
 	
 	private ClassNode target;
 	
+	private int weight;
+	
 	public Edge(ClassNode source, ClassNode target){
 		this.source = source;
 		this.target = target;
@@ -27,5 +29,8 @@ public class Edge {
 		this.target = target;
 	}
 	
+	public int getWeight(){
+		return this.weight;
+	}
 	
 }
