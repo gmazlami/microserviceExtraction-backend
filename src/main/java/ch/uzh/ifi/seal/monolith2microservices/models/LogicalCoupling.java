@@ -22,6 +22,10 @@ public class LogicalCoupling {
 	
 	private int score;
 	
+	private int startTimestamp;
+	
+	private int endTimestamp;
+	
 	@Column(unique=true)
 	private String hash;
 
@@ -57,6 +61,38 @@ public class LogicalCoupling {
 
 	public void setHash(String hash) {
 		this.hash = hash;
+	}
+	
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public List<String> getClassFiles() {
+		return classFiles;
+	}
+
+	public void setClassFiles(List<String> classFiles) {
+		this.classFiles = classFiles;
+	}
+
+	public int getStartTimestamp() {
+		return startTimestamp;
+	}
+
+	public void setStartTimestamp(int startTimestamp) {
+		this.startTimestamp = startTimestamp;
+	}
+
+	public int getEndTimestamp() {
+		return endTimestamp;
+	}
+
+	public void setEndTimestamp(int endTimestamp) {
+		this.endTimestamp = endTimestamp;
 	}
 
 	@Override

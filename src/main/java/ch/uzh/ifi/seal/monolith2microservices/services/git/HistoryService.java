@@ -33,7 +33,7 @@ public class HistoryService {
 	 */
 	public List<ChangeEvent> computeChangeEvents(GitRepository repo) throws Exception{
 		GitClient gitClient = new GitClient(repo, config);
-		return gitClient.getChangeHistory().getChangeHistory().stream().filter(changeEvent -> changeEvent.getChangedfiles().size() > 1).collect(Collectors.toList());
+		return gitClient.getChangeHistory().getChangeHistory().stream().filter(changeEvent -> changeEvent.getChangedfiles().size() > 0).collect(Collectors.toList());
 	}
 	
 	/**
