@@ -8,7 +8,7 @@ import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
-import ch.uzh.ifi.seal.monolith2microservices.main.utils.Comparators;
+import ch.uzh.ifi.seal.monolith2microservices.main.utils.LogicalCouplingComparator;
 import ch.uzh.ifi.seal.monolith2microservices.models.LogicalCoupling;
 import ch.uzh.ifi.seal.monolith2microservices.models.Microservice;
 
@@ -26,7 +26,7 @@ public class LogicalCouplingToMicroserviceMapper {
 		Map<String, Microservice> microservices = new HashMap<>(); 
 		
 		//Sort ASC
-		Collections.sort(couplings, Comparators.LOGICAL_COUPLING_SCORE);
+		Collections.sort(couplings, new LogicalCouplingComparator());
 		
 		// reverse so they are in DESC order
 		Collections.reverse(couplings);
@@ -60,7 +60,7 @@ public class LogicalCouplingToMicroserviceMapper {
 	}
 	
 	private int computeLowerQuartile(List<LogicalCoupling> couplings){
-		Collections.sort(couplings, Comparators.LOGICAL_COUPLING_SCORE);
+		Collections.sort(couplings, new LogicalCouplingComparator());
 		int q1Index = (int) Math.round(couplings.size() * 0.25f);
 		return couplings.get(q1Index).getScore();
 	}

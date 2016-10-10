@@ -1,12 +1,10 @@
 package ch.uzh.ifi.seal.monolith2microservices.services.decomposition.logicalcoupling;
 
-import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import ch.uzh.ifi.seal.monolith2microservices.main.utils.Comparators;
 import ch.uzh.ifi.seal.monolith2microservices.models.ChangeEvent;
 import ch.uzh.ifi.seal.monolith2microservices.models.GitRepository;
 import ch.uzh.ifi.seal.monolith2microservices.models.LogicalCoupling;

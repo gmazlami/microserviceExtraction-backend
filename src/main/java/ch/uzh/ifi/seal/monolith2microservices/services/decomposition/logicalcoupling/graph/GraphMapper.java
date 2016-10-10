@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
-import ch.uzh.ifi.seal.monolith2microservices.main.utils.Comparators;
+import ch.uzh.ifi.seal.monolith2microservices.main.utils.LogicalCouplingComparator;
 import ch.uzh.ifi.seal.monolith2microservices.models.LogicalCoupling;
 
 @Service
@@ -57,7 +57,7 @@ public class GraphMapper {
 	
 	
 	private int computeLowerQuartile(List<LogicalCoupling> couplings){
-		Collections.sort(couplings, Comparators.LOGICAL_COUPLING_SCORE);
+		Collections.sort(couplings, new LogicalCouplingComparator());
 		int q1Index = (int) Math.round(couplings.size() * 0.75f);
 		return couplings.get(q1Index).getScore();
 	}
