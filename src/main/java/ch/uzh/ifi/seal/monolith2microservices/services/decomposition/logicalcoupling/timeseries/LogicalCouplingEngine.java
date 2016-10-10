@@ -68,7 +68,7 @@ public class LogicalCouplingEngine {
 	
 	public void reset(){
 		currentChangeEventCounter = 0;
-		resultMap = new HashMap<>();
+		resultMap = null;
 	}
 	
 	private int extractEarliestTimestamp(List<ChangeEvent> changeHistory){
