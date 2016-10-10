@@ -9,6 +9,7 @@ import java.util.Map;
 import org.springframework.stereotype.Service;
 
 import ch.uzh.ifi.seal.monolith2microservices.main.utils.LogicalCouplingComparator;
+import ch.uzh.ifi.seal.monolith2microservices.main.utils.Percentile;
 import ch.uzh.ifi.seal.monolith2microservices.models.LogicalCoupling;
 import ch.uzh.ifi.seal.monolith2microservices.models.Microservice;
 
@@ -32,7 +33,7 @@ public class LogicalCouplingToMicroserviceMapper {
 		Collections.reverse(couplings);
 		
 		//compute lower quartile threshold q1, so we can filter out @link{LogicalCoupling} instances which have to small score
-		int q1 = computeLowerQuartile(couplings);
+		int q1 = new Percentile(couplings).get(0.25f);
 		
 		for(LogicalCoupling coupling : couplings){
 			//only take @link{LogicalCoupling}s with high enough score into consideration 
@@ -58,11 +59,4 @@ public class LogicalCouplingToMicroserviceMapper {
 		}
 		return new ArrayList<Microservice>(microservices.values());
 	}
-	
-	private int computeLowerQuartile(List<LogicalCoupling> couplings){
-		Collections.sort(couplings, new LogicalCouplingComparator());
-		int q1Index = (int) Math.round(couplings.size() * 0.25f);
-		return couplings.get(q1Index).getScore();
-	}
-	
 }

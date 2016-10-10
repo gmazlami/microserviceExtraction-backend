@@ -1,6 +1,5 @@
 package ch.uzh.ifi.seal.monolith2microservices.services.decomposition.logicalcoupling.graph;
 
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -8,7 +7,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
-import ch.uzh.ifi.seal.monolith2microservices.main.utils.LogicalCouplingComparator;
+import ch.uzh.ifi.seal.monolith2microservices.main.utils.Percentile;
 import ch.uzh.ifi.seal.monolith2microservices.models.LogicalCoupling;
 
 @Service
@@ -18,7 +17,7 @@ public class GraphMapper {
 	
 	public List<ClassNode> mapToGraph(List<LogicalCoupling> couplings){
 		nodeMap = new HashMap<>();
-		int lowerQuartile = computeLowerQuartile(couplings);
+		int lowerQuartile = new Percentile(couplings).get(0.75f);
 		
 		for(LogicalCoupling coupling: couplings){
 			if((coupling.getClassFiles().size() == 2) && (coupling.getScore() > lowerQuartile)){
@@ -53,12 +52,5 @@ public class GraphMapper {
 		}
 		
 		return nodeMap.values().stream().collect(Collectors.toList());
-	}
-	
-	
-	private int computeLowerQuartile(List<LogicalCoupling> couplings){
-		Collections.sort(couplings, new LogicalCouplingComparator());
-		int q1Index = (int) Math.round(couplings.size() * 0.75f);
-		return couplings.get(q1Index).getScore();
 	}
 }
