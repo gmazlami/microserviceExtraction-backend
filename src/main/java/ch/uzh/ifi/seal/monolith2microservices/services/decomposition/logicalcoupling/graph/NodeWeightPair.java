@@ -32,7 +32,7 @@ public class NodeWeightPair {
 
 	@Override
 	public String toString() {
-		return "NodeWeightPair [node=" + node + ", weight=" + weight + "]";
+		return "NodeWeightPair [node=" + node.getId() + ", weight=" + weight + "]";
 	}
 	
 	

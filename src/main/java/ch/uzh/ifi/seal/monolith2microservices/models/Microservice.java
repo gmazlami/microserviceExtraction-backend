@@ -11,6 +11,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.Transient;
+
+import ch.uzh.ifi.seal.monolith2microservices.services.decomposition.logicalcoupling.graph.Edge;
 
 @Entity
 public class Microservice {
@@ -21,6 +24,9 @@ public class Microservice {
 	
 	@ElementCollection
 	private List<String> classFiles = new ArrayList<>();
+	
+	@Transient
+	private List<Edge> graph = new ArrayList<>();
 	
 	@ManyToMany
 	private List<Microservice> relations = new ArrayList<>();
@@ -85,7 +91,16 @@ public class Microservice {
 	}
 	
 	
+	public void addEdge(Edge edge){
+		this.graph.add(edge);
+	}
+	
 
+	public void addClass(String cls){
+		this.classFiles.add(cls);
+	}
+	
+	
 	@Override
 	public String toString() {
 		return "Microservice [id=" + id + ", classes=" + classFiles + ", hash=" + hash + "]";
