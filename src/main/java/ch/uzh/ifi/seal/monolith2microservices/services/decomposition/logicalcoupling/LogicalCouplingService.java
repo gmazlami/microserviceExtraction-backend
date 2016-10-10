@@ -10,7 +10,7 @@ import java.util.Map;
 import org.eclipse.jgit.diff.DiffEntry;
 import org.springframework.stereotype.Service;
 
-import ch.uzh.ifi.seal.monolith2microservices.main.utils.Hashing;
+import ch.uzh.ifi.seal.monolith2microservices.main.utils.Hash;
 import ch.uzh.ifi.seal.monolith2microservices.models.LogicalCoupling;
 
 @Service
@@ -49,7 +49,7 @@ public class LogicalCouplingService {
 		
 		Collections.sort(fileList);
 		String key = String.join(SUBSET_DELIMITER, fileList);
-		String hash = Hashing.hash(key);
+		String hash = new Hash(key).get();
 		
 		LogicalCoupling existingCoupling = resultMap.get(hash);
 		
