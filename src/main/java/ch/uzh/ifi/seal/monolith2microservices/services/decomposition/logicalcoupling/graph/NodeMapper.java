@@ -11,7 +11,7 @@ import ch.uzh.ifi.seal.monolith2microservices.main.utils.Percentile;
 import ch.uzh.ifi.seal.monolith2microservices.models.LogicalCoupling;
 
 @Service
-public class GraphMapper {
+public class NodeMapper {
 
 	private Map<String, ClassNode> nodeMap;
 	

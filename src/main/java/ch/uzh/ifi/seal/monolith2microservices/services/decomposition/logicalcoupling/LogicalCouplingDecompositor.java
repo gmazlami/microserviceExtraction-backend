@@ -13,7 +13,7 @@ import ch.uzh.ifi.seal.monolith2microservices.models.LogicalCoupling;
 import ch.uzh.ifi.seal.monolith2microservices.models.Microservice;
 import ch.uzh.ifi.seal.monolith2microservices.services.decomposition.Decompositor;
 import ch.uzh.ifi.seal.monolith2microservices.services.decomposition.logicalcoupling.graph.ClassNode;
-import ch.uzh.ifi.seal.monolith2microservices.services.decomposition.logicalcoupling.graph.GraphMapper;
+import ch.uzh.ifi.seal.monolith2microservices.services.decomposition.logicalcoupling.graph.NodeMapper;
 import ch.uzh.ifi.seal.monolith2microservices.services.decomposition.logicalcoupling.graph.GraphToMicrserviceMapper;
 import ch.uzh.ifi.seal.monolith2microservices.services.decomposition.logicalcoupling.timeseries.LogicalCouplingEngine;
 import ch.uzh.ifi.seal.monolith2microservices.services.git.HistoryService;
@@ -25,7 +25,7 @@ public class LogicalCouplingDecompositor implements Decompositor {
 	private static final Logger logger = LoggerFactory.getLogger(LogicalCouplingDecompositor.class);
 	
 	@Autowired
-	HistoryService analysisService;
+	HistoryService historyService;
 	
 	@Autowired
 	LogicalCouplingEngine logicalCouplingEngine;
@@ -34,7 +34,7 @@ public class LogicalCouplingDecompositor implements Decompositor {
 	LogicalCouplingToMicroserviceMapper logicalCouplingToMicroserviceMapper;
 	
 	@Autowired
-	GraphMapper graphMapper;
+	NodeMapper nodeMapper;
 	
 	@Autowired
 	GraphToMicrserviceMapper graphToMicroserviceMapper;
@@ -43,7 +43,7 @@ public class LogicalCouplingDecompositor implements Decompositor {
 	public void decompose(GitRepository repo) {
 		try{
 			logger.info("Computing history...");
-			List<ChangeEvent> changeHistory = analysisService.computeChangeEvents(repo);
+			List<ChangeEvent> changeHistory = historyService.computeChangeEvents(repo);
 			logger.info("Successfully computed history!");
 			
 			logger.info("Computing logical couplings...");
@@ -52,7 +52,7 @@ public class LogicalCouplingDecompositor implements Decompositor {
 			logger.info("Successfully computed logical couplings!");
 			
 			logger.info("Computing nodes...");
-			List<ClassNode> nodes = graphMapper.mapToGraph(couplings); 
+			List<ClassNode> nodes = nodeMapper.mapToGraph(couplings); 
 			logger.info("Successfully computed nodes!");
 			
 			logger.info("Computing microservices...");
