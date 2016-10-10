@@ -44,25 +44,28 @@ public class LogicalCouplingDecompositor implements Decompositor {
 		try{
 			logger.info("Computing history...");
 			List<ChangeEvent> changeHistory = analysisService.computeChangeEvents(repo);
+			logger.info("Successfully computed history!");
 			
 			logger.info("Computing logical couplings...");
 			List<LogicalCoupling> couplings = logicalCouplingEngine.computeCouplings(changeHistory, 60000);
 			logicalCouplingEngine.reset();
+			logger.info("Successfully computed logical couplings!");
 			
 			logger.info("Computing nodes...");
 			List<ClassNode> nodes = graphMapper.mapToGraph(couplings); 
-			
-			nodes.forEach(n -> logger.info(n.toString()));
+			logger.info("Successfully computed nodes!");
 			
 			logger.info("Computing microservices...");
 			List<Microservice> microservices = graphToMicroserviceMapper.mapToMicroservices(nodes);
-
+			logger.info("Computed the following microservices: ");
 			microservices.forEach(m -> logger.info(m.toString()));
-
+			
+			logger.info("Generating text report...");
 			TextFileReport.generate(repo, microservices);
 			logger.info("Finished.");
 			
 		}catch(Exception e){
+			e.printStackTrace();
 			logger.error(e.getStackTrace().toString());
 		}
 		
