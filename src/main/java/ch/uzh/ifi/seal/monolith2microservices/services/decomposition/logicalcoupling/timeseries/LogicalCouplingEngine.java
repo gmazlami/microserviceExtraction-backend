@@ -63,12 +63,11 @@ public class LogicalCouplingEngine {
 			}
 		}
 		
-		return resultMap.values().stream().collect(Collectors.toList());
-	}
-	
-	public void reset(){
+		List<LogicalCoupling> couplings = resultMap.values().stream().collect(Collectors.toList());
 		currentChangeEventCounter = 0;
 		resultMap = null;
+		
+		return couplings;
 	}
 	
 	private int extractEarliestTimestamp(List<ChangeEvent> changeHistory){
