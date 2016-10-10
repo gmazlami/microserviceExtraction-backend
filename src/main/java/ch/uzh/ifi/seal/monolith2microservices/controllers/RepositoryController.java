@@ -60,23 +60,4 @@ public class RepositoryController {
     	return new ResponseEntity<String>("OK", HttpStatus.OK);
     }
     
-    
-    @RequestMapping(value="/test", method=RequestMethod.GET)
-    public String test() throws Exception{
-    	
-//    	Repository repo = new Repository();
-//    	repo.setName("my-test-repo");
-//    	repo.setRemotePath("https://github.com/my-test-repo");
-//    	
-//    	repository.save(repo);
-    	
-    	GitRepository reporepo = repository.findById(134L);
-    	System.out.println(reporepo);
-//    	parsingService.parseClasses(reporepo);
-//    	analysisService.processRepository(reporepo);
-    	
-    	return "OK";
-    	
-    }
-    
 }
