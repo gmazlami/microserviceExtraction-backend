@@ -25,9 +25,6 @@ public class LogicalCouplingDecompositor implements Decompositor {
 	HistoryService analysisService;
 	
 	@Autowired
-	LogicalCouplingService logicalCouplingService;
-	
-	@Autowired
 	LogicalCouplingEngine logicalCouplingEngine;
 	
 	@Autowired
@@ -59,10 +56,7 @@ public class LogicalCouplingDecompositor implements Decompositor {
 			List<Microservice> microservices = graphToMicroserviceMapper.mapToMicroservices(nodes);
 
 			microservices.forEach(m -> System.out.println(m));
-			
-//			System.out.println("Mapping to microservices...");
-//			List<Microservice> microservices = logicalCouplingToMicroserviceMapper.mapToMicroservices(couplings); 
-			
+
 			TextFileReport.generate(repo, microservices);
 			System.out.println("Finished.");
 			
