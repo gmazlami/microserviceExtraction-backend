@@ -98,55 +98,58 @@ public class LogicalCouplingService {
 		}
 		
 		public List<String> compute(){
-			return powerSet(this.originalSet);
+			return powerset(this.originalSet);
 		}
 		
-		/*
-		 * Uses the following recursive algorithm:
-		 * https://en.wikipedia.org/wiki/Power_set#Algorithms
-		 * 
-		 * Returns the power set of the set of strings given as an input list.
-		 * Elements in the resulting powerset that are themselves sets of multiple elements
-		 * are expressed through string concatenation using the symbol "?", since it is not possible 
-		 * to nest Sets with the chosen data structures.
-		 * 
-		 * Example: Input set: {a,b,c} --> Theoretical Power set: {a,b,c,{a,b},{a,c},{b,c},{a,b,c}} --> 
-		 * --> String concatenated representation of it: {a, b, c, a?b, a?c, b?c, a?b?c}
-		 */
-		private List<String> powerSet(List<String> set){
-			if(set.size() == 1){
-				return new ArrayList<String>();
+		private List<String> powerset(List<String> set){
+			List<String> powerset = new ArrayList<>();
+
+			for(String binary: getList(set.size())){
+				String element = "";
+				List<Integer> indexes = getIndexes(binary);
+				
+				if(indexes.size() == 0){
+					continue;
+				}
+				if(indexes.size() == 1){
+					element = set.get(indexes.get(0));
+				}else{
+					for(int index: getIndexes(binary)){
+						element += set.get(index) + ESCAPED_SUBSET_DELIMITER; 
+					}
+				}
+				
+				powerset.add(element);
 			}
-			if(set.size() == 2){
-				List<String> temp = new ArrayList<>(set);
-				temp.add(merge(set.get(0),set.get(1)));
-				return temp;
+			return powerset;
+			
+		}
+		
+		private List<Integer> getIndexes(String binary){
+			char one = '1';
+			List<Integer> list = new ArrayList<>();
+			
+			int index = binary.indexOf(one);
+			
+			while(index >= 0) {
+			   list.add(index);
+			   index = binary.indexOf(one, index+1);
+			}
+			return list;
+		}
+		
+		private List<String> getList(int size){
+			List<String> list = new ArrayList<>();
+			int possibilities = (int) Math.pow(2, size);
+			String formatString = "%" + size + "s";
+			
+			for(int i = 0; i < possibilities; i++){
+				list.add(String.format(formatString, Integer.toBinaryString(i)).replace(' ', '0'));
 			}
 			
-			String element = set.remove(0);
-			
-			return union(powerSet(set), permute(element, powerSet(set)));
+			return list;
 		}
-		
-		private  List<String> permute(String element, List<String> set){
-			List<String> permutatedSet = new ArrayList<>();
-			permutatedSet.add(element);
-			
-			for(String existingElement: set){
-				permutatedSet.add(merge(element, existingElement));
-			}
-			
-			return permutatedSet;
-		}
-		
-		private List<String> union(List<String> set1, List<String> set2){
-			set1.addAll(set2);
-			return set1;
-		}
-		
-		private String merge(String str1, String str2){
-			return str1 + "?" + str2;
-		}
+
 	
 	}
 	
