@@ -34,12 +34,6 @@ public class RepositoryController {
 	@Autowired
 	private DecompositionService decompositionService;
 	
-    @RequestMapping("/greeting")
-    public String greeting() {
-        return "Hello World!";
-    }
-    
-    
     @RequestMapping(value="/repositories", method=RequestMethod.POST)
     public GitRepository addRepository(@RequestBody RepositoryDTO repo) throws Exception{
     	
