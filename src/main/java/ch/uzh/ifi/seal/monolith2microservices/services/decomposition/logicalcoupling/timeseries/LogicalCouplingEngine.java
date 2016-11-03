@@ -6,10 +6,14 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.eclipse.jgit.diff.DiffEntry;
 import org.springframework.stereotype.Service;
+
+import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Sets;
 
 import ch.uzh.ifi.seal.monolith2microservices.main.utils.Hash;
 import ch.uzh.ifi.seal.monolith2microservices.models.ChangeEvent;
@@ -18,7 +22,6 @@ import ch.uzh.ifi.seal.monolith2microservices.models.LogicalCoupling;
 @Service
 public class LogicalCouplingEngine {
 	
-	private final String ESCAPED_SUBSET_DELIMITER = "\\?";
 	
 	private final String SUBSET_DELIMITER = "\\?";
 	
@@ -47,12 +50,22 @@ public class LogicalCouplingEngine {
 			for(ChangeEvent changeEvent: changeEvents){
 				changeEvent.getChangedfiles().forEach(diffEntry -> currentDiffEntries.add(diffEntry));
 			}
-			PowerSet powerSet =  new PowerSet(getStringSet(currentDiffEntries));
-			List<String> powerSetOfFileNames = powerSet.compute();
+			
+			ImmutableSet<String> set;
+			if(currentDiffEntries.size() > 25){
+				set = ImmutableSet.copyOf(getStringSet(currentDiffEntries.subList(0, 25)));
+			}else{
+				set = ImmutableSet.copyOf(getStringSet(currentDiffEntries));
+			}
+			
+			
+			Set<Set<String>> powerSetofFileNames = Sets.powerSet(set);
+			
 			
 			// for each pair of coupled files (A,B) in the powerset, create a logical coupling or increase score if coupling was already discovered 
-			for(String element: powerSetOfFileNames){
-				String[] files = element.split(ESCAPED_SUBSET_DELIMITER);
+			for(Set<String> element: powerSetofFileNames){
+				String[] files = new String[element.size()];
+				files = element.toArray(files);
 				
 				//only consider subsets in the power set that have pair of 2 classes coupled together
 				if (files.length == 2 ){
@@ -136,71 +149,6 @@ public class LogicalCouplingEngine {
 		}
 		return set;
 	}
-	
-	
-	
-	/*
-	 * Class that computes the power set of a given Set of strings.
-	 */
-	private class PowerSet{
-		
-		private List<String> originalSet;
-		
-		public PowerSet(List<String> set){
-			this.originalSet = set;
-		}
-		
-		public List<String> compute(){
-			return powerSet(this.originalSet);
-		}
-		
-		/*
-		 * Uses the following recursive algorithm:
-		 * https://en.wikipedia.org/wiki/Power_set#Algorithms
-		 * 
-		 * Returns the power set of the set of strings given as an input list.
-		 * Elements in the resulting powerset that are themselves sets of multiple elements
-		 * are expressed through string concatenation using the symbol "?", since it is not possible 
-		 * to nest Sets with the chosen data structures.
-		 * 
-		 * Example: Input set: {a,b,c} --> Theoretical Power set: {a,b,c,{a,b},{a,c},{b,c},{a,b,c}} --> 
-		 * --> String concatenated representation of it: {a, b, c, a?b, a?c, b?c, a?b?c}
-		 */
-		private List<String> powerSet(List<String> set){
-			if(set.size() == 1){
-				return new ArrayList<String>();
-			}
-			if(set.size() == 2){
-				List<String> temp = new ArrayList<>(set);
-				temp.add(merge(set.get(0),set.get(1)));
-				return temp;
-			}
-			
-			String element = set.remove(0);
-			
-			return union(powerSet(set), permute(element, powerSet(set)));
-		}
-		
-		private  List<String> permute(String element, List<String> set){
-			List<String> permutatedSet = new ArrayList<>();
-			permutatedSet.add(element);
-			
-			for(String existingElement: set){
-				permutatedSet.add(merge(element, existingElement));
-			}
-			
-			return permutatedSet;
-		}
-		
-		private List<String> union(List<String> set1, List<String> set2){
-			set1.addAll(set2);
-			return set1;
-		}
-		
-		private String merge(String str1, String str2){
-			return str1 + "?" + str2;
-		}
-	
-	}
+
 	
 }
