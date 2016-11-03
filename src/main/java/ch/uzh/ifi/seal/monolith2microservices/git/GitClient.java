@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.diff.DiffEntry;
@@ -52,17 +53,16 @@ public class GitClient {
 		return logList;
 	}
 	
-	public RepositoryHistory getChangeHistory() throws Exception{
+	public List<ChangeEvent> getChangeEvents() throws Exception {
+		List<ChangeEvent> changeHistory = new ArrayList<>();		
+
 		Repository repository = getGitRepository();
 		Git git = new Git(repository);
-		ObjectReader reader = repository.newObjectReader();
 		RevWalk walk = new RevWalk(repository);
-		List<ChangeEvent> changeHistory = new ArrayList<>();		
-		
+		ObjectReader reader = repository.newObjectReader();
 		List<RevCommit> log = getCommitLog();
 		
 		Map<ObjectId,List<DiffEntry>> diffHistory = new HashMap<>();
-		
 		
 		RevCommit first, second;
 		RevTree firstTree, secondTree;
@@ -88,11 +88,9 @@ public class GitClient {
             
 		}
 		
-		log.remove(0);
 		git.close();
 		walk.close();
-		return new RepositoryHistory(log, diffHistory, changeHistory);
+		return changeHistory.stream().filter(changeEvent -> changeEvent.getChangedfiles().size() > 0).collect(Collectors.toList());
 	}
-	
 	
 }

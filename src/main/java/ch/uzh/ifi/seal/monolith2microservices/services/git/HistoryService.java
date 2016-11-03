@@ -1,11 +1,7 @@
 package ch.uzh.ifi.seal.monolith2microservices.services.git;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Predicate;
-import java.util.stream.Collectors;
 
-import org.eclipse.jgit.diff.DiffEntry;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -33,6 +29,7 @@ public class HistoryService {
 	 */
 	public List<ChangeEvent> computeChangeEvents(GitRepository repo) throws Exception{
 		GitClient gitClient = new GitClient(repo, config);
-		return gitClient.getChangeHistory().getChangeHistory().stream().filter(changeEvent -> changeEvent.getChangedfiles().size() > 0).collect(Collectors.toList());
+		return gitClient.getChangeEvents();
 	}
+	
 }
