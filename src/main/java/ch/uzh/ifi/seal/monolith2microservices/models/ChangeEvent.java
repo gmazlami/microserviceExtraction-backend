@@ -20,6 +20,8 @@ public class ChangeEvent {
 	
 	private int timestampInSeconds;
 	
+	private String authorEmailAddress;
+	
 	private List<DiffEntry> changedfiles = new ArrayList<>();
 	
 	private RevCommit commitObject;
@@ -46,6 +48,14 @@ public class ChangeEvent {
 
 	public void setCommitObject(RevCommit commitObject) {
 		this.commitObject = commitObject;
+	}
+	
+	public String getAuthorEmailAddress() {
+		return authorEmailAddress;
+	}
+
+	public void setAuthorEmailAddress(String authorEmailAddress) {
+		this.authorEmailAddress = authorEmailAddress;
 	}
 
 	@Override

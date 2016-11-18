@@ -84,6 +84,8 @@ public class GitClient {
             diffHistory.put(first, diffs);
             
             event = new ChangeEvent(first.getCommitTime(),diffs,first);
+            event.setAuthorEmailAddress(second.getAuthorIdent().getEmailAddress());
+            
             changeHistory.add(event);
             
 		}

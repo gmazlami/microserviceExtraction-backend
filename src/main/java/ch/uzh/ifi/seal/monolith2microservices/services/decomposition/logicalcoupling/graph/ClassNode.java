@@ -24,8 +24,12 @@ public class ClassNode {
 	}
 	
 	
-	public void increaseWeight(String neighborId){
-		
+	public void setNeighborWeight(String neighborId, int newWeight){
+		this.neighbors.forEach(neighbor -> {
+			if (neighbor.getNodeId() == neighborId){
+				neighbor.setWeight(newWeight);
+			}
+		});
 	}
 
 
