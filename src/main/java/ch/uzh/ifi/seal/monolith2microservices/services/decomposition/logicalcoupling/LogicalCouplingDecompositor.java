@@ -7,15 +7,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import ch.uzh.ifi.seal.monolith2microservices.models.ChangeEvent;
-import ch.uzh.ifi.seal.monolith2microservices.models.GitRepository;
-import ch.uzh.ifi.seal.monolith2microservices.models.LogicalCoupling;
-import ch.uzh.ifi.seal.monolith2microservices.models.Microservice;
+import ch.uzh.ifi.seal.monolith2microservices.models.git.ChangeEvent;
+import ch.uzh.ifi.seal.monolith2microservices.models.git.GitRepository;
+import ch.uzh.ifi.seal.monolith2microservices.models.couplings.LogicalCoupling;
+import ch.uzh.ifi.seal.monolith2microservices.models.graph.Microservice;
 import ch.uzh.ifi.seal.monolith2microservices.services.decomposition.Decompositor;
-import ch.uzh.ifi.seal.monolith2microservices.services.decomposition.logicalcoupling.graph.ClassNode;
-import ch.uzh.ifi.seal.monolith2microservices.services.decomposition.logicalcoupling.graph.NodeMapper;
-import ch.uzh.ifi.seal.monolith2microservices.services.decomposition.logicalcoupling.graph.GraphToMicrserviceMapper;
-import ch.uzh.ifi.seal.monolith2microservices.services.decomposition.logicalcoupling.timeseries.LogicalCouplingEngine;
+import ch.uzh.ifi.seal.monolith2microservices.models.graph.ClassNode;
+import ch.uzh.ifi.seal.monolith2microservices.services.decomposition.GraphToMicroserviceMapper;
 import ch.uzh.ifi.seal.monolith2microservices.services.git.HistoryService;
 import ch.uzh.ifi.seal.monolith2microservices.services.reporting.TextFileReport;
 
@@ -29,15 +27,12 @@ public class LogicalCouplingDecompositor implements Decompositor {
 	
 	@Autowired
 	LogicalCouplingEngine logicalCouplingEngine;
+
+	@Autowired
+	LogicalCouplingToNodeMapper nodeMapper;
 	
 	@Autowired
-	LogicalCouplingToMicroserviceMapper logicalCouplingToMicroserviceMapper;
-	
-	@Autowired
-	NodeMapper nodeMapper;
-	
-	@Autowired
-	GraphToMicrserviceMapper graphToMicroserviceMapper;
+	GraphToMicroserviceMapper graphToMicroserviceMapper;
 	
 	@Override
 	public void decompose(GitRepository repo) {

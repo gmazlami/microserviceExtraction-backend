@@ -6,8 +6,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 
-import ch.uzh.ifi.seal.monolith2microservices.models.GitRepository;
-import ch.uzh.ifi.seal.monolith2microservices.models.Microservice;
+import ch.uzh.ifi.seal.monolith2microservices.models.git.GitRepository;
+import ch.uzh.ifi.seal.monolith2microservices.models.graph.Microservice;
 
 public class TextFileReport {
 	

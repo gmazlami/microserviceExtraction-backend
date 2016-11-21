@@ -1,7 +1,7 @@
 package ch.uzh.ifi.seal.monolith2microservices.services.decomposition.contributors;
 
-import ch.uzh.ifi.seal.monolith2microservices.models.ChangeEvent;
-import ch.uzh.ifi.seal.monolith2microservices.models.ContributorCoupling;
+import ch.uzh.ifi.seal.monolith2microservices.models.git.ChangeEvent;
+import ch.uzh.ifi.seal.monolith2microservices.models.couplings.ContributorCoupling;
 import org.eclipse.jgit.diff.DiffEntry;
 
 import java.util.ArrayList;

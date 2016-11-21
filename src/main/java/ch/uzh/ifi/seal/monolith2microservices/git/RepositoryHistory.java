@@ -8,7 +8,7 @@ import org.eclipse.jgit.diff.DiffEntry;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.revwalk.RevCommit;
 
-import ch.uzh.ifi.seal.monolith2microservices.models.ChangeEvent;
+import ch.uzh.ifi.seal.monolith2microservices.models.git.ChangeEvent;
 
 public class RepositoryHistory {
 

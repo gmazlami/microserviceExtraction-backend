@@ -1,4 +1,4 @@
-package ch.uzh.ifi.seal.monolith2microservices.services.decomposition.logicalcoupling.graph;
+package ch.uzh.ifi.seal.monolith2microservices.models.graph;
 
 import java.util.ArrayList;
 import java.util.List;

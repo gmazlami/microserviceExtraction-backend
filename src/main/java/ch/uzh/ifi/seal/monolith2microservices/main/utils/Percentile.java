@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import ch.uzh.ifi.seal.monolith2microservices.models.LogicalCoupling;
+import ch.uzh.ifi.seal.monolith2microservices.models.couplings.LogicalCoupling;
 
 public class Percentile {
 	

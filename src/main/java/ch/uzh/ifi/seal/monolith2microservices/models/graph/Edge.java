@@ -1,4 +1,4 @@
-package ch.uzh.ifi.seal.monolith2microservices.services.decomposition.logicalcoupling.graph;
+package ch.uzh.ifi.seal.monolith2microservices.models.graph;
 
 public class Edge {
 

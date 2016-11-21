@@ -20,8 +20,8 @@ import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
 import org.eclipse.jgit.treewalk.CanonicalTreeParser;
 
 import ch.uzh.ifi.seal.monolith2microservices.main.utils.Configs;
-import ch.uzh.ifi.seal.monolith2microservices.models.ChangeEvent;
-import ch.uzh.ifi.seal.monolith2microservices.models.GitRepository;
+import ch.uzh.ifi.seal.monolith2microservices.models.git.ChangeEvent;
+import ch.uzh.ifi.seal.monolith2microservices.models.git.GitRepository;
 
 public class GitClient {
 

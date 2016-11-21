@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import ch.uzh.ifi.seal.monolith2microservices.dtos.RepositoryDTO;
-import ch.uzh.ifi.seal.monolith2microservices.models.GitRepository;
+import ch.uzh.ifi.seal.monolith2microservices.models.git.GitRepository;
 import ch.uzh.ifi.seal.monolith2microservices.models.persistence.RepositoryRepository;
 import ch.uzh.ifi.seal.monolith2microservices.services.decomposition.DecompositionService;
 import ch.uzh.ifi.seal.monolith2microservices.services.git.GitCloneService;

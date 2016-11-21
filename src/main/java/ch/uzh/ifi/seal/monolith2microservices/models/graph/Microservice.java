@@ -1,4 +1,4 @@
-package ch.uzh.ifi.seal.monolith2microservices.models;
+package ch.uzh.ifi.seal.monolith2microservices.models.graph;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -12,8 +12,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Transient;
-
-import ch.uzh.ifi.seal.monolith2microservices.services.decomposition.logicalcoupling.graph.Edge;
 
 @Entity
 public class Microservice {

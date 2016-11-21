@@ -1,17 +1,18 @@
-package ch.uzh.ifi.seal.monolith2microservices.services.decomposition.logicalcoupling.graph;
+package ch.uzh.ifi.seal.monolith2microservices.services.decomposition.logicalcoupling;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import ch.uzh.ifi.seal.monolith2microservices.models.graph.ClassNode;
 import org.springframework.stereotype.Service;
 
 import ch.uzh.ifi.seal.monolith2microservices.main.utils.Percentile;
-import ch.uzh.ifi.seal.monolith2microservices.models.LogicalCoupling;
+import ch.uzh.ifi.seal.monolith2microservices.models.couplings.LogicalCoupling;
 
 @Service
-public class NodeMapper {
+public class LogicalCouplingToNodeMapper {
 
 	private Map<String, ClassNode> nodeMap;
 	

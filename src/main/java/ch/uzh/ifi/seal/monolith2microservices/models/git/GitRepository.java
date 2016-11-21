@@ -1,4 +1,4 @@
-package ch.uzh.ifi.seal.monolith2microservices.models;
+package ch.uzh.ifi.seal.monolith2microservices.models.git;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

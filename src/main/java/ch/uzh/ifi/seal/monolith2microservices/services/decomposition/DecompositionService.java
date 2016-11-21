@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
-import ch.uzh.ifi.seal.monolith2microservices.models.GitRepository;
+import ch.uzh.ifi.seal.monolith2microservices.models.git.GitRepository;
 
 @Service
 public class DecompositionService {

@@ -1,4 +1,6 @@
-package ch.uzh.ifi.seal.monolith2microservices.services.decomposition.logicalcoupling.graph;
+package ch.uzh.ifi.seal.monolith2microservices.models.graph;
+
+import ch.uzh.ifi.seal.monolith2microservices.models.graph.ClassNode;
 
 public class NodeWeightPair {
 

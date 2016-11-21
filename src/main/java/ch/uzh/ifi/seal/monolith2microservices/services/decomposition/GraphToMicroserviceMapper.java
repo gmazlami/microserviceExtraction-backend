@@ -1,14 +1,17 @@
-package ch.uzh.ifi.seal.monolith2microservices.services.decomposition.logicalcoupling.graph;
+package ch.uzh.ifi.seal.monolith2microservices.services.decomposition;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import ch.uzh.ifi.seal.monolith2microservices.models.graph.ClassNode;
+import ch.uzh.ifi.seal.monolith2microservices.models.graph.Edge;
+import ch.uzh.ifi.seal.monolith2microservices.models.graph.NodeWeightPair;
 import org.springframework.stereotype.Service;
 
-import ch.uzh.ifi.seal.monolith2microservices.models.Microservice;
+import ch.uzh.ifi.seal.monolith2microservices.models.graph.Microservice;
 
 @Service
-public class GraphToMicrserviceMapper {
+public class GraphToMicroserviceMapper {
 	
 	
 	public List<Microservice> mapToMicroservices(List<ClassNode> nodes){

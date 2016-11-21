@@ -11,8 +11,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ch.uzh.ifi.seal.monolith2microservices.main.utils.Configs;
-import ch.uzh.ifi.seal.monolith2microservices.models.Class;
-import ch.uzh.ifi.seal.monolith2microservices.models.GitRepository;
+import ch.uzh.ifi.seal.monolith2microservices.models.git.Class;
+import ch.uzh.ifi.seal.monolith2microservices.models.git.GitRepository;
 
 public class ClassVisitor extends SimpleFileVisitor<Path> {
 	
