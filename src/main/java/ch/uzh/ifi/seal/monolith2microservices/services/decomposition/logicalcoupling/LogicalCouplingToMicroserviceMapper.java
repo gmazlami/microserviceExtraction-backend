@@ -33,7 +33,7 @@ public class LogicalCouplingToMicroserviceMapper {
 		Collections.reverse(couplings);
 		
 		//compute lower quartile threshold q1, so we can filter out @link{LogicalCoupling} instances which have to small score
-		int q1 = new Percentile(couplings).get(0.25f);
+		int q1 = Percentile.fromLogicalCouplings(couplings).get(0.25f);
 		
 		for(LogicalCoupling coupling : couplings){
 			//only take @link{LogicalCoupling}s with high enough score into consideration 
