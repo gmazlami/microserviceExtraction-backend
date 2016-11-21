@@ -17,7 +17,7 @@ public class NodeMapper {
 	
 	public List<ClassNode> mapToGraph(List<LogicalCoupling> couplings){
 		nodeMap = new HashMap<>();
-		int lowerQuartile = new Percentile(couplings).get(0.75f);
+		int lowerQuartile = Percentile.fromLogicalCouplings(couplings).get(0.75f);
 		
 		for(LogicalCoupling coupling: couplings){
 			if((coupling.getClassFiles().size() == 2) && (coupling.getScore() > lowerQuartile)){
