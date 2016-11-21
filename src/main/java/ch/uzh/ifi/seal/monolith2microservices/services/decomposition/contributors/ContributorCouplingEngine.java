@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class ContributorCouplingService {
+public class ContributorCouplingEngine {
 	
 	public List<ContributorCoupling> computeContributorGraph(List<ChangeEvent> changeHistory){
 		Map<String, List<String>> fileAuthorMap = getFileAuthorMap(changeHistory);
