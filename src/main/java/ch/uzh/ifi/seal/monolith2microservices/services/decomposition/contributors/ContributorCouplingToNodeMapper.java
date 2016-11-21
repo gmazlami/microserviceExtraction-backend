@@ -13,6 +13,8 @@ import java.util.stream.Collectors;
  */
 public class ContributorCouplingToNodeMapper {
 
+    //TODO: Include filtering of low values by percentile before creating graph
+
     public List<ClassNode> mapToGraph(List<ContributorCoupling> couplings){
 
         Map<String,ClassNode> nodeMap = new HashMap<>();
