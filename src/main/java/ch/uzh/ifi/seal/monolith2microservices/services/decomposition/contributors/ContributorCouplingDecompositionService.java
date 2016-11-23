@@ -18,7 +18,7 @@ public class ContributorCouplingDecompositionService{
     private static final Logger logger = LoggerFactory.getLogger(ContributorCouplingDecompositionService.class);
 
     @Autowired
-    @Qualifier("logicalCouplingDecompositor")
+    @Qualifier("contributorCouplingDecompositor")
     Decompositor decompositor;
 
     @Async

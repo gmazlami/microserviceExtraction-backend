@@ -1,4 +1,4 @@
-package java.ch.uzh.ifi.seal.monolith2microservices.services.decomposition.contributors;
+package ch.uzh.ifi.seal.monolith2microservices.services.decomposition.contributors;
 
 import ch.uzh.ifi.seal.monolith2microservices.models.couplings.ContributorCoupling;
 import ch.uzh.ifi.seal.monolith2microservices.models.git.ChangeEvent;
@@ -7,17 +7,17 @@ import ch.uzh.ifi.seal.monolith2microservices.models.graph.ClassNode;
 import ch.uzh.ifi.seal.monolith2microservices.models.graph.Microservice;
 import ch.uzh.ifi.seal.monolith2microservices.services.decomposition.Decompositor;
 import ch.uzh.ifi.seal.monolith2microservices.services.decomposition.GraphToMicroserviceMapper;
-import ch.uzh.ifi.seal.monolith2microservices.services.decomposition.contributors.ContributorCouplingEngine;
-import ch.uzh.ifi.seal.monolith2microservices.services.decomposition.contributors.ContributorCouplingToNodeMapper;
 import ch.uzh.ifi.seal.monolith2microservices.services.git.HistoryService;
 import ch.uzh.ifi.seal.monolith2microservices.services.reporting.TextFileReport;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Component
 @Service
 public class ContributorCouplingDecompositor implements Decompositor {
 
@@ -42,9 +42,9 @@ public class ContributorCouplingDecompositor implements Decompositor {
             List<ChangeEvent> changeHistory = historyService.computeChangeEvents(repo);
             logger.info("Successfully computed history!");
 
-            logger.info("Computing logical couplings...");
+            logger.info("Computing contributor couplings...");
             List<ContributorCoupling> couplings = couplingEngine.computeCouplings(changeHistory);
-            logger.info("Successfully computed logical couplings!");
+            logger.info("Successfully computed contributor couplings!");
 
             logger.info("Computing nodes...");
             List<ClassNode> nodes = nodeMapper.mapToGraph(couplings);
