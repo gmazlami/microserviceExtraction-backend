@@ -1,5 +1,6 @@
-package ch.uzh.ifi.seal.monolith2microservices.services.decomposition;
+package ch.uzh.ifi.seal.monolith2microservices.services.decomposition.logicalcoupling;
 
+import ch.uzh.ifi.seal.monolith2microservices.services.decomposition.Decompositor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,13 +11,13 @@ import org.springframework.stereotype.Service;
 import ch.uzh.ifi.seal.monolith2microservices.models.git.GitRepository;
 
 @Service
-public class DecompositionService {
+public class LogicalCouplingDecompositionService {
 
-	private static final Logger logger = LoggerFactory.getLogger(DecompositionService.class);
+	private static final Logger logger = LoggerFactory.getLogger(LogicalCouplingDecompositionService.class);
 	
 	@Autowired
 	@Qualifier("logicalCouplingDecompositor")
-	Decompositor decompositor;
+    Decompositor decompositor;
 	
 	@Async
 	public void process(GitRepository repo){

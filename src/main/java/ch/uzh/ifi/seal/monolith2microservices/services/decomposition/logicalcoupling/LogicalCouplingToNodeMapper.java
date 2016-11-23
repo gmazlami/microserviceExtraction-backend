@@ -18,10 +18,10 @@ public class LogicalCouplingToNodeMapper {
 	
 	public List<ClassNode> mapToGraph(List<LogicalCoupling> couplings){
 		nodeMap = new HashMap<>();
-		int lowerQuartile = Percentile.fromLogicalCouplings(couplings).get(0.75f);
+		int lowerBound = Percentile.fromLogicalCouplings(couplings).get(0.75f);
 		
 		for(LogicalCoupling coupling: couplings){
-			if((coupling.getClassFiles().size() == 2) && (coupling.getScore() > lowerQuartile)){
+			if((coupling.getClassFiles().size() == 2) && (coupling.getScore() > lowerBound)){
 				String firstClassName = coupling.getClassFiles().get(0);
 				String secondClassName = coupling.getClassFiles().get(1);
 				

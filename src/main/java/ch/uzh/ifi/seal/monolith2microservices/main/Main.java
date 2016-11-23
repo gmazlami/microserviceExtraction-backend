@@ -30,7 +30,7 @@ public class Main extends AsyncConfigurerSupport{
         executor.setCorePoolSize(2);
         executor.setMaxPoolSize(2);
         executor.setQueueCapacity(500);
-        executor.setThreadNamePrefix("GitClone-");
+        executor.setThreadNamePrefix("Monolith2Microservice-");
         executor.initialize();
         return executor;
     }

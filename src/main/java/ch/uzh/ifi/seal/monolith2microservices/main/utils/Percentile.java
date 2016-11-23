@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import ch.uzh.ifi.seal.monolith2microservices.models.couplings.ContributorCoupling;
 import ch.uzh.ifi.seal.monolith2microservices.models.couplings.LogicalCoupling;
 
 public class Percentile {
@@ -20,6 +21,13 @@ public class Percentile {
         return new Percentile(vals);
     }
 
+    public static Percentile fromContributorCouplings(List<ContributorCoupling> couplings){
+		List<Integer> vals = new ArrayList<>();
+		couplings.forEach(c ->{
+			vals.add(c.getScore());
+		});
+		return new Percentile(vals);
+	}
 
 	public Percentile(List<Integer> values){
         this.values = values;
