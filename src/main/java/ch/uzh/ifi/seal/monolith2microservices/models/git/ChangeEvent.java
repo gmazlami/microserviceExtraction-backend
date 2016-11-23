@@ -67,11 +67,7 @@ public class ChangeEvent {
 	//Define predicate to filter only files that were added or modified and end with a .java file ending
 	private Predicate<DiffEntry> isAddOrModify = (entry) ->{
 		if(entry.getChangeType() == DiffEntry.ChangeType.ADD || entry.getChangeType() == DiffEntry.ChangeType.MODIFY){
-			if(entry.getNewPath().endsWith(".java")){
-				return true;
-			}else{
-				return false;
-			}
+			return true;
 		}else{
 			return false;
 		}

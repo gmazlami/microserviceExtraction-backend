@@ -19,7 +19,7 @@ public class ContributorCouplingToNodeMapper {
 
     public List<ClassNode> mapToGraph(List<ContributorCoupling> couplings){
 
-        int lowerBound = Percentile.fromContributorCouplings(couplings).get(0.75f);
+        int lowerBound = Percentile.fromContributorCouplings(couplings).get(0.99f);
 
         Map<String,ClassNode> nodeMap = new HashMap<>();
 

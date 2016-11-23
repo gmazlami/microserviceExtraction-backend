@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import ch.qos.logback.core.net.SyslogOutputStream;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.diff.DiffEntry;
 import org.eclipse.jgit.lib.ObjectId;
@@ -61,9 +62,7 @@ public class GitClient {
 		RevWalk walk = new RevWalk(repository);
 		ObjectReader reader = repository.newObjectReader();
 		List<RevCommit> log = getCommitLog();
-		
-		Map<ObjectId,List<DiffEntry>> diffHistory = new HashMap<>();
-		
+
 		RevCommit first, second;
 		RevTree firstTree, secondTree;
 		CanonicalTreeParser firstTreeIter = new CanonicalTreeParser();
@@ -81,11 +80,9 @@ public class GitClient {
     		secondTreeIter.reset(reader, secondTree);
     		
             List<DiffEntry> diffs = git.diff().setNewTree(firstTreeIter).setOldTree(secondTreeIter).call();
-            diffHistory.put(first, diffs);
-            
+
             event = new ChangeEvent(first.getCommitTime(),diffs,first);
             event.setAuthorEmailAddress(second.getAuthorIdent().getEmailAddress());
-            
             changeHistory.add(event);
             
 		}

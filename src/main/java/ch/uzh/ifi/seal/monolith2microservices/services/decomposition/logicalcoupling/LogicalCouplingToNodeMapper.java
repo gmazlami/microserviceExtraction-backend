@@ -18,7 +18,7 @@ public class LogicalCouplingToNodeMapper {
 	
 	public List<ClassNode> mapToGraph(List<LogicalCoupling> couplings){
 		nodeMap = new HashMap<>();
-		int lowerBound = Percentile.fromLogicalCouplings(couplings).get(0.75f);
+		int lowerBound = Percentile.fromLogicalCouplings(couplings).get(0.4f);
 		
 		for(LogicalCoupling coupling: couplings){
 			if((coupling.getClassFiles().size() == 2) && (coupling.getScore() > lowerBound)){
@@ -46,7 +46,7 @@ public class LogicalCouplingToNodeMapper {
 					nodeMap.put(firstClassName, firstNode);
 					
 				}
-				//TODO: Caution, this will only work if the value of firstNode already in the map will also get updated, which it actually should according to passing references by-value
+
 				firstNode.addNeighborWithWeight(secondNode, coupling.getScore());
 				secondNode.addNeighborWithWeight(firstNode, coupling.getScore());
 			}
