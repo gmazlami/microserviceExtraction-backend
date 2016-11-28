@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import ch.qos.logback.core.net.SyslogOutputStream;
+import ch.uzh.ifi.seal.monolith2microservices.services.git.FilterService;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.diff.DiffEntry;
 import org.eclipse.jgit.lib.ObjectId;
@@ -55,7 +56,9 @@ public class GitClient {
 	}
 	
 	public List<ChangeEvent> getChangeEvents() throws Exception {
-		List<ChangeEvent> changeHistory = new ArrayList<>();		
+		List<ChangeEvent> changeHistory = new ArrayList<>();
+
+		FilterService filterService = new FilterService();
 
 		Repository repository = getGitRepository();
 		Git git = new Git(repository);
@@ -80,7 +83,7 @@ public class GitClient {
     		secondTreeIter.reset(reader, secondTree);
     		
             List<DiffEntry> diffs = git.diff().setNewTree(firstTreeIter).setOldTree(secondTreeIter).call();
-
+			diffs = filterService.filterBlackList(diffs);
             event = new ChangeEvent(first.getCommitTime(),diffs,first);
             event.setAuthorEmailAddress(second.getAuthorIdent().getEmailAddress());
             changeHistory.add(event);

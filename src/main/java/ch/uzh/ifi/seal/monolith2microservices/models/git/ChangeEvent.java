@@ -13,9 +13,7 @@ public class ChangeEvent {
 	public ChangeEvent(int timestamp, List<DiffEntry> diffEntries, RevCommit commit){
 		this.timestampInSeconds = timestamp;
 		this.commitObject = commit;
-		
-		//add only the @link{DiffEntry} elements that are of the @link{DiffEntry.ChangeType} ADD or MODIFY
-		diffEntries.stream().filter(isAddOrModify).forEach(changedfiles::add);
+		diffEntries.forEach(changedfiles::add);
 	}
 	
 	private int timestampInSeconds;
@@ -63,18 +61,5 @@ public class ChangeEvent {
 		return "ChangeEvent [timestampInSeconds=" + timestampInSeconds + ", changedfiles=" + changedfiles
 				+ ", commitObject=" + commitObject + "]";
 	}
-	
-	//Define predicate to filter only files that were added or modified and end with a .java file ending
-	private Predicate<DiffEntry> isAddOrModify = (entry) ->{
-		if(entry.getChangeType() == DiffEntry.ChangeType.ADD || entry.getChangeType() == DiffEntry.ChangeType.MODIFY){
-			if(entry.getNewPath().endsWith(".java") || entry.getNewPath().endsWith(".rb") || entry.getNewPath().endsWith(".py")){
-				return true;
-			}else{
-				return false;
-			}
-		}else{
-			return false;
-		}
-	}; 
 	
 }
