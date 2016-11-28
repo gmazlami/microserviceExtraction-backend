@@ -42,7 +42,7 @@ public class LogicalCouplingDecompositor implements Decompositor {
 			logger.info("Successfully computed history!");
 
 			logger.info("Computing logical couplings...");
-			List<LogicalCoupling> couplings = logicalCouplingEngine.computeCouplings(changeHistory, 60000);
+			List<LogicalCoupling> couplings = logicalCouplingEngine.computeCouplings(changeHistory, 3600);
 			logger.info("Successfully computed logical couplings!");
 			
 			logger.info("Computing nodes...");

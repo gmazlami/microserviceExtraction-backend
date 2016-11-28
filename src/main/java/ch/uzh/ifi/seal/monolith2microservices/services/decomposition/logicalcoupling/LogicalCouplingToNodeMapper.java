@@ -18,7 +18,7 @@ public class LogicalCouplingToNodeMapper {
 	
 	public List<ClassNode> mapToGraph(List<LogicalCoupling> couplings){
 		nodeMap = new HashMap<>();
-		int lowerBound = Percentile.fromLogicalCouplings(couplings).get(0.4f);
+		int lowerBound = Percentile.fromLogicalCouplings(couplings).get(0.8f);
 		
 		for(LogicalCoupling coupling: couplings){
 			if((coupling.getClassFiles().size() == 2) && (coupling.getScore() > lowerBound)){

@@ -52,8 +52,8 @@ public class LogicalCouplingEngine {
 			}
 			
 			ImmutableSet<String> set;
-			if(currentDiffEntries.size() > 25){
-				set = ImmutableSet.copyOf(getStringSet(currentDiffEntries.subList(0, 25)));
+			if(currentDiffEntries.size() > 10){
+				set = ImmutableSet.copyOf(getStringSet(currentDiffEntries.subList(0, 10)));
 			}else{
 				set = ImmutableSet.copyOf(getStringSet(currentDiffEntries));
 			}
