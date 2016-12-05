@@ -36,7 +36,7 @@ public class GraphToMicroserviceMapper {
 			if(!neighbor.getNode().isVisited()){
 				neighbor.getNode().setVisited(true);
 				microservice.addClass(neighbor.getNode().getId());
-				microservice.addEdge(new Edge(node, neighbor.getNode(), neighbor.getWeight()));
+				microservice.addEdge(new Edge(node, neighbor.getNode(), (double) neighbor.getWeight()));
 
 				dfs(neighbor.getNode(), microservice);
 			}

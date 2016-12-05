@@ -1,13 +1,11 @@
 package ch.uzh.ifi.seal.monolith2microservices.models.graph;
 
-import ch.uzh.ifi.seal.monolith2microservices.models.graph.ClassNode;
-
 public class NodeWeightPair {
 
 	private ClassNode node;
-	private int weight;
+	private double weight;
 
-	public NodeWeightPair(ClassNode node, int weight) {
+	public NodeWeightPair(ClassNode node, double weight) {
 		this.node = node;
 		this.weight = weight;
 	}
@@ -24,11 +22,11 @@ public class NodeWeightPair {
 		this.node = node;
 	}
 
-	public int getWeight() {
+	public double getWeight() {
 		return weight;
 	}
 
-	public void setWeight(int weight) {
+	public void setWeight(double weight) {
 		this.weight = weight;
 	}
 

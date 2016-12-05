@@ -16,22 +16,6 @@ public class ClassNode {
 		this.visited = false;
 		this.neighbors = new ArrayList<>();
 	}
-	
-	public ClassNode(String id, boolean visited){
-		this.id = id;
-		this.visited = visited;
-		this.neighbors = new ArrayList<>();
-	}
-	
-	
-	public void setNeighborWeight(String neighborId, int newWeight){
-		this.neighbors.forEach(neighbor -> {
-			if (neighbor.getNodeId() == neighborId){
-				neighbor.setWeight(newWeight);
-			}
-		});
-	}
-
 
 	public String getId() {
 		return id;
@@ -58,15 +42,14 @@ public class ClassNode {
 	}
 
 
-	public void setNeighbors(List<NodeWeightPair> neighbors) {
-		this.neighbors = neighbors;
-	}
-
-
 	public void addNeighborWithWeight(ClassNode neighbor, int weight){
-		neighbors.add(new NodeWeightPair(neighbor, weight));
+		neighbors.add(new NodeWeightPair(neighbor, (double) weight));
 	}
-	
+
+	public void addNeighborWithWeight(ClassNode neighbor, double score){
+		neighbors.add(new NodeWeightPair(neighbor, score));
+	}
+
 	@Override
 	public String toString() {
 		return "ClassNode [id=" + id + ", visited=" + visited + ", neighbors=" + neighbors + "]";

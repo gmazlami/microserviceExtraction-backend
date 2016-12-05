@@ -6,12 +6,12 @@ import java.util.List;
 
 import ch.uzh.ifi.seal.monolith2microservices.models.couplings.ContributorCoupling;
 import ch.uzh.ifi.seal.monolith2microservices.models.couplings.LogicalCoupling;
+import ch.uzh.ifi.seal.monolith2microservices.models.couplings.SemanticCoupling;
 
 public class Percentile {
-	
-	private List<LogicalCoupling> couplings;
 
 	private List<Integer> values;
+	private List<Double> doubleVals;
 
 	public static Percentile fromLogicalCouplings(List<LogicalCoupling> couplings){
         List<Integer> vals = new ArrayList<>();
@@ -29,10 +29,24 @@ public class Percentile {
 		return new Percentile(vals);
 	}
 
+	public static Percentile fromSemanticCouplings(List<SemanticCoupling> couplings){
+		List<Double> vals = new ArrayList<>();
+		couplings.forEach(c ->{
+			vals.add(c.getSimilarity());
+		});
+		return new Percentile(null).withDoubles(vals);
+	}
+
 	public Percentile(List<Integer> values){
         this.values = values;
         Collections.sort(this.values);
     }
+
+    public Percentile withDoubles(List<Double> values){
+		this.doubleVals = values;
+		Collections.sort(this.doubleVals);
+		return this;
+	}
 	
 	public int get(float percentile){
 		if(percentile > 1.0f){
@@ -44,5 +58,15 @@ public class Percentile {
 			return values.get(q1Index);
 		}
 	}
-	
+
+	public double getDouble(float percentile){
+		if(percentile > 1.0f){
+			return this.doubleVals.get(this.doubleVals.size()-1);
+		}else if(percentile < 0.0f){
+			return this.doubleVals.get(0);
+		}else{
+			int q1Index = (int) Math.round(doubleVals.size() * percentile);
+			return doubleVals.get(q1Index);
+		}
+	}
 }
