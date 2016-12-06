@@ -1,7 +1,7 @@
 package ch.uzh.ifi.seal.monolith2microservices.services.decomposition.semanticcoupling.tfidf;
 
-import org.apache.commons.cli.*;
-import org.apache.commons.lang.StringUtils;
+
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.*;
 

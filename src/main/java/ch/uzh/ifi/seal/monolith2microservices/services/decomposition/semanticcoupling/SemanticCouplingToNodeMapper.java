@@ -18,7 +18,7 @@ public class SemanticCouplingToNodeMapper {
 
     public List<ClassNode> mapToGraph(List<SemanticCoupling> couplings){
 
-        int lowerBound = Percentile.fromSemanticCouplings(couplings).get(0.7f);
+        double lowerBound = Percentile.fromSemanticCouplings(couplings).getDouble(0.7f);
 
         Map<String,ClassNode> nodeMap = new HashMap<>();
 

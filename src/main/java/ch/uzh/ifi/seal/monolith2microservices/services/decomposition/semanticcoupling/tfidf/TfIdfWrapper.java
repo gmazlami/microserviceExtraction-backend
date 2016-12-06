@@ -44,7 +44,13 @@ public class TfIdfWrapper {
         Map<String, Double> tfIdf = TfIdf.tfIdf(tf, idf);
 
         for(String term: terms){
-            vector.add(tfIdf.get(term));
+            Double value = tfIdf.get(term);
+            if(value==null){
+                vector.add(0d);
+            }else{
+                vector.add(tfIdf.get(term));
+            }
+
         }
         return vector;
     }

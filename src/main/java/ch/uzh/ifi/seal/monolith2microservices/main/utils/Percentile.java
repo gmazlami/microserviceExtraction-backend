@@ -34,7 +34,7 @@ public class Percentile {
 		couplings.forEach(c ->{
 			vals.add(c.getSimilarity());
 		});
-		return new Percentile(null).withDoubles(vals);
+		return new Percentile(true,vals);
 	}
 
 	public Percentile(List<Integer> values){
@@ -42,11 +42,12 @@ public class Percentile {
         Collections.sort(this.values);
     }
 
-    public Percentile withDoubles(List<Double> values){
+    public Percentile(boolean isDouble, List<Double> values){
 		this.doubleVals = values;
 		Collections.sort(this.doubleVals);
-		return this;
 	}
+
+
 	
 	public int get(float percentile){
 		if(percentile > 1.0f){

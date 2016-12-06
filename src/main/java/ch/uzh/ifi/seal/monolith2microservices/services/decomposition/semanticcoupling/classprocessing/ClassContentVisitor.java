@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -36,14 +37,14 @@ public class ClassContentVisitor extends SimpleFileVisitor<Path> {
         Path name = path.getFileName();
 
         if(matcher.matches(name)){
-            BufferedReader reader = Files.newBufferedReader(name);
+            BufferedReader reader = Files.newBufferedReader(path);
             StringBuilder sb = new StringBuilder();
             String currentLine;
             while((currentLine = reader.readLine()) != null){
                 sb.append(currentLine);
             }
 
-            this.classes.add(new ClassContent(getRelativeFileName(name.toUri().toString()),filter(sb.toString())));
+            this.classes.add(new ClassContent(getRelativeFileName(path.toUri().toString()),filter(sb.toString())));
         }
         return FileVisitResult.CONTINUE;
     }
