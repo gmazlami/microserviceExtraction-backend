@@ -1,7 +1,6 @@
 package ch.uzh.ifi.seal.monolith2microservices.controllers;
 
-import ch.uzh.ifi.seal.monolith2microservices.services.decomposition.contributors.ContributorCouplingDecompositionService;
-import ch.uzh.ifi.seal.monolith2microservices.services.decomposition.semanticcoupling.SemanticCouplingDecompositionService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.Configuration;
@@ -14,9 +13,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+
 import ch.uzh.ifi.seal.monolith2microservices.dtos.RepositoryDTO;
 import ch.uzh.ifi.seal.monolith2microservices.models.git.GitRepository;
 import ch.uzh.ifi.seal.monolith2microservices.models.persistence.RepositoryRepository;
+import ch.uzh.ifi.seal.monolith2microservices.services.decomposition.contributors.ContributorCouplingDecompositionService;
+import ch.uzh.ifi.seal.monolith2microservices.services.decomposition.semanticcoupling.SemanticCouplingDecompositionService;
 import ch.uzh.ifi.seal.monolith2microservices.services.decomposition.logicalcoupling.LogicalCouplingDecompositionService;
 import ch.uzh.ifi.seal.monolith2microservices.services.git.GitCloneService;
 

@@ -3,6 +3,7 @@ package ch.uzh.ifi.seal.monolith2microservices.services.decomposition.semanticco
 import ch.uzh.ifi.seal.monolith2microservices.main.utils.Percentile;
 import ch.uzh.ifi.seal.monolith2microservices.models.couplings.SemanticCoupling;
 import ch.uzh.ifi.seal.monolith2microservices.models.graph.ClassNode;
+import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.List;
@@ -12,6 +13,7 @@ import java.util.stream.Collectors;
 /**
  * Created by gmazlami on 12/5/16.
  */
+@Service
 public class SemanticCouplingToNodeMapper {
 
     public List<ClassNode> mapToGraph(List<SemanticCoupling> couplings){

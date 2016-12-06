@@ -7,10 +7,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.scheduling.annotation.Async;
+import org.springframework.stereotype.Service;
 
 /**
  * Created by gmazlami on 12/6/16.
  */
+@Service
 public class SemanticCouplingDecompositionService {
 
     private static final Logger logger = LoggerFactory.getLogger(SemanticCouplingDecompositionService.class);

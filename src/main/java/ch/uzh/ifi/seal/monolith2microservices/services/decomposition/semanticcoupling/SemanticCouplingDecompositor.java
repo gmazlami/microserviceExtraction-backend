@@ -28,8 +28,6 @@ public class SemanticCouplingDecompositor implements Decompositor {
 
     private static final Logger logger = LoggerFactory.getLogger(SemanticCouplingDecompositor.class);
 
-
-
     @Autowired
     SemanticCouplingEngine semanticCouplingEngine;
 
