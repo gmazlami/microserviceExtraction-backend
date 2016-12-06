@@ -1,4 +1,4 @@
-package ch.uzh.ifi.seal.monolith2microservices.services.decomposition.semanticcoupling;
+package ch.uzh.ifi.seal.monolith2microservices.services.decomposition.semanticcoupling.classprocessing;
 
 import ch.uzh.ifi.seal.monolith2microservices.main.utils.Configs;
 import ch.uzh.ifi.seal.monolith2microservices.models.ClassContent;

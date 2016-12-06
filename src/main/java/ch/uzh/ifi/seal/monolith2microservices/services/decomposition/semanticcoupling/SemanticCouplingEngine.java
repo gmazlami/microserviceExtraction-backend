@@ -4,6 +4,8 @@ import ch.uzh.ifi.seal.monolith2microservices.main.utils.Configs;
 import ch.uzh.ifi.seal.monolith2microservices.models.ClassContent;
 import ch.uzh.ifi.seal.monolith2microservices.models.couplings.SemanticCoupling;
 import ch.uzh.ifi.seal.monolith2microservices.models.git.GitRepository;
+import ch.uzh.ifi.seal.monolith2microservices.services.decomposition.semanticcoupling.classprocessing.ClassContentVisitor;
+import ch.uzh.ifi.seal.monolith2microservices.services.decomposition.semanticcoupling.tfidf.TfIdfWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

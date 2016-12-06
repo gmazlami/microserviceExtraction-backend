@@ -16,12 +16,14 @@ import ch.uzh.ifi.seal.monolith2microservices.services.reporting.TextFileReport;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 /**
  * Created by gmazlami on 11/30/16.
  */
+@Service
 public class SemanticCouplingDecompositor implements Decompositor {
 
     private static final Logger logger = LoggerFactory.getLogger(SemanticCouplingDecompositor.class);
@@ -52,7 +54,7 @@ public class SemanticCouplingDecompositor implements Decompositor {
             logger.info("Successfully computed nodes!");
 
             logger.info("Computing microservices...");
-            List<Microservice> microservices = graphToMicroserviceMapper.mapToMicroservices(null);
+            List<Microservice> microservices = graphToMicroserviceMapper.mapToMicroservices(nodes);
             logger.info("Computed the following microservices: ");
             microservices.forEach(m -> logger.info(m.toString()));
 

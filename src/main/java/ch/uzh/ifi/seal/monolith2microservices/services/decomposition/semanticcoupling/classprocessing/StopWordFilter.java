@@ -1,4 +1,4 @@
-package ch.uzh.ifi.seal.monolith2microservices.services.decomposition.semanticcoupling;
+package ch.uzh.ifi.seal.monolith2microservices.services.decomposition.semanticcoupling.classprocessing;
 
 import java.util.ArrayList;
 import java.util.List;

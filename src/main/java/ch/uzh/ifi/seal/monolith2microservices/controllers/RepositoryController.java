@@ -1,6 +1,7 @@
 package ch.uzh.ifi.seal.monolith2microservices.controllers;
 
 import ch.uzh.ifi.seal.monolith2microservices.services.decomposition.contributors.ContributorCouplingDecompositionService;
+import ch.uzh.ifi.seal.monolith2microservices.services.decomposition.semanticcoupling.SemanticCouplingDecompositionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.Configuration;
@@ -38,6 +39,9 @@ public class RepositoryController {
     @Autowired
     private ContributorCouplingDecompositionService contributorCouplingDecompositionService;
 
+	@Autowired
+	private SemanticCouplingDecompositionService semanticCouplingDecompositionService;
+
     @RequestMapping(value="/repositories", method=RequestMethod.POST)
     public GitRepository addRepository(@RequestBody RepositoryDTO repo) throws Exception{
     	
@@ -62,6 +66,13 @@ public class RepositoryController {
 	public ResponseEntity<String> contributorCouplingDecomposition(@PathVariable Long repoId){
 		GitRepository repo = repository.findById(repoId);
 		contributorCouplingDecompositionService.process(repo);
+		return new ResponseEntity<String>("OK", HttpStatus.OK);
+	}
+
+	@RequestMapping(value="/repositories/{repoId}/decompose/semanticCoupling", method=RequestMethod.PUT)
+	public ResponseEntity<String> semanticCouplingDecomposition(@PathVariable Long repoId){
+		GitRepository repo = repository.findById(repoId);
+		semanticCouplingDecompositionService.process(repo);
 		return new ResponseEntity<String>("OK", HttpStatus.OK);
 	}
     

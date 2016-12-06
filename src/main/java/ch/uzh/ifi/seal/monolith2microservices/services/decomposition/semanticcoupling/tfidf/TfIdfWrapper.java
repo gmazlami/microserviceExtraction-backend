@@ -1,4 +1,4 @@
-package ch.uzh.ifi.seal.monolith2microservices.services.decomposition.semanticcoupling;
+package ch.uzh.ifi.seal.monolith2microservices.services.decomposition.semanticcoupling.tfidf;
 
 import ch.uzh.ifi.seal.monolith2microservices.services.decomposition.semanticcoupling.tfidf.NgramTfIdf;
 import ch.uzh.ifi.seal.monolith2microservices.services.decomposition.semanticcoupling.tfidf.TfIdf;
