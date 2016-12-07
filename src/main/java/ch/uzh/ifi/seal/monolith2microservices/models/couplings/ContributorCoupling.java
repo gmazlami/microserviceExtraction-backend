@@ -56,4 +56,13 @@ public class ContributorCoupling {
     public void setScore(int score) {
         this.score = score;
     }
+
+    @Override
+    public String toString() {
+        return "ContributorCoupling{" +
+                "firstFileName='" + firstFileName + '\'' +
+                ", secondFileName='" + secondFileName + '\'' +
+                ", score=" + score +
+                '}';
+    }
 }
