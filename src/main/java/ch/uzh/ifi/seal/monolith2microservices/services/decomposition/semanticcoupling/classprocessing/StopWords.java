@@ -21,12 +21,15 @@ public class StopWords {
 			"else", "elsif", "END", "end", "ensure",
 			"false", "for","if","module","next", "nil", "not", "or",
 			"redo", "rescue", "retry", "return","self", "super", "then", "true",
-			"undef", "unless", "until","when", "while", "yield");
+			"undef", "unless", "until","when", "while", "yield", "controller");
 
 
 	public static final List<String> PYTHON_KEYWORDS = Arrays.asList("and", "as", "assert", "break", "class", "continue", "def", "del",
 			"elif", "else", "except", "exec", "finally", "for", "from", "global", "if", "import",
 			"in", "is", "lambda", "not", "or", "pass", "print", "raise", "return", "try", "while",
-			"with", "yield");
+			"with", "yield", "django", "get", "args", "kwargs", "self", "super", "template", "fields",
+			"None", "model", "template", "form", "True", "False", "dist", "nbsp;");
 
+	public static final List<Character> SPECIAL_SYMBOLS = Arrays.asList('_','-','#','/','\\','[',']','{','}',
+			'=','.',',','\'','<','>','%','&','|','"','?','(',')','*','+','~','^','$',':','@','`','!');
 }

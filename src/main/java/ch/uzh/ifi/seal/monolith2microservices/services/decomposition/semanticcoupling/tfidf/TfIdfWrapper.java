@@ -1,7 +1,5 @@
 package ch.uzh.ifi.seal.monolith2microservices.services.decomposition.semanticcoupling.tfidf;
 
-import ch.uzh.ifi.seal.monolith2microservices.services.decomposition.semanticcoupling.tfidf.NgramTfIdf;
-import ch.uzh.ifi.seal.monolith2microservices.services.decomposition.semanticcoupling.tfidf.TfIdf;
 import com.google.common.collect.Lists;
 
 import java.util.ArrayList;
@@ -52,6 +50,7 @@ public class TfIdfWrapper {
             }
 
         }
+
         return vector;
     }
 
@@ -78,6 +77,7 @@ public class TfIdfWrapper {
             numerator += (vector1.get(i) * vector2.get(i));
         }
 
+
         double factor1 = 0.0d;
         for(double element : vector1){
             factor1 += Math.pow(element,2);
@@ -88,6 +88,19 @@ public class TfIdfWrapper {
             factor2 += Math.pow(element,2);
         }
 
-        return numerator / (Math.sqrt(factor1) * Math.sqrt(factor2));
+        double denominator = Math.sqrt(factor1) * Math.sqrt(factor2);
+
+        if (denominator == 0 && numerator!= 0){
+
+        }
+        Double val = numerator / denominator;
+
+        if (val.isNaN()){
+            val = 0d;
+        }
+
+        
+
+        return val;
     }
 }

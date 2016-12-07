@@ -18,12 +18,14 @@ public class SemanticCouplingToNodeMapper {
 
     public List<ClassNode> mapToGraph(List<SemanticCoupling> couplings){
 
-        double lowerBound = Percentile.fromSemanticCouplings(couplings).getDouble(0.7f);
+        //double lowerBound = Percentile.fromSemanticCouplings(couplings).getDouble(0.9f);
+
+        double lowerBound = 0.5d;
 
         Map<String,ClassNode> nodeMap = new HashMap<>();
 
         for(SemanticCoupling coupling: couplings){
-
+            //System.out.println("Similarity: " + coupling.getSimilarity());
             if(coupling.getSimilarity() > lowerBound){
                 String firstFileName = coupling.getFirstClassFileName();
                 String secondFileName = coupling.getSecondClassFileName();

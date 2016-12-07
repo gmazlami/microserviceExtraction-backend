@@ -17,7 +17,7 @@ import java.util.List;
  */
 public class ClassContentVisitor extends SimpleFileVisitor<Path> {
 
-    // Define a matcher that only matches on .java files
+    // Define a matcher that only matches on .java, .rb. and .py files
     private PathMatcher matcher = FileSystems.getDefault().getPathMatcher("glob:*.{java,py,rb}");
 
     private List<ClassContent> classes;
@@ -66,12 +66,19 @@ public class ClassContentVisitor extends SimpleFileVisitor<Path> {
 
     private List<String> filter(String rawFileContent){
 
+        //remove all special symbols
+        for(char specialCharacter : StopWords.SPECIAL_SYMBOLS){
+            rawFileContent = rawFileContent.replace(specialCharacter,' ');
+        }
+
         List<String> filteredContent = new ArrayList<>();
 
+        //tokenize
         String[] tokens = rawFileContent.split("\\s+");
 
+        //filter out reserved keywords for programming languages
         for(String token: tokens){
-            if(!StopWords.JAVA_KEYWORDS.contains(token) && !StopWords.RUBY_KEYWORDS.contains(token) && !StopWords.PYTHON_KEYWORDS.contains(token)){
+            if(!StopWords.JAVA_KEYWORDS.contains(token) && !StopWords.RUBY_KEYWORDS.contains(token) && !StopWords.PYTHON_KEYWORDS.contains(token) && (token.length() > 1)){
                 filteredContent.add(token);
             }
         }
