@@ -1,12 +1,13 @@
 package ch.uzh.ifi.seal.monolith2microservices.dtos;
 
+import com.google.common.collect.Iterables;
+
+import java.util.Arrays;
+
 public class RepositoryDTO {
 
 	private String uri;
-	
-	private String name;
-	
-	
+
 	public String getUri(){
 		return this.uri;
 	}
@@ -16,16 +17,12 @@ public class RepositoryDTO {
 	}
 	
 	public String getName(){
-		return this.name;
-	}
-	
-	public void setName(String name){
-		this.name = name;
+		return Iterables.getLast(Arrays.asList(this.uri.split("/"))).split("\\.git")[0];
 	}
 
 	@Override
 	public String toString() {
-		return "RepositoryDTO [uri=" + uri + ", name=" + name + "]";
+		return "RepositoryDTO [uri=" + uri + ", name=" + getName() + "]";
 	}
 	
 	
