@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @Configuration
 @EnableAutoConfiguration
 @RestController
@@ -39,5 +41,10 @@ public class RepositoryController {
     	
     	return saved;	
     }
+
+	@RequestMapping(value="/repositories", method=RequestMethod.GET)
+	public List<GitRepository> listRepositories() throws Exception{
+		return repository.findAll();
+	}
     
 }
