@@ -26,11 +26,11 @@ public class SemanticCouplingToNodeMapper {
 
         for(SemanticCoupling coupling: couplings){
             //System.out.println("Similarity: " + coupling.getSimilarity());
-            if(coupling.getSimilarity() > lowerBound){
-                String firstFileName = coupling.getFirstClassFileName();
-                String secondFileName = coupling.getSecondClassFileName();
+            if(coupling.getScore() > lowerBound){
+                String firstFileName = coupling.getFirstFileName();
+                String secondFileName = coupling.getSecondFileName();
 
-                double score = coupling.getSimilarity();
+                double score = coupling.getScore();
 
                 ClassNode firstNode, secondNode;
 

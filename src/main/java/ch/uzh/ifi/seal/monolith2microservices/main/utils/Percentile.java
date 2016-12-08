@@ -31,7 +31,7 @@ public class Percentile {
 	public static Percentile fromSemanticCouplings(List<SemanticCoupling> couplings){
 		List<Double> vals = new ArrayList<>();
 		couplings.forEach(c ->{
-			vals.add(c.getSimilarity());
+			vals.add(c.getScore());
 		});
 		return new Percentile(true,vals);
 	}

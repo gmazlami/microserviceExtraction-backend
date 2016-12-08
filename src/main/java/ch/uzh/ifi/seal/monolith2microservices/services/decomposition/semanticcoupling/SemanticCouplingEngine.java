@@ -40,10 +40,7 @@ public class SemanticCouplingEngine {
         for(ClassContent current: classes){
             for(ClassContent other: classes){
                 if (!current.getFilePath().equals(other.getFilePath())) {
-                    SemanticCoupling coupling = new SemanticCoupling();
-                    coupling.setFirstClassFileName(current.getFilePath());
-                    coupling.setSecondClassFileName(other.getFilePath());
-                    coupling.setSimilarity(TfIdfWrapper.computeSimilarity(current.getTokenizedContent(), other.getTokenizedContent()));
+                    SemanticCoupling coupling = new SemanticCoupling(current.getFilePath(),other.getFilePath(),TfIdfWrapper.computeSimilarity(current.getTokenizedContent(), other.getTokenizedContent()));
                     couplings.add(coupling);
                 }
             }
