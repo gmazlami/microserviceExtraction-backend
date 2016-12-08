@@ -9,10 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -22,13 +19,13 @@ import java.util.List;
 @Component
 public class RepositoryController {
 	
-
 	@Autowired
 	private RepositoryRepository repository;
 	
 	@Autowired
 	private GitCloneService gitCloneService;
 
+	@CrossOrigin
     @RequestMapping(value="/repositories", method=RequestMethod.POST)
     public GitRepository addRepository(@RequestBody RepositoryDTO repo) throws Exception{
     	
@@ -42,6 +39,7 @@ public class RepositoryController {
     	return saved;	
     }
 
+	@CrossOrigin
 	@RequestMapping(value="/repositories", method=RequestMethod.GET)
 	public List<GitRepository> listRepositories() throws Exception{
 		return repository.findAll();

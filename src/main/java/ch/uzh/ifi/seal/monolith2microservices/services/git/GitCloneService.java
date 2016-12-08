@@ -23,7 +23,6 @@ public class GitCloneService {
 	@Autowired
 	private Configs config;
 	
-    @Async
     public void processRepository(GitRepository repo) throws Exception{
     	logger.info("Cloning repository "+ repo.getRemotePath() +" ...");
     	final String localRepoPath = config.localRepositoryDirectory + FILESYSTEM_DELIMITER + repo.getName() + ID_NAME_DELIMITER + repo.getId();
