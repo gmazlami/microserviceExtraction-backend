@@ -22,12 +22,11 @@ public class Percentile {
     }
 
     public static Percentile fromContributorCouplings(List<ContributorCoupling> couplings){
-		List<Integer> vals = new ArrayList<>();
+		List<Double> vals = new ArrayList<>();
 		couplings.forEach(c ->{
 			vals.add(c.getScore());
 		});
-		return new Percentile(vals);
-	}
+		return new Percentile(true,vals);	}
 
 	public static Percentile fromSemanticCouplings(List<SemanticCoupling> couplings){
 		List<Double> vals = new ArrayList<>();

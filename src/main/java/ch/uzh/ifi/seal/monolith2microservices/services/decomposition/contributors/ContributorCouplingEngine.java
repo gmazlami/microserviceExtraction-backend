@@ -34,13 +34,9 @@ public class ContributorCouplingEngine {
 				List<String> secondFileAuthors = fileAuthorMap.get(secondFileName);
 				int similarity = computeAuthorSimilarity(currentFileAuthors, secondFileAuthors);
 
-				ContributorCoupling coupling = new ContributorCoupling();
-				coupling.setFirstFileName(currentFileName);
+				ContributorCoupling coupling = new ContributorCoupling(currentFileName, secondFileName, similarity);
 				coupling.setFirstFileAuthors(currentFileAuthors);
-				coupling.setSecondFileName(secondFileName);
 				coupling.setSecondFileAuthors(secondFileAuthors);
-				coupling.setScore(similarity);
-
                 couplings.add(coupling);
 			}
 

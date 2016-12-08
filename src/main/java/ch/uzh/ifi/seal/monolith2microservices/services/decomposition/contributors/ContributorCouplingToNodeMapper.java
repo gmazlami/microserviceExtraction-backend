@@ -19,7 +19,7 @@ public class ContributorCouplingToNodeMapper {
 
     public List<ClassNode> mapToGraph(List<ContributorCoupling> couplings){
 
-        int lowerBound = Percentile.fromContributorCouplings(couplings).get(0.99f);
+        double lowerBound = Percentile.fromContributorCouplings(couplings).getDouble(0.99f);
 
         Map<String,ClassNode> nodeMap = new HashMap<>();
 
@@ -29,7 +29,7 @@ public class ContributorCouplingToNodeMapper {
                 String firstFileName = coupling.getFirstFileName();
                 String secondFileName = coupling.getSecondFileName();
 
-                int score = coupling.getScore();
+                double score = coupling.getScore();
 
                 ClassNode firstNode, secondNode;
 

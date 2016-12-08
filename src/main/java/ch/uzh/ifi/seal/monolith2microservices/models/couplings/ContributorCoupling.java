@@ -5,32 +5,15 @@ import java.util.List;
 /**
  * Created by gmazlami on 11/21/16.
  */
-public class ContributorCoupling {
-
-    private String firstFileName;
-
-    private String secondFileName;
+public class ContributorCoupling extends BaseCoupling{
 
     private List<String> firstFileAuthors;
 
     private List<String> secondFileAuthors;
 
-    private int score;
 
-    public String getFirstFileName() {
-        return firstFileName;
-    }
-
-    public void setFirstFileName(String firstFileName) {
-        this.firstFileName = firstFileName;
-    }
-
-    public String getSecondFileName() {
-        return secondFileName;
-    }
-
-    public void setSecondFileName(String secondFileName) {
-        this.secondFileName = secondFileName;
+    public ContributorCoupling(String firstFileName, String secondFileName, double score) {
+        super(firstFileName, secondFileName, score);
     }
 
     public List<String> getFirstFileAuthors() {
@@ -47,14 +30,6 @@ public class ContributorCoupling {
 
     public void setSecondFileAuthors(List<String> secondFileAuthors) {
         this.secondFileAuthors = secondFileAuthors;
-    }
-
-    public int getScore() {
-        return score;
-    }
-
-    public void setScore(int score) {
-        this.score = score;
     }
 
     @Override
