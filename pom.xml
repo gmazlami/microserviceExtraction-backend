@@ -76,6 +76,13 @@
 			<artifactId>guava</artifactId>
 			<version>20.0</version>
 		</dependency>
+		<dependency>
+			<groupId>org.jgrapht</groupId>
+			<artifactId>jgrapht</artifactId>
+			<version>1.0</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/jgrapht-core-1.0.0.jar</systemPath>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -83,11 +90,6 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
-				<configuration>
-					<jvmarguments>
-						-Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5005
-					</jvmarguments>
-				</configuration>
 			</plugin>
 		</plugins>
 
