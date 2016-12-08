@@ -14,11 +14,11 @@ public class Percentile {
 	private List<Double> doubleVals;
 
 	public static Percentile fromLogicalCouplings(List<LogicalCoupling> couplings){
-        List<Integer> vals = new ArrayList<>();
-        couplings.forEach(c -> {
-            vals.add(c.getScore());
-        });
-        return new Percentile(vals);
+		List<Double> vals = new ArrayList<>();
+		couplings.forEach(c ->{
+			vals.add(c.getScore());
+		});
+		return new Percentile(true,vals);
     }
 
     public static Percentile fromContributorCouplings(List<ContributorCoupling> couplings){

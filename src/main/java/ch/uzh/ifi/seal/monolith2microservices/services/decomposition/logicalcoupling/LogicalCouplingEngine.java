@@ -125,15 +125,11 @@ public class LogicalCouplingEngine {
 			return existingCoupling;
 		}else{
 			// if the coupling is a new one (new file combination that changed together), we have to create it
-			LogicalCoupling newCoupling = new LogicalCoupling();
+			LogicalCoupling newCoupling = new LogicalCoupling(fileList.get(0),fileList.get(1),1);
 			newCoupling.setHash(hash);
-			newCoupling.setScore(1);
 			newCoupling.setStartTimestamp(t_start);
 			newCoupling.setEndTimestamp(t_end);
-			
-			for(String fileName : fileList){
-				newCoupling.addClass(fileName);
-			}
+
 			return newCoupling;
 		}
 	}

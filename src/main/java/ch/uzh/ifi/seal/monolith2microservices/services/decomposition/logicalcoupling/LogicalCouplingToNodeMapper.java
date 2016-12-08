@@ -1,15 +1,14 @@
 package ch.uzh.ifi.seal.monolith2microservices.services.decomposition.logicalcoupling;
 
+import ch.uzh.ifi.seal.monolith2microservices.main.utils.Percentile;
+import ch.uzh.ifi.seal.monolith2microservices.models.couplings.LogicalCoupling;
+import ch.uzh.ifi.seal.monolith2microservices.models.graph.ClassNode;
+import org.springframework.stereotype.Service;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-
-import ch.uzh.ifi.seal.monolith2microservices.models.graph.ClassNode;
-import org.springframework.stereotype.Service;
-
-import ch.uzh.ifi.seal.monolith2microservices.main.utils.Percentile;
-import ch.uzh.ifi.seal.monolith2microservices.models.couplings.LogicalCoupling;
 
 @Service
 public class LogicalCouplingToNodeMapper {
@@ -18,32 +17,30 @@ public class LogicalCouplingToNodeMapper {
 	
 	public List<ClassNode> mapToGraph(List<LogicalCoupling> couplings){
 		nodeMap = new HashMap<>();
-		int lowerBound = Percentile.fromLogicalCouplings(couplings).get(0.8f);
+		double lowerBound = Percentile.fromLogicalCouplings(couplings).getDouble(0.8f);
 		
 		for(LogicalCoupling coupling: couplings){
-			if((coupling.getClassFiles().size() == 2) && (coupling.getScore() > lowerBound)){
-				String firstClassName = coupling.getClassFiles().get(0);
-				String secondClassName = coupling.getClassFiles().get(1);
-				
-				ClassNode firstNode = nodeMap.get(firstClassName); 
-				ClassNode secondNode = nodeMap.get(secondClassName);
+			if(coupling.getScore() > lowerBound){
+
+				ClassNode firstNode = nodeMap.get(coupling.getFirstFileName());
+				ClassNode secondNode = nodeMap.get(coupling.getSecondFileName());
 
 				if((firstNode == null) && (secondNode == null)){
 					
-					firstNode = new ClassNode(firstClassName);
-					secondNode = new ClassNode(secondClassName);
-					nodeMap.put(firstClassName, firstNode);
-					nodeMap.put(secondClassName, secondNode);
+					firstNode = new ClassNode(coupling.getFirstFileName());
+					secondNode = new ClassNode(coupling.getSecondFileName());
+					nodeMap.put(coupling.getFirstFileName(), firstNode);
+					nodeMap.put(coupling.getSecondFileName(), secondNode);
 					
 				}else if((firstNode != null) && (secondNode == null)){
 					
-					secondNode = new ClassNode(secondClassName);
-					nodeMap.put(secondClassName, secondNode);
+					secondNode = new ClassNode(coupling.getSecondFileName());
+					nodeMap.put(coupling.getSecondFileName(), secondNode);
 					
 				}else if((firstNode == null) && (secondNode != null)){
 					
-					firstNode = new ClassNode(firstClassName);
-					nodeMap.put(firstClassName, firstNode);
+					firstNode = new ClassNode(coupling.getFirstFileName());
+					nodeMap.put(coupling.getFirstFileName(), firstNode);
 					
 				}
 
@@ -54,4 +51,5 @@ public class LogicalCouplingToNodeMapper {
 		
 		return nodeMap.values().stream().collect(Collectors.toList());
 	}
+
 }
