@@ -37,26 +37,26 @@ public class LogicalCouplingDecompositor implements Decompositor {
 	@Override
 	public void decompose(GitRepository repo) {
 		try{
-			logger.info("Computing history...");
-			List<ChangeEvent> changeHistory = historyService.computeChangeEvents(repo);
-			logger.info("Successfully computed history!");
-
-			logger.info("Computing logical couplings...");
-			List<LogicalCoupling> couplings = logicalCouplingEngine.computeCouplings(changeHistory, 3600);
-			logger.info("Successfully computed logical couplings!");
-			
-			logger.info("Computing nodes...");
-			List<ClassNode> nodes = nodeMapper.mapToGraph(couplings); 
-			logger.info("Successfully computed nodes!");
-			
-			logger.info("Computing microservices...");
-			List<Microservice> microservices = graphToMicroserviceMapper.mapToMicroservices(nodes);
-			logger.info("Computed the following microservices: ");
-			microservices.forEach(m -> logger.info(m.toString()));
-			
-			logger.info("Generating text report...");
-			TextFileReport.generate(repo, microservices);
-			logger.info("Finished.");
+//			logger.info("Computing history...");
+//			List<ChangeEvent> changeHistory = historyService.computeChangeEvents(repo);
+//			logger.info("Successfully computed history!");
+//
+//			logger.info("Computing logical couplings...");
+//			List<LogicalCoupling> couplings = logicalCouplingEngine.computeCouplings(changeHistory, 3600);
+//			logger.info("Successfully computed logical couplings!");
+//
+//			logger.info("Computing nodes...");
+//			List<ClassNode> nodes = nodeMapper.mapToGraph(couplings);
+//			logger.info("Successfully computed nodes!");
+//
+//			logger.info("Computing microservices...");
+//			List<Microservice> microservices = graphToMicroserviceMapper.mapToMicroservices(nodes);
+//			logger.info("Computed the following microservices: ");
+//			microservices.forEach(m -> logger.info(m.toString()));
+//
+//			logger.info("Generating text report...");
+//			TextFileReport.generate(repo, microservices);
+//			logger.info("Finished.");
 			
 		}catch(Exception e){
 			e.printStackTrace();

@@ -2,7 +2,6 @@ package ch.uzh.ifi.seal.monolith2microservices.services.graph;
 
 import ch.uzh.ifi.seal.monolith2microservices.models.couplings.BaseCoupling;
 import org.jgrapht.alg.KruskalMinimumSpanningTree;
-import org.jgrapht.graph.DefaultWeightedEdge;
 import org.jgrapht.graph.SimpleWeightedGraph;
 
 import java.util.List;
@@ -15,7 +14,7 @@ import java.util.Set;
 @SuppressWarnings("unchecked")
 public class MinimumSpanningTree {
 
-    public static Set<DefaultWeightedEdge> of(List<BaseCoupling> couplings){
+    public static Set<WeightedEdge> of(List<BaseCoupling> couplings){
         return new MinimumSpanningTree().computeMST(couplings);
     }
 
@@ -25,19 +24,24 @@ public class MinimumSpanningTree {
     }
 
 
-    private Set<DefaultWeightedEdge> computeMST(List<BaseCoupling> couplings){
-        KruskalMinimumSpanningTree<String, DefaultWeightedEdge> kruskal = new KruskalMinimumSpanningTree<>(createGraph(couplings));
-        return kruskal.getMinimumSpanningTreeEdgeSet();
+    private Set<WeightedEdge> computeMST(List<BaseCoupling> couplings){
+        KruskalMinimumSpanningTree<String, WeightedEdge> mst = new KruskalMinimumSpanningTree<>(createGraph(couplings));
+        return mst.getMinimumSpanningTreeEdgeSet();
     }
 
     private SimpleWeightedGraph createGraph(List<BaseCoupling> couplings){
-        SimpleWeightedGraph<String, DefaultWeightedEdge> graph = new SimpleWeightedGraph<>(DefaultWeightedEdge.class);
+        SimpleWeightedGraph<String, WeightedEdge> graph = new SimpleWeightedGraph<>(WeightedEdge.class);
 
         couplings.forEach(coupling -> {
             graph.addVertex(coupling.getFirstFileName());
             graph.addVertex(coupling.getSecondFileName());
-            DefaultWeightedEdge currentEdge = graph.addEdge(coupling.getFirstFileName(),coupling.getSecondFileName());
-            graph.setEdgeWeight(currentEdge, coupling.getScore());
+
+            WeightedEdge currentEdge = new WeightedEdge();
+            currentEdge.setScore(1/coupling.getScore());
+            graph.addEdge(coupling.getFirstFileName(), coupling.getSecondFileName(),currentEdge);
+
+            //Add the score inversed (1/score) so that high score means close distance between vertices
+            graph.setEdgeWeight(currentEdge, (1/coupling.getScore()));
         });
 
         return graph;
