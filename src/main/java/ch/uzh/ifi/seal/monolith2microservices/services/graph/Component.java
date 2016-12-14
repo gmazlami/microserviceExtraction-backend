@@ -39,7 +39,6 @@ public class Component {
     @Override
     public String toString() {
         return "Component{" +
-                "nodes=" + nodes +
-                '}';
+                "nodes=" + nodes.stream().map(n -> " , " + n.getId()).reduce("", String::concat) + '}';
     }
 }

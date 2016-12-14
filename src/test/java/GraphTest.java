@@ -77,7 +77,8 @@ public class GraphTest {
 
     @Test
     public void testClustering(){
+        List<Component> connectedComponents = MSTGraphClusterer.clusterConnectedComponents(MinimumSpanningTree.of(couplings));
+        assertEquals(3,connectedComponents.size());
 
-        List<WeightedEdge> clusters = MSTGraphClusterer.cluster(MinimumSpanningTree.of(couplings));
     }
 }

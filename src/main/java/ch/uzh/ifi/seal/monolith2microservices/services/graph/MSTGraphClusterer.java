@@ -22,6 +22,10 @@ public class MSTGraphClusterer {
         return new MSTGraphClusterer().computeClusters(edges);
     }
 
+    public static List<Component> clusterConnectedComponents(Set<WeightedEdge> edges){
+        return ConnectedComponents.connectedComponents(new MSTGraphClusterer().computeClusters(edges));
+    }
+
 
 
     private List<WeightedEdge> computeClusters(Set<WeightedEdge> edges){

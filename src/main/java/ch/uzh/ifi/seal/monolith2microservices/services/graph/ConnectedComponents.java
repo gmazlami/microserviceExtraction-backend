@@ -74,6 +74,7 @@ public class ConnectedComponents {
         List<Component> components = new ArrayList<>();
         for(ClassNode node : nodes){
             if(!node.isVisited()){
+                node.setVisited(true);
                 Component c = new Component();
                 c.setVisited(true);
                 c.addNode(node);

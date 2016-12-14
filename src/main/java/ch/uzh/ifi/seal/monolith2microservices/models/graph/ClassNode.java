@@ -52,7 +52,7 @@ public class ClassNode {
 
 	@Override
 	public String toString() {
-		return "ClassNode [id=" + id + ", visited=" + visited + ", neighbors=" + neighbors + "]";
+		return "ClassNode [id=" + id + ", neighbors=" + neighbors + "]";
 	}	
 	
 	
