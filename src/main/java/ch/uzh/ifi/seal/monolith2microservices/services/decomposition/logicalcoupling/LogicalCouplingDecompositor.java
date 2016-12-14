@@ -4,7 +4,6 @@ import ch.uzh.ifi.seal.monolith2microservices.models.couplings.LogicalCoupling;
 import ch.uzh.ifi.seal.monolith2microservices.models.git.ChangeEvent;
 import ch.uzh.ifi.seal.monolith2microservices.models.git.GitRepository;
 import ch.uzh.ifi.seal.monolith2microservices.services.decomposition.Decompositor;
-import ch.uzh.ifi.seal.monolith2microservices.services.decomposition.GraphToMicroserviceMapper;
 import ch.uzh.ifi.seal.monolith2microservices.services.git.HistoryService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
