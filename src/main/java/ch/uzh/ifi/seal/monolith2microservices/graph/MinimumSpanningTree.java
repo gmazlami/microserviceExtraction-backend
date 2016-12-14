@@ -20,16 +20,16 @@ public final class MinimumSpanningTree {
         //empty on purpose
     }
 
-    public static Set<WeightedEdge> of(List<BaseCoupling> couplings){
+    public static Set<WeightedEdge> of(List<? extends BaseCoupling> couplings){
         return computeMST(couplings);
     }
 
-    private static Set<WeightedEdge> computeMST(List<BaseCoupling> couplings){
+    private static Set<WeightedEdge> computeMST(List<? extends BaseCoupling> couplings){
         KruskalMinimumSpanningTree<String, WeightedEdge> mst = new KruskalMinimumSpanningTree<>(createGraph(couplings));
         return mst.getMinimumSpanningTreeEdgeSet();
     }
 
-    private static SimpleWeightedGraph createGraph(List<BaseCoupling> couplings){
+    private static SimpleWeightedGraph createGraph(List<? extends BaseCoupling> couplings){
         SimpleWeightedGraph<String, WeightedEdge> graph = new SimpleWeightedGraph<>(WeightedEdge.class);
 
         couplings.forEach(coupling -> {

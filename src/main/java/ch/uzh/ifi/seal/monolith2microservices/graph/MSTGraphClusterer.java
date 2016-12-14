@@ -24,7 +24,7 @@ public final class MSTGraphClusterer {
         return computeClusters(edges);
     }
 
-    public static List<Component> clusterFromCouplings(List<BaseCoupling> couplings){
+    public static List<Component> clusterFromCouplings(List<? extends BaseCoupling> couplings){
         return ConnectedComponents.connectedComponents(computeClusters(MinimumSpanningTree.of(couplings)));
     }
 
