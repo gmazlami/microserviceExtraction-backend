@@ -1,7 +1,8 @@
-package ch.uzh.ifi.seal.monolith2microservices.services.graph;
+package ch.uzh.ifi.seal.monolith2microservices.graph;
 
-import ch.uzh.ifi.seal.monolith2microservices.main.utils.WeightedEdgeComparator;
-import ch.uzh.ifi.seal.monolith2microservices.models.graph.Microservice;
+import ch.uzh.ifi.seal.monolith2microservices.utils.comparators.WeightedEdgeComparator;
+import ch.uzh.ifi.seal.monolith2microservices.models.graph.Component;
+import ch.uzh.ifi.seal.monolith2microservices.models.graph.WeightedEdge;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -12,23 +13,22 @@ import java.util.stream.Collectors;
 /**
  * Created by Genc on 08.12.2016.
  */
-public class MSTGraphClusterer {
+public final class MSTGraphClusterer {
 
     private MSTGraphClusterer(){
-        super();
+        //empty on purpose
     }
 
     public static List<WeightedEdge> cluster(Set<WeightedEdge> edges){
-        return new MSTGraphClusterer().computeClusters(edges);
+        return computeClusters(edges);
     }
 
     public static List<Component> clusterConnectedComponents(Set<WeightedEdge> edges){
-        return ConnectedComponents.connectedComponents(new MSTGraphClusterer().computeClusters(edges));
+        return ConnectedComponents.connectedComponents(computeClusters(edges));
     }
 
 
-
-    private List<WeightedEdge> computeClusters(Set<WeightedEdge> edges){
+    private static List<WeightedEdge> computeClusters(Set<WeightedEdge> edges){
         List<WeightedEdge> edgeList = edges.stream().collect(Collectors.toList());
         List<WeightedEdge> oldList = null;
 
@@ -62,6 +62,5 @@ public class MSTGraphClusterer {
 
         return edgeList;
     }
-
 
 }

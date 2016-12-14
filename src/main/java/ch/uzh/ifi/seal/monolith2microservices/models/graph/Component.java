@@ -1,4 +1,4 @@
-package ch.uzh.ifi.seal.monolith2microservices.services.graph;
+package ch.uzh.ifi.seal.monolith2microservices.models.graph;
 
 import ch.uzh.ifi.seal.monolith2microservices.models.git.Class;
 import ch.uzh.ifi.seal.monolith2microservices.models.graph.ClassNode;

@@ -1,8 +1,10 @@
-package ch.uzh.ifi.seal.monolith2microservices.services.graph;
+package ch.uzh.ifi.seal.monolith2microservices.graph;
 
 
 import ch.uzh.ifi.seal.monolith2microservices.models.graph.ClassNode;
+import ch.uzh.ifi.seal.monolith2microservices.models.graph.Component;
 import ch.uzh.ifi.seal.monolith2microservices.models.graph.NodeWeightPair;
+import ch.uzh.ifi.seal.monolith2microservices.models.graph.WeightedEdge;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,8 +16,12 @@ import java.util.stream.Collectors;
 /**
  * Created by Genc on 09.12.2016.
  */
-public class ConnectedComponents {
+public final class ConnectedComponents {
 
+
+    private ConnectedComponents(){
+        //empty on purpose
+    }
 
     public static List<Component> connectedComponents(List<WeightedEdge> edgeList){
         List<ClassNode> nodes = convertEdgeListToNodeList(edgeList);

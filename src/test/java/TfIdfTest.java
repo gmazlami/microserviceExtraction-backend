@@ -47,7 +47,6 @@ public class TfIdfTest {
         doc2.add("real");
         doc2.add("document");
 
-        System.out.println(TfIdfWrapper.computeSimilarity(doc1,doc2));
         assertEquals(1,1);
     }
 

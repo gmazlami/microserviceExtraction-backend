@@ -10,7 +10,7 @@ import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
 import java.util.List;
 
-import ch.uzh.ifi.seal.monolith2microservices.main.utils.Configs;
+import ch.uzh.ifi.seal.monolith2microservices.main.Configs;
 import ch.uzh.ifi.seal.monolith2microservices.models.git.Class;
 import ch.uzh.ifi.seal.monolith2microservices.models.git.GitRepository;
 

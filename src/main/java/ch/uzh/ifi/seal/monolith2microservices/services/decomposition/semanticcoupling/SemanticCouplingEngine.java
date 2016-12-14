@@ -1,6 +1,6 @@
 package ch.uzh.ifi.seal.monolith2microservices.services.decomposition.semanticcoupling;
 
-import ch.uzh.ifi.seal.monolith2microservices.main.utils.Configs;
+import ch.uzh.ifi.seal.monolith2microservices.main.Configs;
 import ch.uzh.ifi.seal.monolith2microservices.models.ClassContent;
 import ch.uzh.ifi.seal.monolith2microservices.models.couplings.SemanticCoupling;
 import ch.uzh.ifi.seal.monolith2microservices.models.git.GitRepository;

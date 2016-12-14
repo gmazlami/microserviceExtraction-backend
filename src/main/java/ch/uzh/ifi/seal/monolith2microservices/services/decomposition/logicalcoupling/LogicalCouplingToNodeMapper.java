@@ -1,6 +1,6 @@
 package ch.uzh.ifi.seal.monolith2microservices.services.decomposition.logicalcoupling;
 
-import ch.uzh.ifi.seal.monolith2microservices.main.utils.Percentile;
+import ch.uzh.ifi.seal.monolith2microservices.utils.Percentile;
 import ch.uzh.ifi.seal.monolith2microservices.models.couplings.LogicalCoupling;
 import ch.uzh.ifi.seal.monolith2microservices.models.graph.ClassNode;
 import org.springframework.stereotype.Service;

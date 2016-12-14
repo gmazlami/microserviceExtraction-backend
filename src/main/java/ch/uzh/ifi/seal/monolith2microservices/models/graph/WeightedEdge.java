@@ -1,4 +1,4 @@
-package ch.uzh.ifi.seal.monolith2microservices.services.graph;
+package ch.uzh.ifi.seal.monolith2microservices.models.graph;
 
 import org.jgrapht.graph.DefaultWeightedEdge;
 

@@ -1,7 +1,9 @@
-import ch.uzh.ifi.seal.monolith2microservices.main.utils.WeightedEdgeComparator;
+import ch.uzh.ifi.seal.monolith2microservices.utils.comparators.WeightedEdgeComparator;
 import ch.uzh.ifi.seal.monolith2microservices.models.couplings.BaseCoupling;
 import ch.uzh.ifi.seal.monolith2microservices.models.couplings.SemanticCoupling;
-import ch.uzh.ifi.seal.monolith2microservices.services.graph.*;
+import ch.uzh.ifi.seal.monolith2microservices.models.graph.Component;
+import ch.uzh.ifi.seal.monolith2microservices.models.graph.WeightedEdge;
+import ch.uzh.ifi.seal.monolith2microservices.graph.*;
 import org.junit.Before;
 import org.junit.Test;
 

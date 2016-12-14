@@ -1,4 +1,4 @@
-package ch.uzh.ifi.seal.monolith2microservices.main.utils;
+package ch.uzh.ifi.seal.monolith2microservices.utils.comparators;
 
 import java.util.Comparator;
 

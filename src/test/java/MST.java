@@ -1,7 +1,7 @@
 import ch.uzh.ifi.seal.monolith2microservices.models.couplings.BaseCoupling;
 import ch.uzh.ifi.seal.monolith2microservices.models.couplings.SemanticCoupling;
-import ch.uzh.ifi.seal.monolith2microservices.services.graph.MinimumSpanningTree;
-import ch.uzh.ifi.seal.monolith2microservices.services.graph.WeightedEdge;
+import ch.uzh.ifi.seal.monolith2microservices.graph.MinimumSpanningTree;
+import ch.uzh.ifi.seal.monolith2microservices.models.graph.WeightedEdge;
 import org.jgrapht.alg.KruskalMinimumSpanningTree;
 import org.jgrapht.graph.DefaultWeightedEdge;
 import org.jgrapht.graph.SimpleWeightedGraph;
@@ -64,8 +64,6 @@ public class MST {
 
         DefaultWeightedEdge e11 = myGraph.addEdge("d","g");
         myGraph.setEdgeWeight(e11, 10);
-        System.out.println("WEIGHT OF e11: " + myGraph.getEdgeWeight(e11));
-
         KruskalMinimumSpanningTree<String, DefaultWeightedEdge> minimumSpanningTree = new KruskalMinimumSpanningTree<>(myGraph);
 
         assert(minimumSpanningTree.getMinimumSpanningTreeEdgeSet().size() == 7d);
@@ -83,14 +81,8 @@ public class MST {
         couplingList.add(new SemanticCoupling("c", "e", 13.0));
         couplingList.add(new SemanticCoupling("e", "f", 2.0));
         couplingList.add(new SemanticCoupling("b", "e", 5.0));
-
         Set<WeightedEdge> edges = MinimumSpanningTree.of(couplingList);
-        edges.forEach(edge -> {
-            System.out.println(edge);
-        });
-
         assertEquals(1,1);
-
     }
 
 

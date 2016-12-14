@@ -1,6 +1,6 @@
 package ch.uzh.ifi.seal.monolith2microservices.services.decomposition.semanticcoupling.classprocessing;
 
-import ch.uzh.ifi.seal.monolith2microservices.main.utils.Configs;
+import ch.uzh.ifi.seal.monolith2microservices.main.Configs;
 import ch.uzh.ifi.seal.monolith2microservices.models.ClassContent;
 import ch.uzh.ifi.seal.monolith2microservices.models.git.GitRepository;
 
@@ -9,7 +9,6 @@ import java.io.IOException;
 import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**

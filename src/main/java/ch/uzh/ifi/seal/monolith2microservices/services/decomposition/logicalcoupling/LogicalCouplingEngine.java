@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 
-import ch.uzh.ifi.seal.monolith2microservices.main.utils.Hash;
+import ch.uzh.ifi.seal.monolith2microservices.utils.Hash;
 import ch.uzh.ifi.seal.monolith2microservices.models.git.ChangeEvent;
 import ch.uzh.ifi.seal.monolith2microservices.models.couplings.LogicalCoupling;
 

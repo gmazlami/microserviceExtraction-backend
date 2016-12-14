@@ -1,6 +1,7 @@
-package ch.uzh.ifi.seal.monolith2microservices.services.graph;
+package ch.uzh.ifi.seal.monolith2microservices.graph;
 
 import ch.uzh.ifi.seal.monolith2microservices.models.couplings.BaseCoupling;
+import ch.uzh.ifi.seal.monolith2microservices.models.graph.WeightedEdge;
 import org.jgrapht.alg.KruskalMinimumSpanningTree;
 import org.jgrapht.graph.SimpleWeightedGraph;
 
@@ -12,24 +13,23 @@ import java.util.Set;
  * Created by gmazlami on 12/8/16.
  */
 @SuppressWarnings("unchecked")
-public class MinimumSpanningTree {
-
-    public static Set<WeightedEdge> of(List<BaseCoupling> couplings){
-        return new MinimumSpanningTree().computeMST(couplings);
-    }
+public final class MinimumSpanningTree {
 
 
     private MinimumSpanningTree(){
-        super();
+        //empty on purpose
     }
 
+    public static Set<WeightedEdge> of(List<BaseCoupling> couplings){
+        return computeMST(couplings);
+    }
 
-    private Set<WeightedEdge> computeMST(List<BaseCoupling> couplings){
+    private static Set<WeightedEdge> computeMST(List<BaseCoupling> couplings){
         KruskalMinimumSpanningTree<String, WeightedEdge> mst = new KruskalMinimumSpanningTree<>(createGraph(couplings));
         return mst.getMinimumSpanningTreeEdgeSet();
     }
 
-    private SimpleWeightedGraph createGraph(List<BaseCoupling> couplings){
+    private static SimpleWeightedGraph createGraph(List<BaseCoupling> couplings){
         SimpleWeightedGraph<String, WeightedEdge> graph = new SimpleWeightedGraph<>(WeightedEdge.class);
 
         couplings.forEach(coupling -> {

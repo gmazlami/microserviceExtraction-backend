@@ -1,4 +1,4 @@
-package ch.uzh.ifi.seal.monolith2microservices.main.utils;
+package ch.uzh.ifi.seal.monolith2microservices.main;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;

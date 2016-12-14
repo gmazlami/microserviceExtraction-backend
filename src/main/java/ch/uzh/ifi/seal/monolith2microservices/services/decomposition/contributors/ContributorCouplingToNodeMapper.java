@@ -1,6 +1,6 @@
 package ch.uzh.ifi.seal.monolith2microservices.services.decomposition.contributors;
 
-import ch.uzh.ifi.seal.monolith2microservices.main.utils.Percentile;
+import ch.uzh.ifi.seal.monolith2microservices.utils.Percentile;
 import ch.uzh.ifi.seal.monolith2microservices.models.couplings.ContributorCoupling;
 import ch.uzh.ifi.seal.monolith2microservices.models.graph.ClassNode;
 import org.springframework.stereotype.Service;
