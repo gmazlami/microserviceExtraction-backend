@@ -1,5 +1,6 @@
 package ch.uzh.ifi.seal.monolith2microservices.graph;
 
+import ch.uzh.ifi.seal.monolith2microservices.models.couplings.BaseCoupling;
 import ch.uzh.ifi.seal.monolith2microservices.utils.comparators.WeightedEdgeComparator;
 import ch.uzh.ifi.seal.monolith2microservices.models.graph.Component;
 import ch.uzh.ifi.seal.monolith2microservices.models.graph.WeightedEdge;
@@ -21,6 +22,10 @@ public final class MSTGraphClusterer {
 
     public static List<WeightedEdge> cluster(Set<WeightedEdge> edges){
         return computeClusters(edges);
+    }
+
+    public static List<Component> clusterFromCouplings(List<BaseCoupling> couplings){
+        return ConnectedComponents.connectedComponents(computeClusters(MinimumSpanningTree.of(couplings)));
     }
 
     public static List<Component> clusterConnectedComponents(Set<WeightedEdge> edges){
