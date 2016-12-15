@@ -1,21 +1,18 @@
 package ch.uzh.ifi.seal.monolith2microservices.controllers;
 
+import ch.uzh.ifi.seal.monolith2microservices.dtos.DecompositionDTO;
 import ch.uzh.ifi.seal.monolith2microservices.models.git.GitRepository;
 import ch.uzh.ifi.seal.monolith2microservices.models.persistence.RepositoryRepository;
 import ch.uzh.ifi.seal.monolith2microservices.services.decomposition.contributors.ContributorCouplingDecompositionService;
 import ch.uzh.ifi.seal.monolith2microservices.services.decomposition.logicalcoupling.LogicalCouplingDecompositionService;
 import ch.uzh.ifi.seal.monolith2microservices.services.decomposition.semanticcoupling.SemanticCouplingDecompositionService;
-import ch.uzh.ifi.seal.monolith2microservices.services.git.GitCloneService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @Configuration
 @EnableAutoConfiguration
@@ -62,5 +59,14 @@ public class DecompositionController {
         semanticCouplingDecompositionService.process(repo);
         return new ResponseEntity<String>("OK", HttpStatus.OK);
     }
+
+    @CrossOrigin
+    @RequestMapping(value="/repositories/{repoId}/decomposition", method=RequestMethod.POST)
+    public ResponseEntity<String> decomposition(@PathVariable Long repoId, @RequestBody DecompositionDTO decompositionDTO){
+        System.out.println("--------------------- HERE! -----------------------------------");
+        System.out.println(decompositionDTO);
+        return new ResponseEntity<String>("OK", HttpStatus.OK);
+    }
+
 
 }

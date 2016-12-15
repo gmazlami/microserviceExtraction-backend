@@ -44,5 +44,11 @@ public class RepositoryController {
 	public List<GitRepository> listRepositories() throws Exception{
 		return repository.findAll();
 	}
+
+	@CrossOrigin
+	@RequestMapping(value="repositories/{repositoryId}", method=RequestMethod.GET)
+	public GitRepository getRepository(@PathVariable Long repositoryId){
+		return repository.findById(repositoryId);
+	}
     
 }
