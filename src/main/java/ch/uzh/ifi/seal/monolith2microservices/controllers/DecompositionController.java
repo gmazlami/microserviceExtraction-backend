@@ -63,8 +63,8 @@ public class DecompositionController {
     @CrossOrigin
     @RequestMapping(value="/repositories/{repoId}/decomposition", method=RequestMethod.POST)
     public ResponseEntity<String> decomposition(@PathVariable Long repoId, @RequestBody DecompositionDTO decompositionDTO){
-        System.out.println("--------------------- HERE! -----------------------------------");
-        System.out.println(decompositionDTO);
+
+
         return new ResponseEntity<String>("OK", HttpStatus.OK);
     }
 

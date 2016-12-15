@@ -6,6 +6,7 @@ import ch.uzh.ifi.seal.monolith2microservices.models.git.GitRepository;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.nio.charset.MalformedInputException;
 import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
@@ -33,17 +34,21 @@ public class ClassContentVisitor extends SimpleFileVisitor<Path> {
 
     @Override
     public FileVisitResult visitFile(Path path, BasicFileAttributes attrs) throws IOException {
-        Path name = path.getFileName();
+        try{
+            Path name = path.getFileName();
 
-        if(matcher.matches(name)){
-            BufferedReader reader = Files.newBufferedReader(path);
-            StringBuilder sb = new StringBuilder();
-            String currentLine;
-            while((currentLine = reader.readLine()) != null){
-                sb.append(currentLine);
+            if(matcher.matches(name)){
+                BufferedReader reader = Files.newBufferedReader(path);
+                StringBuilder sb = new StringBuilder();
+                String currentLine;
+                while((currentLine = reader.readLine()) != null){
+                    sb.append(currentLine);
+                }
+
+                this.classes.add(new ClassContent(getRelativeFileName(path.toUri().toString()),filter(sb.toString())));
             }
-
-            this.classes.add(new ClassContent(getRelativeFileName(path.toUri().toString()),filter(sb.toString())));
+        }catch(MalformedInputException mE){
+            System.out.println(path.getFileName());
         }
         return FileVisitResult.CONTINUE;
     }

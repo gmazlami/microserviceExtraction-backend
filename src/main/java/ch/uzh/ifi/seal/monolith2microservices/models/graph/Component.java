@@ -36,6 +36,10 @@ public class Component {
         return this.nodes;
     }
 
+    public int getSize() {
+        return this.nodes.size();
+    }
+
     @Override
     public String toString() {
         return "Component{" +

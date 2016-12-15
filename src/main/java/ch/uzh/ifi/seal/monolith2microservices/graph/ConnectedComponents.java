@@ -23,6 +23,10 @@ public final class ConnectedComponents {
         //empty on purpose
     }
 
+    public static List<Component> connectedComponentsFromNodes(List<ClassNode> nodes){
+        return performDfs(nodes);
+    }
+
     public static List<Component> connectedComponents(List<WeightedEdge> edgeList){
         List<ClassNode> nodes = convertEdgeListToNodeList(edgeList);
         return performDfs(nodes);
@@ -41,7 +45,7 @@ public final class ConnectedComponents {
         }
     };
 
-    private static List<ClassNode> convertEdgeListToNodeList(List<WeightedEdge> edgeList){
+    public static List<ClassNode> convertEdgeListToNodeList(List<WeightedEdge> edgeList){
 
         Map<String,ClassNode> nodeMap = new HashMap<>();
 

@@ -7,11 +7,13 @@ import java.nio.file.Paths;
 import java.util.List;
 
 import ch.uzh.ifi.seal.monolith2microservices.models.git.GitRepository;
+import ch.uzh.ifi.seal.monolith2microservices.models.graph.ClassNode;
+import ch.uzh.ifi.seal.monolith2microservices.models.graph.Component;
 import ch.uzh.ifi.seal.monolith2microservices.models.graph.Microservice;
 
 public class TextFileReport {
 	
-	public static void generate(GitRepository repo, List<Microservice> microservices) throws Exception {
+	public static void generate(GitRepository repo, List<Component> components) throws Exception {
 		String homePath = System.getProperty("user.home");
 		
 		Path outputPath = Paths.get(homePath + "/" + repo.getName() + "_" + repo.getId()+ ".txt");
@@ -29,11 +31,11 @@ public class TextFileReport {
 		writer.write("----------------------------------------------------------------");
 
 		int counter = 0;
-		for(Microservice m: microservices){
+		for(Component m: components){
 			writer.newLine();
 			writer.write(counter + "  |  ");
-			for(String cls : m.getClasses()){
-				writer.write(cls + " ,");
+			for(ClassNode cls : m.getNodes()){
+				writer.write(cls.getId() + " ,");
 			}
 			counter++;
 		}

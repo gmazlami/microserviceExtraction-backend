@@ -1,6 +1,9 @@
 package ch.uzh.ifi.seal.monolith2microservices.graph;
 
 import ch.uzh.ifi.seal.monolith2microservices.models.couplings.BaseCoupling;
+import ch.uzh.ifi.seal.monolith2microservices.models.graph.ClassNode;
+import ch.uzh.ifi.seal.monolith2microservices.utils.comparators.ClassNodeComparator;
+import ch.uzh.ifi.seal.monolith2microservices.utils.comparators.ComponentComparator;
 import ch.uzh.ifi.seal.monolith2microservices.utils.comparators.WeightedEdgeComparator;
 import ch.uzh.ifi.seal.monolith2microservices.models.graph.Component;
 import ch.uzh.ifi.seal.monolith2microservices.models.graph.WeightedEdge;
@@ -25,13 +28,38 @@ public final class MSTGraphClusterer {
     }
 
     public static List<Component> clusterFromCouplings(List<? extends BaseCoupling> couplings){
-        return ConnectedComponents.connectedComponents(computeClusters(MinimumSpanningTree.of(couplings)));
+        List<Component> components =  ConnectedComponents.connectedComponents(computeClusters(MinimumSpanningTree.of(couplings)));
+
+        components.sort(new ComponentComparator());
+        Collections.reverse(components);
+
+        Component largest = components.get(0);
+        components.remove(0);
+
+        List<Component> split = splitByDegree(largest);
+        components.addAll(split);
+        return components;
     }
 
     public static List<Component> clusterConnectedComponents(Set<WeightedEdge> edges){
         return ConnectedComponents.connectedComponents(computeClusters(edges));
     }
 
+    private static List<Component> splitByDegree(Component component){
+        List<ClassNode> nodes = component.getNodes();
+        nodes.sort(new ClassNodeComparator());
+        Collections.reverse(nodes);
+
+        ClassNode nodeToRemove = nodes.get(0);
+        nodes.remove(0);
+
+        nodes.forEach(node -> {
+            node.deleteNeighborWithId(nodeToRemove.getId());
+        });
+
+        return ConnectedComponents.connectedComponentsFromNodes(nodes);
+
+    }
 
     private static List<WeightedEdge> computeClusters(Set<WeightedEdge> edges){
         List<WeightedEdge> edgeList = edges.stream().collect(Collectors.toList());
@@ -45,7 +73,7 @@ public final class MSTGraphClusterer {
 
         int numConnectedComponents = 1;
         int lastNumConnectedComponents = 1;
-        int wantedNumComponents = 3;
+        int wantedNumComponents = 4;
 
         do {
             oldList = new ArrayList<>(edgeList);

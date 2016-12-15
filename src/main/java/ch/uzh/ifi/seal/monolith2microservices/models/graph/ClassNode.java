@@ -1,6 +1,7 @@
 package ch.uzh.ifi.seal.monolith2microservices.models.graph;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class ClassNode {
@@ -41,9 +42,21 @@ public class ClassNode {
 		return neighbors;
 	}
 
+	public int getDegree(){
+		return this.neighbors.size();
+	}
 
 	public void addNeighborWithWeight(ClassNode neighbor, int weight){
 		neighbors.add(new NodeWeightPair(neighbor, (double) weight));
+	}
+
+	public void deleteNeighborWithId(String id){
+		for(Iterator<NodeWeightPair> iterator = neighbors.iterator(); iterator.hasNext();){
+			if (iterator.next().getNodeId().equals(id)){
+				iterator.remove();
+				return;
+			}
+		}
 	}
 
 	public void addNeighborWithWeight(ClassNode neighbor, double score){

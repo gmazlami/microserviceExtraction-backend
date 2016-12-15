@@ -5,6 +5,7 @@ import ch.uzh.ifi.seal.monolith2microservices.models.couplings.SemanticCoupling;
 import ch.uzh.ifi.seal.monolith2microservices.models.git.GitRepository;
 import ch.uzh.ifi.seal.monolith2microservices.models.graph.Component;
 import ch.uzh.ifi.seal.monolith2microservices.services.decomposition.Decompositor;
+import ch.uzh.ifi.seal.monolith2microservices.services.reporting.TextFileReport;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +38,8 @@ public class SemanticCouplingDecompositor implements Decompositor {
             components.forEach(c -> {
                 logger.info(c.toString());
             });
+
+            TextFileReport.generate(repo, components);
 
         }catch(Exception e){
             e.printStackTrace();
