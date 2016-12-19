@@ -46,6 +46,12 @@ public class ClassNode {
 		return this.neighbors.size();
 	}
 
+	public double getCombinedWeight(){
+        return this.neighbors.stream().mapToDouble(n -> {
+            return n.getWeight();
+        }).sum();
+    }
+
 	public void addNeighborWithWeight(ClassNode neighbor, int weight){
 		neighbors.add(new NodeWeightPair(neighbor, (double) weight));
 	}
