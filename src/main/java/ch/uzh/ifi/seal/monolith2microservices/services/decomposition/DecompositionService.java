@@ -18,6 +18,7 @@ import ch.uzh.ifi.seal.monolith2microservices.services.reporting.TextFileReport;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -26,6 +27,7 @@ import java.util.List;
 /**
  * Created by gmazlami on 12/15/16.
  */
+@Service
 public class DecompositionService {
 
     private static final Logger logger = LoggerFactory.getLogger(DecompositionService.class);
@@ -42,47 +44,62 @@ public class DecompositionService {
     @Autowired
     ContributorCouplingEngine contributorCouplingEngine;
 
-    public void decompose(GitRepository repository, DecompositionDTO parameters) throws Exception{
+    public void decompose(GitRepository repository, DecompositionDTO parameters){
 
+        try{
 
-        List<BaseCoupling> couplings = new ArrayList<>();
+            logger.info("DECOMPOSITION-------------------------");
+            logger.info("STRATEGIES: Logical Coupling: " + parameters.isLogicalCoupling() + " Semantic Coupling: " +  parameters.isSemanticCoupling() +
+                    "  Contributor Coupling: " + parameters.isContributorCoupling());
+            logger.info("PARAMETERS: History Interval Size (s): " + parameters.getIntervalSeconds() + " Target Number of Services: " + parameters.getNumServices());
 
-        if(parameters.isLogicalCoupling() && parameters.isSemanticCoupling() && parameters.isContributorCoupling()){
+            List<BaseCoupling> couplings = new ArrayList<>();
 
-            couplings = LinearGraphCombination.create().withLogicalCouplings(computeLogicalCouplings(repository, parameters))
-                    .withSemanticCouplings(computeSemanticCouplings(repository))
-                    .withContributorCouplings(computeContributorCouplings(repository)).generate();
+            if(parameters.isLogicalCoupling() && parameters.isSemanticCoupling() && parameters.isContributorCoupling()){
 
-        }else if(parameters.isLogicalCoupling() && parameters.isSemanticCoupling()){
+                couplings = LinearGraphCombination.create().withLogicalCouplings(computeLogicalCouplings(repository, parameters))
+                        .withSemanticCouplings(computeSemanticCouplings(repository))
+                        .withContributorCouplings(computeContributorCouplings(repository)).generate();
 
-            couplings = LinearGraphCombination.create().withLogicalCouplings(computeLogicalCouplings(repository, parameters))
-                    .withSemanticCouplings(computeSemanticCouplings(repository)).generate();
+            }else if(parameters.isLogicalCoupling() && parameters.isSemanticCoupling()){
 
-        }else if(parameters.isLogicalCoupling() && parameters.isContributorCoupling()){
+                couplings = LinearGraphCombination.create().withLogicalCouplings(computeLogicalCouplings(repository, parameters))
+                        .withSemanticCouplings(computeSemanticCouplings(repository)).generate();
 
-            couplings = LinearGraphCombination.create().withLogicalCouplings(computeLogicalCouplings(repository, parameters))
-                    .withContributorCouplings(computeContributorCouplings(repository)).generate();
+            }else if(parameters.isLogicalCoupling() && parameters.isContributorCoupling()){
 
-        }else if(parameters.isContributorCoupling() && parameters.isSemanticCoupling()){
+                couplings = LinearGraphCombination.create().withLogicalCouplings(computeLogicalCouplings(repository, parameters))
+                        .withContributorCouplings(computeContributorCouplings(repository)).generate();
 
-            couplings = LinearGraphCombination.create().withContributorCouplings(computeContributorCouplings(repository))
-                    .withSemanticCouplings(computeSemanticCouplings(repository)).generate();
+            }else if(parameters.isContributorCoupling() && parameters.isSemanticCoupling()){
 
-        }else if(parameters.isLogicalCoupling()){
+                couplings = LinearGraphCombination.create().withContributorCouplings(computeContributorCouplings(repository))
+                        .withSemanticCouplings(computeSemanticCouplings(repository)).generate();
 
-            couplings = LinearGraphCombination.create().withLogicalCouplings(computeLogicalCouplings(repository, parameters)).generate();
+            }else if(parameters.isLogicalCoupling()){
 
-        }else if(parameters.isSemanticCoupling()){
+                couplings = LinearGraphCombination.create().withLogicalCouplings(computeLogicalCouplings(repository, parameters)).generate();
 
-            couplings = LinearGraphCombination.create().withSemanticCouplings(computeSemanticCouplings(repository)).generate();
+            }else if(parameters.isSemanticCoupling()){
 
-        }else if(parameters.isContributorCoupling()){
-            couplings = LinearGraphCombination.create().withContributorCouplings(computeContributorCouplings(repository)).generate();
+                couplings = LinearGraphCombination.create().withSemanticCouplings(computeSemanticCouplings(repository)).generate();
+
+            }else if(parameters.isContributorCoupling()){
+                couplings = LinearGraphCombination.create().withContributorCouplings(computeContributorCouplings(repository)).generate();
+            }
+
+            List<Component> components = MSTGraphClusterer.clusterFromCouplings(couplings);
+
+            components.forEach(c -> {
+                logger.info(c.toString());
+            });
+
+            TextFileReport.generate(repository, components);
+
+        }catch(Exception e){
+            logger.error(e.getMessage());
         }
 
-        List<Component> components = MSTGraphClusterer.clusterFromCouplings(couplings);
-
-        TextFileReport.generate(repository, components);
 
     }
 
