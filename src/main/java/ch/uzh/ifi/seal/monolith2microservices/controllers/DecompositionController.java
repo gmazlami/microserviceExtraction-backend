@@ -3,9 +3,12 @@ package ch.uzh.ifi.seal.monolith2microservices.controllers;
 import ch.uzh.ifi.seal.monolith2microservices.dtos.DecompositionDTO;
 import ch.uzh.ifi.seal.monolith2microservices.models.git.GitRepository;
 import ch.uzh.ifi.seal.monolith2microservices.models.persistence.RepositoryRepository;
+import ch.uzh.ifi.seal.monolith2microservices.services.decomposition.DecompositionService;
 import ch.uzh.ifi.seal.monolith2microservices.services.decomposition.contributors.ContributorCouplingDecompositionService;
 import ch.uzh.ifi.seal.monolith2microservices.services.decomposition.logicalcoupling.LogicalCouplingDecompositionService;
 import ch.uzh.ifi.seal.monolith2microservices.services.decomposition.semanticcoupling.SemanticCouplingDecompositionService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.Configuration;
@@ -24,7 +27,6 @@ import org.springframework.web.bind.annotation.*;
 public class DecompositionController {
 
 
-
     @Autowired
     private RepositoryRepository repository;
 
@@ -37,7 +39,11 @@ public class DecompositionController {
     @Autowired
     private SemanticCouplingDecompositionService semanticCouplingDecompositionService;
 
+    @Autowired
+    private DecompositionService decompositionService;
 
+
+    private Logger logger = LoggerFactory.getLogger(DecompositionController.class);
 
     @RequestMapping(value="/repositories/{repoId}/decompose/logicalcoupling", method=RequestMethod.PUT)
     public ResponseEntity<String> logicalCouplingDecomposition(@PathVariable Long repoId){
@@ -63,8 +69,9 @@ public class DecompositionController {
     @CrossOrigin
     @RequestMapping(value="/repositories/{repoId}/decomposition", method=RequestMethod.POST)
     public ResponseEntity<String> decomposition(@PathVariable Long repoId, @RequestBody DecompositionDTO decompositionDTO){
-
-
+        logger.info(decompositionDTO.toString());
+        GitRepository repo = repository.findById(repoId);
+        decompositionService.decompose(repo,decompositionDTO);
         return new ResponseEntity<String>("OK", HttpStatus.OK);
     }
 
