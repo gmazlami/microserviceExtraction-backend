@@ -30,12 +30,6 @@ public class CouplingTest {
 
     private List<BaseCoupling> expectedCouplings, expectedCouplings2;
 
-    @Autowired
-    private DecompositionService decompositionService;
-
-    @Autowired
-    private LogicalCouplingDecompositor logicalCouplingDecompositor;
-
     @Before
     public void setUp(){
         logicalCouplings = new ArrayList<>();
