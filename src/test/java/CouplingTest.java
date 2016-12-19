@@ -5,88 +5,65 @@ import ch.uzh.ifi.seal.monolith2microservices.models.couplings.ContributorCoupli
 import ch.uzh.ifi.seal.monolith2microservices.models.couplings.LogicalCoupling;
 import ch.uzh.ifi.seal.monolith2microservices.models.couplings.SemanticCoupling;
 import ch.uzh.ifi.seal.monolith2microservices.models.graph.Component;
-import ch.uzh.ifi.seal.monolith2microservices.services.decomposition.DecompositionService;
-import ch.uzh.ifi.seal.monolith2microservices.services.decomposition.logicalcoupling.LogicalCouplingDecompositor;
-import org.junit.Before;
 import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-
-import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * Created by gmazlami on 12/15/16.
  */
 public class CouplingTest {
 
-
-    private List<LogicalCoupling> logicalCouplings;
-
-    private List<ContributorCoupling> contributorCouplings;
-
-    private List<SemanticCoupling> semanticCouplings;
-
-    private List<BaseCoupling> expectedCouplings, expectedCouplings2;
-
-    @Before
-    public void setUp(){
-        logicalCouplings = new ArrayList<>();
-        logicalCouplings.add(new LogicalCoupling("A","B",5.0));
-        logicalCouplings.add(new LogicalCoupling("A","C",3.0));
-        logicalCouplings.add(new LogicalCoupling("C","D",2.0));
-        logicalCouplings.add(new LogicalCoupling("B","D",7.0));
-
-        contributorCouplings = new ArrayList<>();
-        contributorCouplings.add(new ContributorCoupling("A","B", 2.0));
-        contributorCouplings.add(new ContributorCoupling("A","C", 4.0));
-        contributorCouplings.add(new ContributorCoupling("A","E", 3.0));
-
-        semanticCouplings = new ArrayList<>();
-        semanticCouplings.add(new SemanticCoupling("A","B",6.0));
-        semanticCouplings.add(new SemanticCoupling("B","C",1.0));
-        semanticCouplings.add(new SemanticCoupling("C","D",3.0));
-        semanticCouplings.add(new SemanticCoupling("D","E",7.0));
-
-
-        expectedCouplings = new ArrayList<>();
-        expectedCouplings.add(new BaseCoupling("A","B", 13d));
-        expectedCouplings.add(new BaseCoupling("B","C", 1d));
-        expectedCouplings.add(new BaseCoupling("A","C", 7d));
-        expectedCouplings.add(new BaseCoupling("C","D", 5d));
-        expectedCouplings.add(new BaseCoupling("B","D", 7d));
-        expectedCouplings.add(new BaseCoupling("A","E", 3d));
-        expectedCouplings.add(new BaseCoupling("D","E", 7d));
-
-        expectedCouplings2 = new ArrayList<>();
-        expectedCouplings2.add(new BaseCoupling("A","B",8d));
-        expectedCouplings2.add(new BaseCoupling("B","C",1d));
-        expectedCouplings2.add(new BaseCoupling("A","C",4d));
-        expectedCouplings2.add(new BaseCoupling("C","D",3d));
-        expectedCouplings2.add(new BaseCoupling("A","E",3d));
-        expectedCouplings2.add(new BaseCoupling("D","E",7d));
-
-
-    }
-
-
-
     @Test
     public void testCombinedCouplings(){
-        List<BaseCoupling> combinedCouplings = LinearGraphCombination.create().withContributorCouplings(contributorCouplings).withLogicalCouplings(logicalCouplings)
-                .withSemanticCouplings(semanticCouplings).generate();
+        //Test Data
+        List<SemanticCoupling> semanticCouplings = generateGenericSemanticCouplings();
+        List<LogicalCoupling> logicalCouplings = generateGenericLogicalCouplings();
+        List<ContributorCoupling> contributorCouplings = generateGenericContributorCouplings();
+
+        //Expected Data
+        List<BaseCoupling> expectedCouplings = generateExpectedCombinedCouplings();
+
+        //Compute result
+        List<BaseCoupling> combinedCouplings = LinearGraphCombination.create().withContributorCouplings(contributorCouplings).withLogicalCouplings(logicalCouplings).withSemanticCouplings(semanticCouplings).generate();
         assertEquals(expectedCouplings,combinedCouplings);
     }
 
     @Test
     public void testCombinedCouplingsWithoutLogical(){
+        //Test Data
+        List<SemanticCoupling> semanticCouplings = generateGenericSemanticCouplings();
+        List<ContributorCoupling> contributorCouplings = generateGenericContributorCouplings();
+
+        //Expected Data
+        List<BaseCoupling> expectedCouplings = generateExpectedCombinedCouplingsWithoutLogicalCouplings();
+
+        //Compute result
         List<BaseCoupling> combinedCouplings = LinearGraphCombination.create().withContributorCouplings(contributorCouplings).withSemanticCouplings(semanticCouplings).generate();
-        assertEquals(expectedCouplings2,combinedCouplings);
+        assertEquals(expectedCouplings,combinedCouplings);
     }
 
     @Test
     public void testLogicalCouplingCombination(){
+        //Test Data
+        List<LogicalCoupling> couplings = generateExtendedLogicalCouplings();
+
+        // Compute result from couplings after combination
+        List<BaseCoupling> combinedCouplings = LinearGraphCombination.create().withLogicalCouplings(couplings).generate();
+        List<Component> componentsFromCombined = MSTGraphClusterer.clusterFromCouplings(combinedCouplings);
+
+        // Compute result from couplings without prior combination
+        List<Component> componentsFromLogicalCoupling = MSTGraphClusterer.clusterFromCouplings(couplings);
+
+        // Resulting components should be the same
+        assertEquals(componentsFromCombined, componentsFromLogicalCoupling);
+
+    }
+
+    private List<LogicalCoupling> generateExtendedLogicalCouplings(){
         List<LogicalCoupling> couplings = new ArrayList<>();
         couplings.add(new LogicalCoupling("A","B",5.0));
         couplings.add(new LogicalCoupling("A","C",3.0));
@@ -103,13 +80,56 @@ public class CouplingTest {
         couplings.add(new LogicalCoupling("F","J",9.0));
         couplings.add(new LogicalCoupling("J","K",7.0));
         couplings.add(new LogicalCoupling("K","F",5.0));
+        return couplings;
+    }
 
-        List<BaseCoupling> combinedCouplings = LinearGraphCombination.create().withLogicalCouplings(couplings).generate();
-        List<Component> componentsFromCombined = MSTGraphClusterer.clusterFromCouplings(combinedCouplings);
+    private List<ContributorCoupling> generateGenericContributorCouplings(){
+        List<ContributorCoupling> contributorCouplings = new ArrayList<>();
+        contributorCouplings.add(new ContributorCoupling("A","B", 2.0));
+        contributorCouplings.add(new ContributorCoupling("A","C", 4.0));
+        contributorCouplings.add(new ContributorCoupling("A","E", 3.0));
+        return contributorCouplings;
+    }
 
-        List<Component> componentsFromLogicalCoupling = MSTGraphClusterer.clusterFromCouplings(couplings);
+    private List<SemanticCoupling> generateGenericSemanticCouplings(){
+        List<SemanticCoupling> semanticCouplings = new ArrayList<>();
+        semanticCouplings.add(new SemanticCoupling("A","B",6.0));
+        semanticCouplings.add(new SemanticCoupling("B","C",1.0));
+        semanticCouplings.add(new SemanticCoupling("C","D",3.0));
+        semanticCouplings.add(new SemanticCoupling("D","E",7.0));
+        return semanticCouplings;
 
-        assertEquals(componentsFromCombined, componentsFromLogicalCoupling);
+    }
 
+    private List<LogicalCoupling> generateGenericLogicalCouplings(){
+        List<LogicalCoupling> logicalCouplings = new ArrayList<>();
+        logicalCouplings.add(new LogicalCoupling("A","B",5.0));
+        logicalCouplings.add(new LogicalCoupling("A","C",3.0));
+        logicalCouplings.add(new LogicalCoupling("C","D",2.0));
+        logicalCouplings.add(new LogicalCoupling("B","D",7.0));
+        return logicalCouplings;
+    }
+
+    private List<BaseCoupling> generateExpectedCombinedCouplings(){
+        List<BaseCoupling> expectedCouplings = new ArrayList<>();
+        expectedCouplings.add(new BaseCoupling("A","B", 13d));
+        expectedCouplings.add(new BaseCoupling("B","C", 1d));
+        expectedCouplings.add(new BaseCoupling("A","C", 7d));
+        expectedCouplings.add(new BaseCoupling("C","D", 5d));
+        expectedCouplings.add(new BaseCoupling("B","D", 7d));
+        expectedCouplings.add(new BaseCoupling("A","E", 3d));
+        expectedCouplings.add(new BaseCoupling("D","E", 7d));
+        return expectedCouplings;
+    }
+
+    private List<BaseCoupling> generateExpectedCombinedCouplingsWithoutLogicalCouplings(){
+        List<BaseCoupling> expectedCouplings = new ArrayList<>();
+        expectedCouplings.add(new BaseCoupling("A","B",8d));
+        expectedCouplings.add(new BaseCoupling("B","C",1d));
+        expectedCouplings.add(new BaseCoupling("A","C",4d));
+        expectedCouplings.add(new BaseCoupling("C","D",3d));
+        expectedCouplings.add(new BaseCoupling("A","E",3d));
+        expectedCouplings.add(new BaseCoupling("D","E",7d));
+        return expectedCouplings;
     }
 }
