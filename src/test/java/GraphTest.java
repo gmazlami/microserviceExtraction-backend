@@ -77,11 +77,6 @@ public class GraphTest {
         assertEquals(2, ConnectedComponents.numberOfComponents(edgeList));
     }
 
-    @Test
-    public void testClusteringFromMST(){
-        List<Component> connectedComponents = MSTGraphClusterer.clusterConnectedComponents(MinimumSpanningTree.of(couplings));
-        assertEquals(3,connectedComponents.size());
-    }
 
     @Test
     public void testClusteringFromCouplings(){

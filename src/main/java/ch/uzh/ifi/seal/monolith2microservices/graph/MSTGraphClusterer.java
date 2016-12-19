@@ -29,9 +29,6 @@ public final class MSTGraphClusterer {
         //empty on purpose
     }
 
-    public static List<WeightedEdge> cluster(Set<WeightedEdge> edges){
-        return computeClusters(edges);
-    }
 
     public static Set<Component> clusterWithSplit(List<? extends  BaseCoupling> couplings, int splitThreshold){
         List<Component> components =  ConnectedComponents.connectedComponents(computeClusters(MinimumSpanningTree.of(couplings)));
@@ -80,10 +77,6 @@ public final class MSTGraphClusterer {
         components.addAll(split);
 
         return components;
-    }
-
-    public static List<Component> clusterConnectedComponents(Set<WeightedEdge> edges){
-        return ConnectedComponents.connectedComponents(computeClusters(edges));
     }
 
     private static List<Component> splitByDegree(Component component){
