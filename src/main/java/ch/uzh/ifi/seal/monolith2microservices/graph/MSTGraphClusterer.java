@@ -8,16 +8,22 @@ import ch.uzh.ifi.seal.monolith2microservices.utils.comparators.WeightedEdgeComp
 import ch.uzh.ifi.seal.monolith2microservices.models.graph.Component;
 import ch.uzh.ifi.seal.monolith2microservices.models.graph.WeightedEdge;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
  * Created by Genc on 08.12.2016.
  */
 public final class MSTGraphClusterer {
+
+
+    private final static int componentSizeThreshold = 10;
+
+    private final static ComponentComparator componentComparator = new ComponentComparator();
+
+    private final static ClassNodeComparator classNodeComparator = new ClassNodeComparator();
+
+    private final static WeightedEdgeComparator weightedEdgeComparator = new WeightedEdgeComparator();
 
     private MSTGraphClusterer(){
         //empty on purpose
@@ -27,17 +33,52 @@ public final class MSTGraphClusterer {
         return computeClusters(edges);
     }
 
+    public static Set<Component> clusterWithSplit(List<? extends  BaseCoupling> couplings, int splitThreshold){
+        List<Component> components =  ConnectedComponents.connectedComponents(computeClusters(MinimumSpanningTree.of(couplings)));
+
+        while(components.size() > 0){
+
+            //Sort components ascending according to size (number of nodes)
+            components.sort(componentComparator);
+
+            //Reverse collection to get largest component
+            Collections.reverse(components);
+
+            Component largest = components.get(0);
+
+
+            // split largest component if it exceeds size/degree parameter
+            if(largest.getSize() > splitThreshold){
+                components.remove(0);
+                List<Component> split = splitByDegree(largest);
+                components.addAll(split);
+            }else{
+                return new HashSet<>(components);
+            }
+
+        }
+
+        return new HashSet<>(components);
+    }
+
     public static List<Component> clusterFromCouplings(List<? extends BaseCoupling> couplings){
         List<Component> components =  ConnectedComponents.connectedComponents(computeClusters(MinimumSpanningTree.of(couplings)));
 
-        components.sort(new ComponentComparator());
-        Collections.reverse(components);
+        //Sort components ascending according to size (number of nodes)
+        components.sort(componentComparator);
 
+        //Reverse collection to get largest component
+        Collections.reverse(components);
         Component largest = components.get(0);
         components.remove(0);
 
+        // split largest component if it exceeds size/degree parameter
+        if(largest.getSize() > componentSizeThreshold){
+
+        }
         List<Component> split = splitByDegree(largest);
         components.addAll(split);
+
         return components;
     }
 
@@ -47,7 +88,7 @@ public final class MSTGraphClusterer {
 
     private static List<Component> splitByDegree(Component component){
         List<ClassNode> nodes = component.getNodes();
-        nodes.sort(new ClassNodeComparator());
+        nodes.sort(classNodeComparator);
         Collections.reverse(nodes);
 
         ClassNode nodeToRemove = nodes.get(0);
@@ -57,8 +98,8 @@ public final class MSTGraphClusterer {
             node.deleteNeighborWithId(nodeToRemove.getId());
         });
 
-        return ConnectedComponents.connectedComponentsFromNodes(nodes);
-
+        List<Component> connectedComponents = ConnectedComponents.connectedComponentsFromNodes(nodes);
+        return connectedComponents.stream().filter(c -> c.getSize() > 1).collect(Collectors.toList());
     }
 
     private static List<WeightedEdge> computeClusters(Set<WeightedEdge> edges){
@@ -66,7 +107,7 @@ public final class MSTGraphClusterer {
         List<WeightedEdge> oldList = null;
 
         //Sort ascending in order of distances between the files
-        Collections.sort(edgeList,new WeightedEdgeComparator());
+        Collections.sort(edgeList,weightedEdgeComparator);
 
         //Reverse collection so that largest distances are first
         Collections.reverse(edgeList);

@@ -81,6 +81,7 @@ public final class ConnectedComponents {
     }
 
     private static List<Component> performDfs(List<ClassNode> nodes){
+        nodes.forEach(n -> n.setVisited(false));
         List<Component> components = new ArrayList<>();
         for(ClassNode node : nodes){
             if(!node.isVisited()){

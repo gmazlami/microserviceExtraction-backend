@@ -6,7 +6,9 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by gmazlami on 12/19/16.
@@ -19,18 +21,18 @@ public class ClusteringTest {
         List<BaseCoupling> originalGraph = generateTestGraph();
 
         // Expected outcome
-        List<Component> expectedComponents = generateExpectedComponents();
+        Set<Component> expectedComponents = generateExpectedComponents();
 
         // Compute result
-        List<Component> computedComponents = MSTGraphClusterer.clusterFromCouplings(originalGraph);
+        Set<Component> computedComponents = MSTGraphClusterer.clusterWithSplit(originalGraph, 5);
 
         // compare results, should be the same
         assertEquals(expectedComponents, computedComponents);
     }
 
 
-    private List<Component> generateExpectedComponents(){
-        List<Component> components = new ArrayList<>();
+    private Set<Component> generateExpectedComponents(){
+        Set<Component> components = new HashSet<>();
 
         Component component = new Component();
         component.addNode(new ClassNode("E"));
