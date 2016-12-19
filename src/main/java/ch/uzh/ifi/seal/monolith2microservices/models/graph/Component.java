@@ -45,4 +45,20 @@ public class Component {
         return "Component{" +
                 "nodes=" + nodes.stream().map(n -> " , " + n.getId()).reduce("", String::concat) + '}';
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Component)) return false;
+
+        Component component = (Component) o;
+
+        return nodes.equals(component.nodes);
+
+    }
+
+    @Override
+    public int hashCode() {
+        return nodes.hashCode();
+    }
 }

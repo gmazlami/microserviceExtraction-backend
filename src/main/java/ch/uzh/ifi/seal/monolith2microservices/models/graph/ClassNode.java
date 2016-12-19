@@ -66,9 +66,21 @@ public class ClassNode {
 	@Override
 	public String toString() {
 		return "ClassNode [id=" + id + ", neighbors=" + neighbors + "]";
-	}	
-	
-	
-	
-	
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (!(o instanceof ClassNode)) return false;
+
+		ClassNode classNode = (ClassNode) o;
+
+		return id.equals(classNode.id);
+
+	}
+
+	@Override
+	public int hashCode() {
+		return id.hashCode();
+	}
 }
