@@ -1,5 +1,7 @@
 package ch.uzh.ifi.seal.monolith2microservices.conversion;
 
+import java.io.File;
+
 /**
  * Created by gmazlami on 12/20/16.
  */
@@ -11,7 +13,7 @@ public class NodeRepresentation {
 
     public NodeRepresentation(long id, String label){
         this.id = id;
-        this.label = label;
+        this.label = getClassNameFromFileName(label);
     }
 
     public long getId() {
@@ -28,6 +30,11 @@ public class NodeRepresentation {
 
     public void setLabel(String label) {
         this.label = label;
+    }
+
+    private String getClassNameFromFileName(String fileName){
+        String[] elements = fileName.split(File.separator);
+        return elements[elements.length -1];
     }
 
     @Override

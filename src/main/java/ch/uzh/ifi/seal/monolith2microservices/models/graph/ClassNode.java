@@ -1,5 +1,6 @@
 package ch.uzh.ifi.seal.monolith2microservices.models.graph;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -35,6 +36,11 @@ public class ClassNode {
 
 	public void setVisited(boolean visited) {
 		this.visited = visited;
+	}
+
+	public String getClassName(){
+		String[] elements = id.split(File.separator);
+		return elements[elements.length -1];
 	}
 
 
