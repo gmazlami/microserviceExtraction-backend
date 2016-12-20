@@ -1,7 +1,5 @@
 package ch.uzh.ifi.seal.monolith2microservices.conversion;
 
-import ch.uzh.ifi.seal.monolith2microservices.dtos.EdgeRepresentation;
-import ch.uzh.ifi.seal.monolith2microservices.dtos.NodeRepresentation;
 import ch.uzh.ifi.seal.monolith2microservices.models.graph.ClassNode;
 import ch.uzh.ifi.seal.monolith2microservices.models.graph.Component;
 

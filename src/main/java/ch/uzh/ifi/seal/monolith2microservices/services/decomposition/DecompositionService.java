@@ -1,5 +1,6 @@
 package ch.uzh.ifi.seal.monolith2microservices.services.decomposition;
 
+import ch.uzh.ifi.seal.monolith2microservices.conversion.GraphRepresentation;
 import ch.uzh.ifi.seal.monolith2microservices.dtos.DecompositionDTO;
 import ch.uzh.ifi.seal.monolith2microservices.graph.LinearGraphCombination;
 import ch.uzh.ifi.seal.monolith2microservices.graph.MSTGraphClusterer;
@@ -22,6 +23,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -45,13 +47,12 @@ public class DecompositionService {
     @Autowired
     ContributorCouplingEngine contributorCouplingEngine;
 
-    public void decompose(GitRepository repository, DecompositionDTO parameters){
+    public GraphRepresentation decompose(GitRepository repository, DecompositionDTO parameters){
 
         try{
 
             logger.info("DECOMPOSITION-------------------------");
-            logger.info("STRATEGIES: Logical Coupling: " + parameters.isLogicalCoupling() + " Semantic Coupling: " +  parameters.isSemanticCoupling() +
-                    "  Contributor Coupling: " + parameters.isContributorCoupling());
+            logger.info("STRATEGIES: Logical Coupling: " + parameters.isLogicalCoupling() + " Semantic Coupling: " +  parameters.isSemanticCoupling() + "  Contributor Coupling: " + parameters.isContributorCoupling());
             logger.info("PARAMETERS: History Interval Size (s): " + parameters.getIntervalSeconds() + " Target Number of Services: " + parameters.getNumServices());
 
             List<BaseCoupling> couplings = new ArrayList<>();
@@ -97,11 +98,13 @@ public class DecompositionService {
 
             TextFileReport.generate(repository, components);
 
+            return GraphRepresentation.from(components);
+
         }catch(Exception e){
             logger.error(e.getMessage());
         }
 
-
+        return new GraphRepresentation(new HashSet<>(), new HashSet<>());
     }
 
     private List<ContributorCoupling> computeContributorCouplings(GitRepository repository) throws Exception{

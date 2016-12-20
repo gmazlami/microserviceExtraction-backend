@@ -1,4 +1,4 @@
-package ch.uzh.ifi.seal.monolith2microservices.dtos;
+package ch.uzh.ifi.seal.monolith2microservices.conversion;
 
 /**
  * Created by gmazlami on 12/20/16.

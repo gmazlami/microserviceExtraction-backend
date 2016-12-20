@@ -1,10 +1,4 @@
-package ch.uzh.ifi.seal.monolith2microservices.dtos;
-
-import ch.uzh.ifi.seal.monolith2microservices.models.graph.ClassNode;
-import ch.uzh.ifi.seal.monolith2microservices.models.graph.Component;
-
-import java.util.HashSet;
-import java.util.Set;
+package ch.uzh.ifi.seal.monolith2microservices.conversion;
 
 /**
  * Created by gmazlami on 12/20/16.

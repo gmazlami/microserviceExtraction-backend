@@ -1,5 +1,6 @@
 package ch.uzh.ifi.seal.monolith2microservices.controllers;
 
+import ch.uzh.ifi.seal.monolith2microservices.conversion.GraphRepresentation;
 import ch.uzh.ifi.seal.monolith2microservices.dtos.DecompositionDTO;
 import ch.uzh.ifi.seal.monolith2microservices.models.git.GitRepository;
 import ch.uzh.ifi.seal.monolith2microservices.models.persistence.RepositoryRepository;
@@ -36,11 +37,11 @@ public class DecompositionController {
 
     @CrossOrigin
     @RequestMapping(value="/repositories/{repoId}/decomposition", method=RequestMethod.POST)
-    public ResponseEntity<String> decomposition(@PathVariable Long repoId, @RequestBody DecompositionDTO decompositionDTO){
+    public ResponseEntity<GraphRepresentation> decomposition(@PathVariable Long repoId, @RequestBody DecompositionDTO decompositionDTO){
         logger.info(decompositionDTO.toString());
         GitRepository repo = repository.findById(repoId);
-        decompositionService.decompose(repo,decompositionDTO);
-        return new ResponseEntity<String>("OK", HttpStatus.OK);
+        GraphRepresentation graph = decompositionService.decompose(repo,decompositionDTO);
+        return new ResponseEntity<>(graph,HttpStatus.OK);
     }
 
 
