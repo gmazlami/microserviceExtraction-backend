@@ -1,10 +1,8 @@
 package ch.uzh.ifi.seal.monolith2microservices.models.graph;
 
-import ch.uzh.ifi.seal.monolith2microservices.models.git.Class;
-import ch.uzh.ifi.seal.monolith2microservices.models.graph.ClassNode;
-
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by Genc on 13.12.2016.
