@@ -9,6 +9,7 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import static org.junit.Assert.assertEquals;
 
@@ -53,10 +54,12 @@ public class CouplingTest {
 
         // Compute result from couplings after combination
         List<BaseCoupling> combinedCouplings = LinearGraphCombination.create().withLogicalCouplings(couplings).generate();
-        List<Component> componentsFromCombined = MSTGraphClusterer.clusterFromCouplings(combinedCouplings);
+
+
+        Set<Component> componentsFromCombined = MSTGraphClusterer.clusterWithSplit(combinedCouplings,6,4);
 
         // Compute result from couplings without prior combination
-        List<Component> componentsFromLogicalCoupling = MSTGraphClusterer.clusterFromCouplings(couplings);
+        Set<Component> componentsFromLogicalCoupling = MSTGraphClusterer.clusterWithSplit(couplings,6,4);
 
         // Resulting components should be the same
         assertEquals(componentsFromCombined, componentsFromLogicalCoupling);

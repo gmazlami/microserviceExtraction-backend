@@ -77,11 +77,4 @@ public class GraphTest {
         assertEquals(2, ConnectedComponents.numberOfComponents(edgeList));
     }
 
-
-    @Test
-    public void testClusteringFromCouplings(){
-        List<Component> connectedComponents = MSTGraphClusterer.clusterFromCouplings(couplings);
-        assertEquals(3,connectedComponents.size());
-    }
-
 }

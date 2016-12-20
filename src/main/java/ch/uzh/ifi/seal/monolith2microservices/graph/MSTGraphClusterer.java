@@ -17,8 +17,6 @@ import java.util.stream.Collectors;
 public final class MSTGraphClusterer {
 
 
-    private final static int componentSizeThreshold = 10;
-
     private final static ComponentComparator componentComparator = new ComponentComparator();
 
     private final static ClassNodeComparator classNodeComparator = new ClassNodeComparator();
@@ -30,8 +28,8 @@ public final class MSTGraphClusterer {
     }
 
 
-    public static Set<Component> clusterWithSplit(List<? extends  BaseCoupling> couplings, int splitThreshold){
-        List<Component> components =  ConnectedComponents.connectedComponents(computeClusters(MinimumSpanningTree.of(couplings)));
+    public static Set<Component> clusterWithSplit(List<? extends  BaseCoupling> couplings, int splitThreshold, int numServices){
+        List<Component> components =  ConnectedComponents.connectedComponents(computeClusters(MinimumSpanningTree.of(couplings), numServices));
 
         while(components.size() > 0){
 
@@ -58,27 +56,6 @@ public final class MSTGraphClusterer {
         return new HashSet<>(components);
     }
 
-    public static List<Component> clusterFromCouplings(List<? extends BaseCoupling> couplings){
-        List<Component> components =  ConnectedComponents.connectedComponents(computeClusters(MinimumSpanningTree.of(couplings)));
-
-        //Sort components ascending according to size (number of nodes)
-        components.sort(componentComparator);
-
-        //Reverse collection to get largest component
-        Collections.reverse(components);
-        Component largest = components.get(0);
-        components.remove(0);
-
-        // split largest component if it exceeds size/degree parameter
-        if(largest.getSize() > componentSizeThreshold){
-
-        }
-        List<Component> split = splitByDegree(largest);
-        components.addAll(split);
-
-        return components;
-    }
-
     private static List<Component> splitByDegree(Component component){
         List<ClassNode> nodes = component.getNodes();
         nodes.sort(classNodeComparator);
@@ -95,7 +72,7 @@ public final class MSTGraphClusterer {
         return connectedComponents.stream().filter(c -> c.getSize() > 1).collect(Collectors.toList());
     }
 
-    private static List<WeightedEdge> computeClusters(Set<WeightedEdge> edges){
+    private static List<WeightedEdge> computeClusters(Set<WeightedEdge> edges, int numServices){
         List<WeightedEdge> edgeList = edges.stream().collect(Collectors.toList());
         List<WeightedEdge> oldList = null;
 
@@ -107,7 +84,7 @@ public final class MSTGraphClusterer {
 
         int numConnectedComponents = 1;
         int lastNumConnectedComponents = 1;
-        int wantedNumComponents = 4;
+        int wantedNumComponents = numServices;
 
         do {
             oldList = new ArrayList<>(edgeList);

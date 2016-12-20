@@ -4,9 +4,6 @@ import ch.uzh.ifi.seal.monolith2microservices.dtos.DecompositionDTO;
 import ch.uzh.ifi.seal.monolith2microservices.models.git.GitRepository;
 import ch.uzh.ifi.seal.monolith2microservices.models.persistence.RepositoryRepository;
 import ch.uzh.ifi.seal.monolith2microservices.services.decomposition.DecompositionService;
-import ch.uzh.ifi.seal.monolith2microservices.services.decomposition.contributors.ContributorCouplingDecompositionService;
-import ch.uzh.ifi.seal.monolith2microservices.services.decomposition.logicalcoupling.LogicalCouplingDecompositionService;
-import ch.uzh.ifi.seal.monolith2microservices.services.decomposition.semanticcoupling.SemanticCouplingDecompositionService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,40 +28,11 @@ public class DecompositionController {
     private RepositoryRepository repository;
 
     @Autowired
-    private LogicalCouplingDecompositionService logicalCouplingDecompositionService;
-
-    @Autowired
-    private ContributorCouplingDecompositionService contributorCouplingDecompositionService;
-
-    @Autowired
-    private SemanticCouplingDecompositionService semanticCouplingDecompositionService;
-
-    @Autowired
     private DecompositionService decompositionService;
 
 
     private Logger logger = LoggerFactory.getLogger(DecompositionController.class);
 
-    @RequestMapping(value="/repositories/{repoId}/decompose/logicalcoupling", method=RequestMethod.PUT)
-    public ResponseEntity<String> logicalCouplingDecomposition(@PathVariable Long repoId){
-        GitRepository repo = repository.findById(repoId);
-        logicalCouplingDecompositionService.process(repo);
-        return new ResponseEntity<String>("OK", HttpStatus.OK);
-    }
-
-    @RequestMapping(value="/repositories/{repoId}/decompose/contributorCoupling", method=RequestMethod.PUT)
-    public ResponseEntity<String> contributorCouplingDecomposition(@PathVariable Long repoId){
-        GitRepository repo = repository.findById(repoId);
-        contributorCouplingDecompositionService.process(repo);
-        return new ResponseEntity<String>("OK", HttpStatus.OK);
-    }
-
-    @RequestMapping(value="/repositories/{repoId}/decompose/semanticCoupling", method=RequestMethod.PUT)
-    public ResponseEntity<String> semanticCouplingDecomposition(@PathVariable Long repoId){
-        GitRepository repo = repository.findById(repoId);
-        semanticCouplingDecompositionService.process(repo);
-        return new ResponseEntity<String>("OK", HttpStatus.OK);
-    }
 
     @CrossOrigin
     @RequestMapping(value="/repositories/{repoId}/decomposition", method=RequestMethod.POST)

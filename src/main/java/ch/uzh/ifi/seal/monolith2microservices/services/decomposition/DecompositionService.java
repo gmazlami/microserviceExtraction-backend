@@ -23,6 +23,7 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by gmazlami on 12/15/16.
@@ -88,7 +89,7 @@ public class DecompositionService {
                 couplings = LinearGraphCombination.create().withContributorCouplings(computeContributorCouplings(repository)).generate();
             }
 
-            List<Component> components = MSTGraphClusterer.clusterFromCouplings(couplings);
+            Set<Component> components = MSTGraphClusterer.clusterWithSplit(couplings, 6, 4);
 
             components.forEach(c -> {
                 logger.info(c.toString());

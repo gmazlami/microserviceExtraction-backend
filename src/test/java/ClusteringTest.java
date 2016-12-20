@@ -24,7 +24,7 @@ public class ClusteringTest {
         Set<Component> expectedComponents = generateExpectedComponents();
 
         // Compute result
-        Set<Component> computedComponents = MSTGraphClusterer.clusterWithSplit(originalGraph, 5);
+        Set<Component> computedComponents = MSTGraphClusterer.clusterWithSplit(originalGraph, 5, 4);
 
         // compare results, should be the same
         assertEquals(expectedComponents, computedComponents);
