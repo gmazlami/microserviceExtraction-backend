@@ -89,7 +89,7 @@ public class DecompositionService {
                 couplings = LinearGraphCombination.create().withContributorCouplings(computeContributorCouplings(repository)).generate();
             }
 
-            Set<Component> components = MSTGraphClusterer.clusterWithSplit(couplings, 6, 4);
+            Set<Component> components = MSTGraphClusterer.clusterWithSplit(couplings, parameters.getSizeThreshold(), parameters.getNumServices());
 
             components.forEach(c -> {
                 logger.info(c.toString());

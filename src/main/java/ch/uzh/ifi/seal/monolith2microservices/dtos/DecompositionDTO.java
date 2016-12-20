@@ -15,6 +15,8 @@ public class DecompositionDTO {
 
     private int intervalSeconds;
 
+    private int sizeThreshold;
+
     public boolean isLogicalCoupling() {
         return logicalCoupling;
     }
@@ -55,6 +57,14 @@ public class DecompositionDTO {
         this.intervalSeconds = intervalSeconds;
     }
 
+    public int getSizeThreshold() {
+        return sizeThreshold;
+    }
+
+    public void setSizeThreshold(int sizeThreshold) {
+        this.sizeThreshold = sizeThreshold;
+    }
+
     @Override
     public String toString() {
         return "DecompositionDTO{" +
@@ -63,6 +73,7 @@ public class DecompositionDTO {
                 ", contributorCoupling=" + contributorCoupling +
                 ", numServices=" + numServices +
                 ", intervalSeconds=" + intervalSeconds +
+                ", sizeThreshold=" + sizeThreshold +
                 '}';
     }
 }
