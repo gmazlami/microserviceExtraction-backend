@@ -11,9 +11,13 @@ public class NodeRepresentation {
 
     private String label;
 
-    public NodeRepresentation(long id, String label){
+    private String fullClassName;
+
+
+    public NodeRepresentation(long id, String fullClassName){
         this.id = id;
-        this.label = getClassNameFromFileName(label);
+        this.fullClassName = fullClassName;
+        this.label = getClassNameFromFileName(fullClassName);
     }
 
     public long getId() {
@@ -26,6 +30,10 @@ public class NodeRepresentation {
 
     public String getLabel() {
         return label;
+    }
+
+    public String getFullClassName(){
+        return this.fullClassName;
     }
 
     public void setLabel(String label) {

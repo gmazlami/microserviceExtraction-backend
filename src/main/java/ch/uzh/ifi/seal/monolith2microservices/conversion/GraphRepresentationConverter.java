@@ -20,7 +20,7 @@ public class GraphRepresentationConverter {
                 n.getNeighbors().forEach(neighborPair -> {
                     String key = getSortedIdString(n.getId(), neighborPair.getNodeId());
                     if(nodeMap.get(key)==null){
-                        edges.add(new EdgeRepresentation(idMap.get(n.getClassName()), idMap.get(neighborPair.getNode().getClassName())));
+                        edges.add(new EdgeRepresentation(idMap.get(n.getId()), idMap.get(neighborPair.getNodeId())));
                         nodeMap.put(key,key);
                     }
 
@@ -47,7 +47,7 @@ public class GraphRepresentationConverter {
     private static Map<String,Long> constructIdMap(Set<NodeRepresentation> nodes){
         Map<String,Long> idMap = new HashMap<>();
         nodes.forEach(n -> {
-            idMap.put(n.getLabel(), n.getId());
+            idMap.put(n.getFullClassName(), n.getId());
         });
         return idMap;
     }
