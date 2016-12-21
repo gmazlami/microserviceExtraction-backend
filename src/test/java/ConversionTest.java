@@ -1,3 +1,4 @@
+import ch.uzh.ifi.seal.monolith2microservices.conversion.EdgeRepresentation;
 import ch.uzh.ifi.seal.monolith2microservices.conversion.GraphRepresentationConverter;
 import ch.uzh.ifi.seal.monolith2microservices.conversion.NodeRepresentation;
 import ch.uzh.ifi.seal.monolith2microservices.models.graph.ClassNode;
@@ -48,5 +49,16 @@ public class ConversionTest {
             System.out.println("Node label:   " + node.getLabel());
         });
         assertEquals(true, true);
+    }
+
+
+    @Test
+    public void testEdges(){
+        Set<EdgeRepresentation> edges =  GraphRepresentationConverter.convertEdges(components,GraphRepresentationConverter.convertNodes(components));
+        edges.forEach(e -> {
+            System.out.println(e);
+        });
+
+        assertEquals(true,true);
     }
 }

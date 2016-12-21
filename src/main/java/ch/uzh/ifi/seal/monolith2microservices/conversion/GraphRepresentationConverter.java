@@ -11,7 +11,7 @@ import java.util.*;
 public class GraphRepresentationConverter {
 
     public static Set<EdgeRepresentation> convertEdges(Set<Component> components, Set<NodeRepresentation> nodes){
-        Map<String,?> nodeMap = new HashMap<>();
+        Map<String,String> nodeMap = new HashMap<>();
         Set<EdgeRepresentation> edges = new HashSet<>();
         Map<String,Long> idMap = constructIdMap(nodes);
 
@@ -21,6 +21,7 @@ public class GraphRepresentationConverter {
                     String key = getSortedIdString(n.getId(), neighborPair.getNodeId());
                     if(nodeMap.get(key)==null){
                         edges.add(new EdgeRepresentation(idMap.get(n.getClassName()), idMap.get(neighborPair.getNode().getClassName())));
+                        nodeMap.put(key,key);
                     }
 
                 });

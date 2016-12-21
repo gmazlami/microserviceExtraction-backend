@@ -49,4 +49,11 @@ public class EdgeRepresentation {
         return result;
     }
 
+    @Override
+    public String toString() {
+        return "EdgeRepresentation{" +
+                "from=" + from +
+                ", to=" + to +
+                '}';
+    }
 }
