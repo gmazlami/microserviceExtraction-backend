@@ -2,6 +2,7 @@ package ch.uzh.ifi.seal.monolith2microservices.conversion;
 
 import ch.uzh.ifi.seal.monolith2microservices.models.graph.ClassNode;
 import ch.uzh.ifi.seal.monolith2microservices.models.graph.Component;
+import ch.uzh.ifi.seal.monolith2microservices.utils.HexColorGenerator;
 
 import java.util.*;
 
@@ -32,12 +33,14 @@ public class GraphRepresentationConverter {
 
 
     public static Set<NodeRepresentation> convertNodes(Set<Component> components){
+        HexColorGenerator colorGenerator = new HexColorGenerator();
         Set<NodeRepresentation> nodes = new HashSet<>();
         long counter = 1;
 
         for(Component c: components){
+            String hexColor = colorGenerator.getNextColor();
             for (ClassNode n: c.getNodes()){
-                nodes.add(new NodeRepresentation(counter,n.getId()));
+                nodes.add(new NodeRepresentation(counter,n.getId(), hexColor));
                 counter++;
             }
         }
