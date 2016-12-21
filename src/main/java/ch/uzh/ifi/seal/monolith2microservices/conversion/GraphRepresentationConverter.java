@@ -11,38 +11,36 @@ import java.util.*;
  */
 public class GraphRepresentationConverter {
 
-    public static Set<EdgeRepresentation> convertEdges(Set<Component> components, Set<NodeRepresentation> nodes){
+    private static long counter = 1;
+
+    private static HexColorGenerator colorGenerator = new HexColorGenerator();
+
+    public static Set<EdgeRepresentation> convertEdges(Component component, Set<NodeRepresentation> nodes){
         Map<String,String> nodeMap = new HashMap<>();
         Set<EdgeRepresentation> edges = new HashSet<>();
         Map<String,Long> idMap = constructIdMap(nodes);
 
-        for(Component c: components){
-            for(ClassNode n: c.getNodes()){
-                n.getNeighbors().forEach(neighborPair -> {
-                    String key = getSortedIdString(n.getId(), neighborPair.getNodeId());
-                    if(nodeMap.get(key)==null){
-                        edges.add(new EdgeRepresentation(idMap.get(n.getId()), idMap.get(neighborPair.getNodeId())));
-                        nodeMap.put(key,key);
-                    }
+        for(ClassNode n: component.getNodes()){
+            n.getNeighbors().forEach(neighborPair -> {
+                String key = getSortedIdString(n.getId(), neighborPair.getNodeId());
+                if(nodeMap.get(key)==null){
+                    edges.add(new EdgeRepresentation(idMap.get(n.getId()), idMap.get(neighborPair.getNodeId())));
+                    nodeMap.put(key,key);
+                }
 
-                });
-            }
+            });
         }
         return edges;
     }
 
 
-    public static Set<NodeRepresentation> convertNodes(Set<Component> components){
-        HexColorGenerator colorGenerator = new HexColorGenerator();
+    public static Set<NodeRepresentation> convertNodes(Component component){
         Set<NodeRepresentation> nodes = new HashSet<>();
-        long counter = 1;
 
-        for(Component c: components){
-            String hexColor = colorGenerator.getNextColor();
-            for (ClassNode n: c.getNodes()){
-                nodes.add(new NodeRepresentation(counter,n.getId(), hexColor));
-                counter++;
-            }
+        String hexColor = colorGenerator.getNextColor();
+        for (ClassNode n: component.getNodes()){
+            nodes.add(new NodeRepresentation(counter,n.getId(), hexColor));
+            counter++;
         }
         return nodes;
     }

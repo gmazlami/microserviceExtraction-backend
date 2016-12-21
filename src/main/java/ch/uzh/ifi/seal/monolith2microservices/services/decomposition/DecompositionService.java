@@ -47,7 +47,7 @@ public class DecompositionService {
     @Autowired
     ContributorCouplingEngine contributorCouplingEngine;
 
-    public GraphRepresentation decompose(GitRepository repository, DecompositionDTO parameters){
+    public Set<GraphRepresentation> decompose(GitRepository repository, DecompositionDTO parameters){
 
         try{
 
@@ -98,13 +98,20 @@ public class DecompositionService {
 
             TextFileReport.generate(repository, components);
 
-            return GraphRepresentation.from(components);
+
+            Set<GraphRepresentation> microservices = new HashSet<>();
+
+            for(Component c : components){
+                microservices.add(GraphRepresentation.from(c));
+            }
+
+            return microservices;
 
         }catch(Exception e){
             logger.error(e.getMessage());
         }
 
-        return new GraphRepresentation(new HashSet<>(), new HashSet<>());
+        return new HashSet<>();
     }
 
     private List<ContributorCoupling> computeContributorCouplings(GitRepository repository) throws Exception{

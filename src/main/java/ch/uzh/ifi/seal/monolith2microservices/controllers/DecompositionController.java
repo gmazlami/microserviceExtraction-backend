@@ -15,6 +15,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Set;
+
 @Configuration
 @EnableAutoConfiguration
 @RestController
@@ -37,10 +39,10 @@ public class DecompositionController {
 
     @CrossOrigin
     @RequestMapping(value="/repositories/{repoId}/decomposition", method=RequestMethod.POST)
-    public ResponseEntity<GraphRepresentation> decomposition(@PathVariable Long repoId, @RequestBody DecompositionDTO decompositionDTO){
+    public ResponseEntity<Set<GraphRepresentation>> decomposition(@PathVariable Long repoId, @RequestBody DecompositionDTO decompositionDTO){
         logger.info(decompositionDTO.toString());
         GitRepository repo = repository.findById(repoId);
-        GraphRepresentation graph = decompositionService.decompose(repo,decompositionDTO);
+        Set<GraphRepresentation> graph = decompositionService.decompose(repo,decompositionDTO);
         return new ResponseEntity<>(graph,HttpStatus.OK);
     }
 

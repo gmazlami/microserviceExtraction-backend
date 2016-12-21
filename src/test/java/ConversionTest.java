@@ -39,26 +39,26 @@ public class ConversionTest {
 
         components.add(component);
     }
-
-
-    @Test
-    public void testNodeLabel(){
-        Set<NodeRepresentation> nodes = GraphRepresentationConverter.convertNodes(components);
-
-        nodes.forEach(node -> {
-            System.out.println("Node label:   " + node.getLabel());
-        });
-        assertEquals(true, true);
-    }
-
-
-    @Test
-    public void testEdges(){
-        Set<EdgeRepresentation> edges =  GraphRepresentationConverter.convertEdges(components,GraphRepresentationConverter.convertNodes(components));
-        edges.forEach(e -> {
-            System.out.println(e);
-        });
-
-        assertEquals(true,true);
-    }
+//
+//
+//    @Test
+//    public void testNodeLabel(){
+//        Set<NodeRepresentation> nodes = GraphRepresentationConverter.convertNodes(components);
+//
+//        nodes.forEach(node -> {
+//            System.out.println("Node label:   " + node.getLabel());
+//        });
+//        assertEquals(true, true);
+//    }
+//
+//
+//    @Test
+//    public void testEdges(){
+//        Set<EdgeRepresentation> edges =  GraphRepresentationConverter.convertEdges(components,GraphRepresentationConverter.convertNodes(components));
+//        edges.forEach(e -> {
+//            System.out.println(e);
+//        });
+//
+//        assertEquals(true,true);
+//    }
 }

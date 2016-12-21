@@ -9,13 +9,18 @@ import java.util.Set;
  */
 public class GraphRepresentation {
 
+    private static long componentCounter = 1;
+
     private Set<NodeRepresentation> nodes;
 
     private Set<EdgeRepresentation> edges;
 
-    public GraphRepresentation(Set<NodeRepresentation> nodes, Set<EdgeRepresentation> edges){
+    private long componentId;
+
+    public GraphRepresentation(Set<NodeRepresentation> nodes, Set<EdgeRepresentation> edges, long id){
         this.nodes = nodes;
         this.edges = edges;
+        this.componentId = id;
     }
 
     public Set<NodeRepresentation> getNodes() {
@@ -34,9 +39,19 @@ public class GraphRepresentation {
         this.edges = edges;
     }
 
-    public static GraphRepresentation from(Set<Component> components){
-        Set<NodeRepresentation> nodes = GraphRepresentationConverter.convertNodes(components);
-        Set<EdgeRepresentation> edges = GraphRepresentationConverter.convertEdges(components, nodes);
-        return new GraphRepresentation(nodes,edges);
+    public void setComponentId(long id){
+        this.componentId = id;
+    }
+
+    public long getComponentId(){
+        return this.componentId;
+    }
+
+
+
+    public static GraphRepresentation from(Component component){
+        Set<NodeRepresentation> nodes = GraphRepresentationConverter.convertNodes(component);
+        Set<EdgeRepresentation> edges = GraphRepresentationConverter.convertEdges(component, nodes);
+        return new GraphRepresentation(nodes,edges, componentCounter++);
     }
 }
