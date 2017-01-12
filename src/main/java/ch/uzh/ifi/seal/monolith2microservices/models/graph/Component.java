@@ -12,7 +12,6 @@ import java.util.List;
 public class Component {
 
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
     private Long id;
 
     @OneToMany
@@ -22,6 +21,7 @@ public class Component {
     private boolean visited;
 
     public Component(){
+        id = System.currentTimeMillis();
         nodes = new ArrayList<>();
         visited = false;
     }

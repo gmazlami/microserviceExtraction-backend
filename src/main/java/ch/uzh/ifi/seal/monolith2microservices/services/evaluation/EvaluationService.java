@@ -1,5 +1,6 @@
 package ch.uzh.ifi.seal.monolith2microservices.services.evaluation;
 
+import ch.uzh.ifi.seal.monolith2microservices.models.evaluation.EvaluationMetrics;
 import ch.uzh.ifi.seal.monolith2microservices.models.graph.Decomposition;
 import ch.uzh.ifi.seal.monolith2microservices.services.git.AuthorService;
 import org.slf4j.Logger;
@@ -7,10 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by gmazlami on 1/12/17.
@@ -24,10 +22,57 @@ public class EvaluationService {
     @Autowired
     AuthorService authorService;
 
-    public double computeContributorPerMicroservice(Decomposition decomposition){
-        Map<Long,Integer> microserviceAuthorCountMap = new HashMap<>();
+
+    public EvaluationMetrics computeMetrics(Decomposition decomposition){
+        Map<Long,Set<String>> microserviceAuthorMap = computeAuthorMap(decomposition);
+
+        EvaluationMetrics metrics = new EvaluationMetrics();
+        metrics.setDecomposition(decomposition);
+        metrics.setContributorsPerMicroservice(computeContributorPerMicroservice(decomposition,microserviceAuthorMap));
+        metrics.setContributorOverlapping(computeContributorOverlapping(decomposition,microserviceAuthorMap));
+
+
+
+        return null;
+    }
+
+    private double computeContributorPerMicroservice(Decomposition decomposition, Map<Long,Set<String>> microserviceAuthorMap){
+        return microserviceAuthorMap.values().stream().map(set -> set.size()).mapToInt(Integer::intValue).sum() / decomposition.getServices().size();
+    }
+
+    private double computeContributorOverlapping(Decomposition decomposition, Map<Long,Set<String>> microserviceAuthorMap){
+        Set<Long> microserviceIds = microserviceAuthorMap.keySet();
+
+        List<Integer> overlappingContributors = new ArrayList<>();
+
+        microserviceIds.forEach(firstServiceId -> {
+            microserviceIds.forEach(secondServiceId -> {
+                if(firstServiceId != secondServiceId){
+                    overlappingContributors.add(getNumberOfOverlappingContributors(microserviceAuthorMap.get(firstServiceId),microserviceAuthorMap.get(secondServiceId)));
+                }
+            });
+        });
+
+        return overlappingContributors.stream().mapToInt(Integer::intValue).sum() / overlappingContributors.size();
+    }
+
+    private void computeMicroserviceSizeKLOC(Decomposition decomposition){
+        //TODO:
+    }
+
+    private void computeMicroserviceSizeClasses(Decomposition decomposition){
+        //TODO:
+    }
+
+    private void computeServiceSimilarity(Decomposition decomposition){
+        //TODO:
+    }
+
+    private Map<Long, Set<String>> computeAuthorMap(Decomposition decomposition){
+        Map<Long,Set<String>> microserviceAuthorMap = new HashMap<>();
 
         decomposition.getServices().forEach(microservice ->{
+
             Set<String> authorSet = new HashSet<String>();
 
             microservice.getNodes().forEach(classNode -> {
@@ -38,26 +83,17 @@ public class EvaluationService {
                     logger.info(e.getMessage());
                 }
             });
-            microserviceAuthorCountMap.put(microservice.getId(), authorSet.size());
+
+            microserviceAuthorMap.put(microservice.getId(), authorSet);
+
         });
 
-        return microserviceAuthorCountMap.values().stream().mapToInt(Integer::intValue).sum() / decomposition.getServices().size();
+        return microserviceAuthorMap;
     }
 
-    public void computeContributorOverlapping(Decomposition decomposition){
-
-        //TODO:
-    }
-
-    public void computeMicroserviceSizeKLOC(Decomposition decomposition){
-        //TODO:
-    }
-
-    public void computeMicroserviceSizeClasses(Decomposition decomposition){
-        //TODO:
-    }
-
-    public void computeServiceSimilarity(Decomposition decomposition){
-        //TODO:
+    public int getNumberOfOverlappingContributors(Set<String> firstSet, Set<String> secondSet){
+        Set<String> intersection = new HashSet<>(firstSet);
+        intersection.retainAll(secondSet);
+        return intersection.size();
     }
 }
