@@ -26,6 +26,10 @@ public class Component {
         visited = false;
     }
 
+    public Long getId(){
+        return this.id;
+    }
+
     public void addNode(ClassNode node){
         nodes.add(node);
     }

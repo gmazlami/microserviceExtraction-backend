@@ -1,5 +1,7 @@
 package ch.uzh.ifi.seal.monolith2microservices.models.graph;
 
+import ch.uzh.ifi.seal.monolith2microservices.models.git.GitRepository;
+
 import javax.persistence.*;
 import java.util.Set;
 
@@ -17,6 +19,8 @@ public class Decomposition {
     @OneToMany
     private Set<Component> services;
 
+    @OneToOne
+    private GitRepository repository;
 
     public void setComponents(Set<Component> services){
         this.services = services;
@@ -24,6 +28,14 @@ public class Decomposition {
 
     public Set<Component> getServices() {
         return this.services;
+    }
+
+    public GitRepository getRepository(){
+        return this.repository;
+    }
+
+    public void setRepository(GitRepository repo){
+        this.repository = repo;
     }
 
 }

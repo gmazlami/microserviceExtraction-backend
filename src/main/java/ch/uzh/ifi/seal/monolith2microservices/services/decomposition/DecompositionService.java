@@ -118,6 +118,7 @@ public class DecompositionService {
 
             Decomposition decomposition = new Decomposition();
             decomposition.setComponents(components);
+            decomposition.setRepository(repository);
             decompositionRepository.save(decomposition);
 
             logger.info("Saved all decomposition info and components to database!");
