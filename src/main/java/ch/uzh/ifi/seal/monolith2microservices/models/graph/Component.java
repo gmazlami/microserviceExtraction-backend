@@ -1,5 +1,8 @@
 package ch.uzh.ifi.seal.monolith2microservices.models.graph;
 
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -8,6 +11,10 @@ import java.util.Set;
  * Created by Genc on 13.12.2016.
  */
 public class Component {
+
+    @Id
+    @GeneratedValue(strategy= GenerationType.AUTO)
+    private Long id;
 
     private List<ClassNode> nodes;
 
