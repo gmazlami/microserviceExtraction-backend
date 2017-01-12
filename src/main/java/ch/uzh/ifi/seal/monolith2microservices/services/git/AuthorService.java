@@ -23,11 +23,10 @@ public class AuthorService {
         List<ChangeEvent> history = historyService.computeChangeEvents(gitRepo);
         Set<String> contributingAuthors = new HashSet<>();
         history.forEach(event -> {
-            event.getChangedfiles().forEach(changedFile -> {
-                if(changedFile.equals(filePath)){
-                    contributingAuthors.add(event.getAuthorEmailAddress());
-                }
-            });
+            boolean matches = event.getChangedfiles().stream().anyMatch(changedFile -> changedFile.getNewPath().equals(filePath));
+            if(matches){
+                contributingAuthors.add(event.getAuthorEmailAddress());
+            }
         });
         return contributingAuthors;
     }

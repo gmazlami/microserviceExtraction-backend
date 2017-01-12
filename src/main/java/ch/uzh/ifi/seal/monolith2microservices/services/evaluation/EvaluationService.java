@@ -45,7 +45,7 @@ public class EvaluationService {
     }
 
     public void computeContributorOverlapping(Decomposition decomposition){
-        
+
         //TODO:
     }
 
