@@ -11,6 +11,10 @@ import ch.uzh.ifi.seal.monolith2microservices.models.couplings.SemanticCoupling;
 import ch.uzh.ifi.seal.monolith2microservices.models.git.ChangeEvent;
 import ch.uzh.ifi.seal.monolith2microservices.models.git.GitRepository;
 import ch.uzh.ifi.seal.monolith2microservices.models.graph.Component;
+import ch.uzh.ifi.seal.monolith2microservices.models.graph.Decomposition;
+import ch.uzh.ifi.seal.monolith2microservices.models.persistence.ClassNodeRepository;
+import ch.uzh.ifi.seal.monolith2microservices.models.persistence.ComponentRepository;
+import ch.uzh.ifi.seal.monolith2microservices.models.persistence.DecompositionRepository;
 import ch.uzh.ifi.seal.monolith2microservices.services.decomposition.contributors.ContributorCouplingEngine;
 import ch.uzh.ifi.seal.monolith2microservices.services.decomposition.logicalcoupling.LogicalCouplingEngine;
 import ch.uzh.ifi.seal.monolith2microservices.services.decomposition.semanticcoupling.SemanticCouplingEngine;
@@ -26,6 +30,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * Created by gmazlami on 12/15/16.
@@ -34,6 +39,15 @@ import java.util.Set;
 public class DecompositionService {
 
     private static final Logger logger = LoggerFactory.getLogger(DecompositionService.class);
+
+    @Autowired
+    ClassNodeRepository classNodeRepository;
+
+    @Autowired
+    ComponentRepository componentRepository;
+
+    @Autowired
+    DecompositionRepository decompositionRepository;
 
     @Autowired
     HistoryService historyService;
@@ -92,18 +106,27 @@ public class DecompositionService {
 
             Set<Component> components = MSTGraphClusterer.clusterWithSplit(couplings, parameters.getSizeThreshold(), parameters.getNumServices());
 
+            logger.info("Saving decomposition to database.");
+
             components.forEach(c -> {
+                c.getNodes().forEach(n -> {
+                    classNodeRepository.save(n);
+                });
+                componentRepository.save(c);
                 logger.info(c.toString());
             });
+
+            Decomposition decomposition = new Decomposition();
+            decomposition.setComponents(components);
+            decompositionRepository.save(decomposition);
+
+            logger.info("Saved all decomposition info and components to database!");
+
 
             TextFileReport.generate(repository, components);
 
 
-            Set<GraphRepresentation> microservices = new HashSet<>();
-
-            for(Component c : components){
-                microservices.add(GraphRepresentation.from(c));
-            }
+            Set<GraphRepresentation> microservices = components.stream().map(GraphRepresentation::from).collect(Collectors.toSet());
 
             return microservices;
 

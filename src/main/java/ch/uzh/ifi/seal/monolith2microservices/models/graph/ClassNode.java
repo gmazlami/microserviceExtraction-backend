@@ -1,22 +1,38 @@
 package ch.uzh.ifi.seal.monolith2microservices.models.graph;
 
+import javax.persistence.*;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+@Entity
 public class ClassNode {
-	
+
+	@Id
+	@GeneratedValue(strategy= GenerationType.AUTO)
+	private Long primaryKey;
+
 	private String id;
-	
+
+	@Transient
 	private boolean visited;
-	
+
+	@Transient
 	private List<NodeWeightPair> neighbors;
 
 	public ClassNode(String id){
 		this.id = id;
 		this.visited = false;
 		this.neighbors = new ArrayList<>();
+	}
+
+	public Long getPrimaryKey(){
+		return this.primaryKey;
+	}
+
+	public void setPrimaryKey(long key){
+		this.primaryKey = key;
 	}
 
 	public String getId() {
