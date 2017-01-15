@@ -13,9 +13,9 @@ public class EvaluationMetrics {
 
     private double contributorOverlapping;
 
-    private long sizeKLOC;
+    private double averageLoc;
 
-    private int sizeClasses;
+    private double averageClassNumber;
 
     private double similarity;
 
@@ -43,20 +43,20 @@ public class EvaluationMetrics {
         this.contributorOverlapping = contributorOverlapping;
     }
 
-    public long getSizeKLOC() {
-        return sizeKLOC;
+    public double getAverageLoc() {
+        return averageLoc;
     }
 
-    public void setSizeKLOC(long sizeKLOC) {
-        this.sizeKLOC = sizeKLOC;
+    public void setAverageLoc(double averageLoc) {
+        this.averageLoc = averageLoc;
     }
 
-    public int getSizeClasses() {
-        return sizeClasses;
+    public double getAverageClassNumber() {
+        return averageClassNumber;
     }
 
-    public void setSizeClasses(int sizeClasses) {
-        this.sizeClasses = sizeClasses;
+    public void setAverageClassNumber(double averageClassNumber) {
+        this.averageClassNumber = averageClassNumber;
     }
 
     public double getSimilarity() {

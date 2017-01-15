@@ -1,6 +1,8 @@
 package ch.uzh.ifi.seal.monolith2microservices.services.evaluation;
 
+import ch.uzh.ifi.seal.monolith2microservices.main.Configs;
 import ch.uzh.ifi.seal.monolith2microservices.models.evaluation.EvaluationMetrics;
+import ch.uzh.ifi.seal.monolith2microservices.models.evaluation.MicroserviceMetrics;
 import ch.uzh.ifi.seal.monolith2microservices.models.graph.Decomposition;
 import ch.uzh.ifi.seal.monolith2microservices.services.git.AuthorService;
 import org.slf4j.Logger;
@@ -8,7 +10,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * Created by gmazlami on 1/12/17.
@@ -20,76 +25,49 @@ public class EvaluationService {
     private Logger logger = LoggerFactory.getLogger(EvaluationService.class);
 
     @Autowired
+    private Configs config;
+
+    @Autowired
     AuthorService authorService;
 
 
-    public EvaluationMetrics computeMetrics(Decomposition decomposition){
-        Map<Long,Set<String>> microserviceAuthorMap = computeAuthorMap(decomposition);
-
+    public EvaluationMetrics computeMetrics(Decomposition decomposition, List<MicroserviceMetrics> microserviceMetrics){
         EvaluationMetrics metrics = new EvaluationMetrics();
         metrics.setDecomposition(decomposition);
-        metrics.setContributorsPerMicroservice(computeContributorPerMicroservice(decomposition,microserviceAuthorMap));
-        metrics.setContributorOverlapping(computeContributorOverlapping(decomposition,microserviceAuthorMap));
+        metrics.setContributorsPerMicroservice(computeContributorPerMicroservice(microserviceMetrics));
+        metrics.setContributorOverlapping(computeContributorOverlapping(microserviceMetrics));
+        metrics.setAverageLoc(computeAverageLoc(microserviceMetrics));
+        metrics.setAverageClassNumber(computeMicroserviceSizeClasses(microserviceMetrics));
 
-
-
-        return null;
+        return metrics;
     }
 
-    private double computeContributorPerMicroservice(Decomposition decomposition, Map<Long,Set<String>> microserviceAuthorMap){
-        return microserviceAuthorMap.values().stream().map(set -> set.size()).mapToInt(Integer::intValue).sum() / decomposition.getServices().size();
+    private double computeContributorPerMicroservice(List<MicroserviceMetrics> microserviceMetrics){
+        return microserviceMetrics.stream().map(metric -> metric.getNumOfContributors()).mapToInt(Integer::intValue).sum() / microserviceMetrics.size();
     }
 
-    private double computeContributorOverlapping(Decomposition decomposition, Map<Long,Set<String>> microserviceAuthorMap){
-        Set<Long> microserviceIds = microserviceAuthorMap.keySet();
-
+    private double computeContributorOverlapping(List<MicroserviceMetrics> microserviceMetrics){
         List<Integer> overlappingContributors = new ArrayList<>();
-
-        microserviceIds.forEach(firstServiceId -> {
-            microserviceIds.forEach(secondServiceId -> {
-                if(firstServiceId != secondServiceId){
-                    overlappingContributors.add(getNumberOfOverlappingContributors(microserviceAuthorMap.get(firstServiceId),microserviceAuthorMap.get(secondServiceId)));
-                }
+        microserviceMetrics.forEach( firstServiceMetric -> {
+            microserviceMetrics.forEach( secondServiceMetric -> {
+                overlappingContributors.add(getNumberOfOverlappingContributors(firstServiceMetric.getContributors(), secondServiceMetric.getContributors()));
             });
         });
-
         return overlappingContributors.stream().mapToInt(Integer::intValue).sum() / overlappingContributors.size();
     }
 
-    private void computeMicroserviceSizeKLOC(Decomposition decomposition){
-        //TODO:
+    private double computeAverageLoc(List<MicroserviceMetrics> microserviceMetrics){
+        return microserviceMetrics.stream().map(metric -> metric.getSizeInLoc()).mapToInt(Integer::intValue).sum() / microserviceMetrics.size();
     }
 
-    private void computeMicroserviceSizeClasses(Decomposition decomposition){
-        //TODO:
+    private double computeMicroserviceSizeClasses(List<MicroserviceMetrics> microserviceMetrics){
+        return microserviceMetrics.stream().map(metric -> metric.getSizeInClasses()).mapToInt(Integer::intValue).sum() / microserviceMetrics.size();
     }
 
     private void computeServiceSimilarity(Decomposition decomposition){
         //TODO:
     }
 
-    private Map<Long, Set<String>> computeAuthorMap(Decomposition decomposition){
-        Map<Long,Set<String>> microserviceAuthorMap = new HashMap<>();
-
-        decomposition.getServices().forEach(microservice ->{
-
-            Set<String> authorSet = new HashSet<String>();
-
-            microservice.getNodes().forEach(classNode -> {
-                try{
-                    authorSet.addAll(authorService.getContributingAuthors(decomposition.getRepository(), classNode.getId()));
-                }catch (Exception e){
-                    logger.error("Error during computation of authorSet for ContributorPerMicroservice metric!");
-                    logger.info(e.getMessage());
-                }
-            });
-
-            microserviceAuthorMap.put(microservice.getId(), authorSet);
-
-        });
-
-        return microserviceAuthorMap;
-    }
 
     public int getNumberOfOverlappingContributors(Set<String> firstSet, Set<String> secondSet){
         Set<String> intersection = new HashSet<>(firstSet);

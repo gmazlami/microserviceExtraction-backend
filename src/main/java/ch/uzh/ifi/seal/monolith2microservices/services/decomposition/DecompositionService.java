@@ -8,6 +8,7 @@ import ch.uzh.ifi.seal.monolith2microservices.models.couplings.BaseCoupling;
 import ch.uzh.ifi.seal.monolith2microservices.models.couplings.ContributorCoupling;
 import ch.uzh.ifi.seal.monolith2microservices.models.couplings.LogicalCoupling;
 import ch.uzh.ifi.seal.monolith2microservices.models.couplings.SemanticCoupling;
+import ch.uzh.ifi.seal.monolith2microservices.models.evaluation.MicroserviceMetrics;
 import ch.uzh.ifi.seal.monolith2microservices.models.git.ChangeEvent;
 import ch.uzh.ifi.seal.monolith2microservices.models.git.GitRepository;
 import ch.uzh.ifi.seal.monolith2microservices.models.graph.Component;
@@ -18,6 +19,7 @@ import ch.uzh.ifi.seal.monolith2microservices.models.persistence.DecompositionRe
 import ch.uzh.ifi.seal.monolith2microservices.services.decomposition.contributors.ContributorCouplingEngine;
 import ch.uzh.ifi.seal.monolith2microservices.services.decomposition.logicalcoupling.LogicalCouplingEngine;
 import ch.uzh.ifi.seal.monolith2microservices.services.decomposition.semanticcoupling.SemanticCouplingEngine;
+import ch.uzh.ifi.seal.monolith2microservices.services.evaluation.MicroserviceEvaluationService;
 import ch.uzh.ifi.seal.monolith2microservices.services.git.HistoryService;
 import ch.uzh.ifi.seal.monolith2microservices.services.reporting.TextFileReport;
 import org.slf4j.Logger;
@@ -61,46 +63,49 @@ public class DecompositionService {
     @Autowired
     ContributorCouplingEngine contributorCouplingEngine;
 
+    @Autowired
+    MicroserviceEvaluationService microserviceEvaluationService;
+
     public Set<GraphRepresentation> decompose(GitRepository repository, DecompositionDTO parameters){
 
-        try{
+        try {
 
             logger.info("DECOMPOSITION-------------------------");
-            logger.info("STRATEGIES: Logical Coupling: " + parameters.isLogicalCoupling() + " Semantic Coupling: " +  parameters.isSemanticCoupling() + "  Contributor Coupling: " + parameters.isContributorCoupling());
+            logger.info("STRATEGIES: Logical Coupling: " + parameters.isLogicalCoupling() + " Semantic Coupling: " + parameters.isSemanticCoupling() + "  Contributor Coupling: " + parameters.isContributorCoupling());
             logger.info("PARAMETERS: History Interval Size (s): " + parameters.getIntervalSeconds() + " Target Number of Services: " + parameters.getNumServices());
 
             List<BaseCoupling> couplings = new ArrayList<>();
 
-            if(parameters.isLogicalCoupling() && parameters.isSemanticCoupling() && parameters.isContributorCoupling()){
+            if (parameters.isLogicalCoupling() && parameters.isSemanticCoupling() && parameters.isContributorCoupling()) {
 
                 couplings = LinearGraphCombination.create().withLogicalCouplings(computeLogicalCouplings(repository, parameters))
                         .withSemanticCouplings(computeSemanticCouplings(repository))
                         .withContributorCouplings(computeContributorCouplings(repository)).generate();
 
-            }else if(parameters.isLogicalCoupling() && parameters.isSemanticCoupling()){
+            } else if (parameters.isLogicalCoupling() && parameters.isSemanticCoupling()) {
 
                 couplings = LinearGraphCombination.create().withLogicalCouplings(computeLogicalCouplings(repository, parameters))
                         .withSemanticCouplings(computeSemanticCouplings(repository)).generate();
 
-            }else if(parameters.isLogicalCoupling() && parameters.isContributorCoupling()){
+            } else if (parameters.isLogicalCoupling() && parameters.isContributorCoupling()) {
 
                 couplings = LinearGraphCombination.create().withLogicalCouplings(computeLogicalCouplings(repository, parameters))
                         .withContributorCouplings(computeContributorCouplings(repository)).generate();
 
-            }else if(parameters.isContributorCoupling() && parameters.isSemanticCoupling()){
+            } else if (parameters.isContributorCoupling() && parameters.isSemanticCoupling()) {
 
                 couplings = LinearGraphCombination.create().withContributorCouplings(computeContributorCouplings(repository))
                         .withSemanticCouplings(computeSemanticCouplings(repository)).generate();
 
-            }else if(parameters.isLogicalCoupling()){
+            } else if (parameters.isLogicalCoupling()) {
 
                 couplings = LinearGraphCombination.create().withLogicalCouplings(computeLogicalCouplings(repository, parameters)).generate();
 
-            }else if(parameters.isSemanticCoupling()){
+            } else if (parameters.isSemanticCoupling()) {
 
                 couplings = LinearGraphCombination.create().withSemanticCouplings(computeSemanticCouplings(repository)).generate();
 
-            }else if(parameters.isContributorCoupling()){
+            } else if (parameters.isContributorCoupling()) {
                 couplings = LinearGraphCombination.create().withContributorCouplings(computeContributorCouplings(repository)).generate();
             }
 
@@ -122,6 +127,14 @@ public class DecompositionService {
             decompositionRepository.save(decomposition);
 
             logger.info("Saved all decomposition info and components to database!");
+
+
+            List<MicroserviceMetrics> microserviceMetrics = new ArrayList<>();
+            for(Component microservice : decomposition.getServices()){
+                microserviceMetrics.add(microserviceEvaluationService.from(microservice, decomposition.getRepository()));
+            }
+
+
 
 
             TextFileReport.generate(repository, components);
