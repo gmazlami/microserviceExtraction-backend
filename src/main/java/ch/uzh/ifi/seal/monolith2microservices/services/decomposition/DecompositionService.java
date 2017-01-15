@@ -128,24 +128,18 @@ public class DecompositionService {
 
             logger.info("Saved all decomposition info and components to database!");
 
-
-            List<MicroserviceMetrics> microserviceMetrics = new ArrayList<>();
-            for(Component microservice : decomposition.getServices()){
-                microserviceMetrics.add(microserviceEvaluationService.from(microservice, decomposition.getRepository()));
-            }
-
             TextFileReport.generate(repository, components);
 
             return decomposition;
 
         }catch(Exception e){
+            e.printStackTrace();
             logger.error(e.getMessage());
+            Decomposition emptyDecomposition = new Decomposition();
+            emptyDecomposition.setComponents(new HashSet<>());
+            emptyDecomposition.setRepository(repository);
+            return emptyDecomposition;
         }
-
-        Decomposition emptyDecomposition = new Decomposition();
-        emptyDecomposition.setComponents(new HashSet<>());
-        emptyDecomposition.setRepository(repository);
-        return emptyDecomposition;
     }
 
     private List<ContributorCoupling> computeContributorCouplings(GitRepository repository) throws Exception{

@@ -8,6 +8,7 @@ import ch.uzh.ifi.seal.monolith2microservices.services.git.AuthorService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -18,6 +19,7 @@ import java.util.*;
 /**
  * Created by gmazlami on 1/15/17.
  */
+@Service
 public class MicroserviceEvaluationService {
 
     private Logger logger = LoggerFactory.getLogger(MicroserviceEvaluationService.class);

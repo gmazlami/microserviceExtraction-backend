@@ -3,6 +3,7 @@ package ch.uzh.ifi.seal.monolith2microservices.models.graph;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 /**
@@ -22,7 +23,7 @@ public class Component {
     private boolean visited;
 
     public Component(){
-        id = System.currentTimeMillis();
+        id = new Random().nextLong() % System.currentTimeMillis();
         nodes = new ArrayList<>();
         visited = false;
     }
