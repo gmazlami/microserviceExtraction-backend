@@ -3,6 +3,7 @@ package ch.uzh.ifi.seal.monolith2microservices.controllers;
 import ch.uzh.ifi.seal.monolith2microservices.conversion.GraphRepresentation;
 import ch.uzh.ifi.seal.monolith2microservices.dtos.DecompositionDTO;
 import ch.uzh.ifi.seal.monolith2microservices.models.git.GitRepository;
+import ch.uzh.ifi.seal.monolith2microservices.models.graph.Decomposition;
 import ch.uzh.ifi.seal.monolith2microservices.models.persistence.RepositoryRepository;
 import ch.uzh.ifi.seal.monolith2microservices.services.decomposition.DecompositionService;
 import org.slf4j.Logger;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Configuration
 @EnableAutoConfiguration
@@ -41,8 +43,18 @@ public class DecompositionController {
     @RequestMapping(value="/repositories/{repoId}/decomposition", method=RequestMethod.POST)
     public ResponseEntity<Set<GraphRepresentation>> decomposition(@PathVariable Long repoId, @RequestBody DecompositionDTO decompositionDTO){
         logger.info(decompositionDTO.toString());
+
+        //find repository to be decomposed
         GitRepository repo = repository.findById(repoId);
-        Set<GraphRepresentation> graph = decompositionService.decompose(repo,decompositionDTO);
+
+        //perform decomposition
+        Decomposition decomposition = decompositionService.decompose(repo,decompositionDTO);
+
+        // convert to graph representation for frontend
+        Set<GraphRepresentation> graph = decomposition.getServices().stream().map(GraphRepresentation::from).collect(Collectors.toSet());
+
+
+
         return new ResponseEntity<>(graph,HttpStatus.OK);
     }
 

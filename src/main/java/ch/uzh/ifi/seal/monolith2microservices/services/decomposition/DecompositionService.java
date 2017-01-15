@@ -66,7 +66,7 @@ public class DecompositionService {
     @Autowired
     MicroserviceEvaluationService microserviceEvaluationService;
 
-    public Set<GraphRepresentation> decompose(GitRepository repository, DecompositionDTO parameters){
+    public Decomposition decompose(GitRepository repository, DecompositionDTO parameters){
 
         try {
 
@@ -134,21 +134,18 @@ public class DecompositionService {
                 microserviceMetrics.add(microserviceEvaluationService.from(microservice, decomposition.getRepository()));
             }
 
-
-
-
             TextFileReport.generate(repository, components);
 
-
-            Set<GraphRepresentation> microservices = components.stream().map(GraphRepresentation::from).collect(Collectors.toSet());
-
-            return microservices;
+            return decomposition;
 
         }catch(Exception e){
             logger.error(e.getMessage());
         }
 
-        return new HashSet<>();
+        Decomposition emptyDecomposition = new Decomposition();
+        emptyDecomposition.setComponents(new HashSet<>());
+        emptyDecomposition.setRepository(repository);
+        return emptyDecomposition;
     }
 
     private List<ContributorCoupling> computeContributorCouplings(GitRepository repository) throws Exception{
