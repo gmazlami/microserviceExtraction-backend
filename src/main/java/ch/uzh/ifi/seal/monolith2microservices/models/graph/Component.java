@@ -3,6 +3,7 @@ package ch.uzh.ifi.seal.monolith2microservices.models.graph;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by Genc on 13.12.2016.
@@ -48,6 +49,11 @@ public class Component {
 
     public int getSize() {
         return this.nodes.size();
+    }
+
+
+    public List<String> getFilePaths(){
+        return this.nodes.stream().map(classNode -> classNode.getId()).collect(Collectors.toList());
     }
 
     @Override

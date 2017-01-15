@@ -3,6 +3,7 @@ package ch.uzh.ifi.seal.monolith2microservices.services.evaluation;
 import ch.uzh.ifi.seal.monolith2microservices.main.Configs;
 import ch.uzh.ifi.seal.monolith2microservices.models.evaluation.EvaluationMetrics;
 import ch.uzh.ifi.seal.monolith2microservices.models.evaluation.MicroserviceMetrics;
+import ch.uzh.ifi.seal.monolith2microservices.models.graph.Component;
 import ch.uzh.ifi.seal.monolith2microservices.models.graph.Decomposition;
 import ch.uzh.ifi.seal.monolith2microservices.services.git.AuthorService;
 import org.slf4j.Logger;
@@ -10,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -30,15 +32,18 @@ public class EvaluationService {
     @Autowired
     AuthorService authorService;
 
+    @Autowired
+    MicroserviceSimilarityService similarityService;
 
-    public EvaluationMetrics computeMetrics(Decomposition decomposition, List<MicroserviceMetrics> microserviceMetrics){
+
+    public EvaluationMetrics computeMetrics(Decomposition decomposition, List<MicroserviceMetrics> microserviceMetrics) throws IOException{
         EvaluationMetrics metrics = new EvaluationMetrics();
         metrics.setDecomposition(decomposition);
         metrics.setContributorsPerMicroservice(computeContributorPerMicroservice(microserviceMetrics));
         metrics.setContributorOverlapping(computeContributorOverlapping(microserviceMetrics));
         metrics.setAverageLoc(computeAverageLoc(microserviceMetrics));
         metrics.setAverageClassNumber(computeMicroserviceSizeClasses(microserviceMetrics));
-
+        metrics.setSimilarity(computeServiceSimilarity(decomposition));
         return metrics;
     }
 
@@ -64,8 +69,16 @@ public class EvaluationService {
         return microserviceMetrics.stream().map(metric -> metric.getSizeInClasses()).mapToInt(Integer::intValue).sum() / microserviceMetrics.size();
     }
 
-    private void computeServiceSimilarity(Decomposition decomposition){
-        //TODO:
+    private double computeServiceSimilarity(Decomposition decomposition) throws IOException{
+        List<Double> similarities = new ArrayList<>();
+        for(Component firstService :  decomposition.getServices()){
+            for(Component secondService: decomposition.getServices()){
+                if(firstService.getId() != secondService.getId()){
+                    similarities.add(similarityService.computeServiceSimilarity(decomposition.getRepository(),firstService,secondService));
+                }
+            }
+        }
+        return similarities.stream().mapToDouble(Double::doubleValue).sum() / similarities.size();
     }
 
 

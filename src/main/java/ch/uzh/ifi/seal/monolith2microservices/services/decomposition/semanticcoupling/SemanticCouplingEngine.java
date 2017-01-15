@@ -6,6 +6,7 @@ import ch.uzh.ifi.seal.monolith2microservices.models.couplings.SemanticCoupling;
 import ch.uzh.ifi.seal.monolith2microservices.models.git.GitRepository;
 import ch.uzh.ifi.seal.monolith2microservices.services.decomposition.semanticcoupling.classprocessing.ClassContentVisitor;
 import ch.uzh.ifi.seal.monolith2microservices.services.decomposition.semanticcoupling.tfidf.TfIdfWrapper;
+import ch.uzh.ifi.seal.monolith2microservices.utils.ClassContentFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,7 +32,7 @@ public class SemanticCouplingEngine {
 
         Path repoDirectory = Paths.get(localRepoPath);
 
-        ClassContentVisitor visitor = new ClassContentVisitor(repo,config);
+        ClassContentVisitor visitor = new ClassContentVisitor(repo,config, new ClassContentFilter());
 
         Files.walkFileTree(repoDirectory, visitor);
 

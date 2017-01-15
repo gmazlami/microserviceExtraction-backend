@@ -3,6 +3,8 @@ package ch.uzh.ifi.seal.monolith2microservices.services.decomposition.semanticco
 import ch.uzh.ifi.seal.monolith2microservices.main.Configs;
 import ch.uzh.ifi.seal.monolith2microservices.models.ClassContent;
 import ch.uzh.ifi.seal.monolith2microservices.models.git.GitRepository;
+import ch.uzh.ifi.seal.monolith2microservices.utils.ClassContentFilter;
+import ch.uzh.ifi.seal.monolith2microservices.utils.FilterInterface;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -26,10 +28,13 @@ public class ClassContentVisitor extends SimpleFileVisitor<Path> {
 
     private Configs config;
 
-    public ClassContentVisitor(GitRepository repo, Configs config) {
+    private FilterInterface filterInterface;
+
+    public ClassContentVisitor(GitRepository repo, Configs config, FilterInterface filterInterface) {
         this.classes = new ArrayList<>();
         this.repo = repo;
         this.config = config;
+        this.filterInterface = filterInterface;
     }
 
     @Override
@@ -44,8 +49,7 @@ public class ClassContentVisitor extends SimpleFileVisitor<Path> {
                 while((currentLine = reader.readLine()) != null){
                     sb.append(currentLine);
                 }
-
-                this.classes.add(new ClassContent(getRelativeFileName(path.toUri().toString()),filter(sb.toString())));
+                this.classes.add(new ClassContent(getRelativeFileName(path.toUri().toString()),filterInterface.filterFileContent(sb.toString())));
             }
         }catch(MalformedInputException mE){
             System.out.println(path.getFileName());
@@ -68,26 +72,6 @@ public class ClassContentVisitor extends SimpleFileVisitor<Path> {
         return qualifiedPathName.replace(this.repo.getDirectoryName(),"").substring(1);
     }
 
-    private List<String> filter(String rawFileContent){
 
-        //remove all special symbols
-        for(char specialCharacter : StopWords.SPECIAL_SYMBOLS){
-            rawFileContent = rawFileContent.replace(specialCharacter,' ');
-        }
-
-        List<String> filteredContent = new ArrayList<>();
-
-        //tokenize
-        String[] tokens = rawFileContent.split("\\s+");
-
-        //filter out reserved keywords for programming languages
-        for(String token: tokens){
-            if(!StopWords.JAVA_KEYWORDS.contains(token) && !StopWords.RUBY_KEYWORDS.contains(token) && !StopWords.PYTHON_KEYWORDS.contains(token) && (token.length() > 1)){
-                filteredContent.add(token);
-            }
-        }
-
-        return filteredContent;
-    }
 
 }
