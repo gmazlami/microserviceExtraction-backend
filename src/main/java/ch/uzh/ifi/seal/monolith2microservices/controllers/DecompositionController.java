@@ -2,10 +2,12 @@ package ch.uzh.ifi.seal.monolith2microservices.controllers;
 
 import ch.uzh.ifi.seal.monolith2microservices.conversion.GraphRepresentation;
 import ch.uzh.ifi.seal.monolith2microservices.dtos.DecompositionDTO;
+import ch.uzh.ifi.seal.monolith2microservices.models.evaluation.EvaluationMetrics;
 import ch.uzh.ifi.seal.monolith2microservices.models.git.GitRepository;
 import ch.uzh.ifi.seal.monolith2microservices.models.graph.Decomposition;
 import ch.uzh.ifi.seal.monolith2microservices.models.persistence.RepositoryRepository;
 import ch.uzh.ifi.seal.monolith2microservices.services.decomposition.DecompositionService;
+import ch.uzh.ifi.seal.monolith2microservices.services.evaluation.EvaluationService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +37,9 @@ public class DecompositionController {
     @Autowired
     private DecompositionService decompositionService;
 
+    @Autowired
+    private EvaluationService evaluationService;
+
 
     private Logger logger = LoggerFactory.getLogger(DecompositionController.class);
 
@@ -53,7 +58,8 @@ public class DecompositionController {
         // convert to graph representation for frontend
         Set<GraphRepresentation> graph = decomposition.getServices().stream().map(GraphRepresentation::from).collect(Collectors.toSet());
 
-
+        // Compute evaluation metrics
+        EvaluationMetrics metrics = evaluationService.performEvaluation(decomposition);
 
         return new ResponseEntity<>(graph,HttpStatus.OK);
     }
