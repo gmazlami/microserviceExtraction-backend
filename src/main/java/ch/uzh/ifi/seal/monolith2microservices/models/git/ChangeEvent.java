@@ -1,8 +1,11 @@
 package ch.uzh.ifi.seal.monolith2microservices.models.git;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 import org.eclipse.jgit.diff.DiffEntry;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -21,7 +24,9 @@ public class ChangeEvent {
 	private String authorEmailAddress;
 	
 	private List<DiffEntry> changedfiles = new ArrayList<>();
-	
+
+	private Map<String,String> changedFileNames = new HashMap<>();
+
 	private RevCommit commitObject;
 
 	public int getTimestampInSeconds() {
@@ -54,6 +59,23 @@ public class ChangeEvent {
 
 	public void setAuthorEmailAddress(String authorEmailAddress) {
 		this.authorEmailAddress = authorEmailAddress;
+	}
+
+	public List<String> getChangedFileNames(){
+		return this.changedFileNames.keySet().stream().collect(Collectors.toList());
+	}
+
+	public void addFileName(String fileName){
+		this.changedFileNames.put(fileName,fileName);
+	}
+
+	public void removeFileName(String fileName){
+		this.changedFileNames.remove(fileName);
+	}
+
+	public void renameChangedFileName(String oldName, String newName){
+		this.changedFileNames.remove(oldName);
+		this.changedFileNames.put(newName,newName);
 	}
 
 	@Override

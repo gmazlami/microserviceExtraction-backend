@@ -45,20 +45,7 @@ public class LogicalCouplingEngine {
 				continue;
 			}
 
-			//Prepare and compute powerset of changed filenames in all the changeEvents in the current time interval
-			List<DiffEntry> currentDiffEntries = new ArrayList<>();
-			for(ChangeEvent changeEvent: changeEvents){
-				changeEvent.getChangedfiles().forEach(diffEntry -> currentDiffEntries.add(diffEntry));
-			}
-			
-			ImmutableSet<String> set;
-			if(currentDiffEntries.size() > 10){
-				set = ImmutableSet.copyOf(getStringSet(currentDiffEntries.subList(0, 10)));
-			}else{
-				set = ImmutableSet.copyOf(getStringSet(currentDiffEntries));
-			}
-			
-			
+			ImmutableSet<String> set = ImmutableSet.copyOf(getChangedFileNames(changeEvents));
 			Set<Set<String>> powerSetofFileNames = Sets.powerSet(set);
 			
 			
@@ -144,6 +131,19 @@ public class LogicalCouplingEngine {
 			set.add(entry.getNewPath());
 		}
 		return set;
+	}
+
+	private List<String> getChangedFileNames(List<ChangeEvent> events){
+		List<String> fileNames = new ArrayList<>();
+		for(ChangeEvent event: events){
+				fileNames.addAll(event.getChangedFileNames());
+		}
+		if(fileNames.size() > 12){
+			return fileNames.subList(0,11);
+		}else{
+			return  fileNames;
+		}
+
 	}
 
 	

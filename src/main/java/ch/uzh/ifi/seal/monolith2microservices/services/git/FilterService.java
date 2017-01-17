@@ -17,9 +17,15 @@ public class FilterService {
     //Define predicate to filter only files that were added or modified and conform to the file patterns
     private Predicate<DiffEntry> filterPredicate = (entry) ->{
         //filter out Git changes that did not add or modify files
-        if(entry.getChangeType() == DiffEntry.ChangeType.ADD || entry.getChangeType() == DiffEntry.ChangeType.MODIFY){
+        if(entry.getChangeType() == DiffEntry.ChangeType.ADD ||
+                entry.getChangeType() == DiffEntry.ChangeType.MODIFY ||
+                entry.getChangeType() == DiffEntry.ChangeType.RENAME ||
+                entry.getChangeType() == DiffEntry.ChangeType.DELETE ){
             //filter out anything not related to Java, Python or Ruby
-            if(entry.getNewPath().endsWith(".java") || entry.getNewPath().endsWith(".rb") || entry.getNewPath().endsWith(".py")){
+            if(entry.getNewPath().endsWith(".java") ||
+                    entry.getNewPath().endsWith(".rb") ||
+                    entry.getNewPath().endsWith(".py") ||
+                    (entry.getNewPath().equals("/dev/null") && (entry.getOldPath().endsWith(".py") || entry.getOldPath().endsWith(".java") || entry.getOldPath().endsWith(".rb")))){
                 //filter out BLACKLIST files
                 for(String pattern : BLACKLIST){
                     if(entry.getNewPath().endsWith(pattern)){

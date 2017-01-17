@@ -1,6 +1,5 @@
 package ch.uzh.ifi.seal.monolith2microservices.services.decomposition;
 
-import ch.uzh.ifi.seal.monolith2microservices.conversion.GraphRepresentation;
 import ch.uzh.ifi.seal.monolith2microservices.dtos.DecompositionDTO;
 import ch.uzh.ifi.seal.monolith2microservices.graph.LinearGraphCombination;
 import ch.uzh.ifi.seal.monolith2microservices.graph.MSTGraphClusterer;
@@ -8,7 +7,6 @@ import ch.uzh.ifi.seal.monolith2microservices.models.couplings.BaseCoupling;
 import ch.uzh.ifi.seal.monolith2microservices.models.couplings.ContributorCoupling;
 import ch.uzh.ifi.seal.monolith2microservices.models.couplings.LogicalCoupling;
 import ch.uzh.ifi.seal.monolith2microservices.models.couplings.SemanticCoupling;
-import ch.uzh.ifi.seal.monolith2microservices.models.evaluation.MicroserviceMetrics;
 import ch.uzh.ifi.seal.monolith2microservices.models.git.ChangeEvent;
 import ch.uzh.ifi.seal.monolith2microservices.models.git.GitRepository;
 import ch.uzh.ifi.seal.monolith2microservices.models.graph.Component;
@@ -32,7 +30,6 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 /**
  * Created by gmazlami on 12/15/16.
@@ -152,7 +149,8 @@ public class DecompositionService {
 
     private List<LogicalCoupling> computeLogicalCouplings(GitRepository repository, DecompositionDTO parameters) throws Exception{
         List<ChangeEvent> history = historyService.computeChangeEvents(repository);
-        return logicalCouplingEngine.computeCouplings(history, parameters.getIntervalSeconds());
+        List<ChangeEvent> correctedHistory = historyService.cleanHistory(history);
+        return logicalCouplingEngine.computeCouplings(correctedHistory, parameters.getIntervalSeconds());
     }
 
 }
