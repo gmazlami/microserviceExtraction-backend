@@ -3,7 +3,7 @@ package ch.uzh.ifi.seal.monolith2microservices.dtos;
 /**
  * Created by gmazlami on 12/15/16.
  */
-public class DecompositionDTO {
+public class DecompositionParametersDTO {
 
     private boolean logicalCoupling;
 
@@ -67,7 +67,7 @@ public class DecompositionDTO {
 
     @Override
     public String toString() {
-        return "DecompositionDTO{" +
+        return "DecompositionParametersDTO{" +
                 "logicalCoupling=" + logicalCoupling +
                 ", semanticCoupling=" + semanticCoupling +
                 ", contributorCoupling=" + contributorCoupling +

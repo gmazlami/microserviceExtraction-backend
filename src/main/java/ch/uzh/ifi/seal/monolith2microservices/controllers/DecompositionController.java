@@ -1,7 +1,7 @@
 package ch.uzh.ifi.seal.monolith2microservices.controllers;
 
 import ch.uzh.ifi.seal.monolith2microservices.conversion.GraphRepresentation;
-import ch.uzh.ifi.seal.monolith2microservices.dtos.DecompositionDTO;
+import ch.uzh.ifi.seal.monolith2microservices.dtos.DecompositionParametersDTO;
 import ch.uzh.ifi.seal.monolith2microservices.models.evaluation.EvaluationMetrics;
 import ch.uzh.ifi.seal.monolith2microservices.models.git.GitRepository;
 import ch.uzh.ifi.seal.monolith2microservices.models.graph.Decomposition;
@@ -46,7 +46,7 @@ public class DecompositionController {
 
     @CrossOrigin
     @RequestMapping(value="/repositories/{repoId}/decomposition", method=RequestMethod.POST)
-    public ResponseEntity<Set<GraphRepresentation>> decomposition(@PathVariable Long repoId, @RequestBody DecompositionDTO decompositionDTO){
+    public ResponseEntity<Set<GraphRepresentation>> decomposition(@PathVariable Long repoId, @RequestBody DecompositionParametersDTO decompositionDTO){
         logger.info(decompositionDTO.toString());
 
         //find repository to be decomposed

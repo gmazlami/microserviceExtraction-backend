@@ -1,6 +1,6 @@
 package ch.uzh.ifi.seal.monolith2microservices.services.decomposition;
 
-import ch.uzh.ifi.seal.monolith2microservices.dtos.DecompositionDTO;
+import ch.uzh.ifi.seal.monolith2microservices.dtos.DecompositionParametersDTO;
 import ch.uzh.ifi.seal.monolith2microservices.graph.LinearGraphCombination;
 import ch.uzh.ifi.seal.monolith2microservices.graph.MSTGraphClusterer;
 import ch.uzh.ifi.seal.monolith2microservices.models.couplings.BaseCoupling;
@@ -63,7 +63,7 @@ public class DecompositionService {
     @Autowired
     MicroserviceEvaluationService microserviceEvaluationService;
 
-    public Decomposition decompose(GitRepository repository, DecompositionDTO parameters){
+    public Decomposition decompose(GitRepository repository, DecompositionParametersDTO parameters){
 
         try {
 
@@ -147,7 +147,7 @@ public class DecompositionService {
         return semanticCouplingEngine.computeCouplings(repository);
     }
 
-    private List<LogicalCoupling> computeLogicalCouplings(GitRepository repository, DecompositionDTO parameters) throws Exception{
+    private List<LogicalCoupling> computeLogicalCouplings(GitRepository repository, DecompositionParametersDTO parameters) throws Exception{
         List<ChangeEvent> history = historyService.computeChangeEvents(repository);
         List<ChangeEvent> correctedHistory = historyService.cleanHistory(history);
         return logicalCouplingEngine.computeCouplings(correctedHistory, parameters.getIntervalSeconds());
