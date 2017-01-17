@@ -1,9 +1,23 @@
-package ch.uzh.ifi.seal.monolith2microservices.dtos;
+package ch.uzh.ifi.seal.monolith2microservices.models;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
 /**
  * Created by gmazlami on 12/15/16.
  */
-public class DecompositionParametersDTO {
+
+@Entity
+public class DecompositionParameters {
+
+    @JsonIgnore
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private long id;
 
     private boolean logicalCoupling;
 
@@ -16,6 +30,10 @@ public class DecompositionParametersDTO {
     private int intervalSeconds;
 
     private int sizeThreshold;
+
+    public long getId(){
+        return id;
+    }
 
     public boolean isLogicalCoupling() {
         return logicalCoupling;
@@ -67,7 +85,7 @@ public class DecompositionParametersDTO {
 
     @Override
     public String toString() {
-        return "DecompositionParametersDTO{" +
+        return "DecompositionParameters{" +
                 "logicalCoupling=" + logicalCoupling +
                 ", semanticCoupling=" + semanticCoupling +
                 ", contributorCoupling=" + contributorCoupling +

@@ -1,5 +1,6 @@
 package ch.uzh.ifi.seal.monolith2microservices.models.graph;
 
+import ch.uzh.ifi.seal.monolith2microservices.models.DecompositionParameters;
 import ch.uzh.ifi.seal.monolith2microservices.models.git.GitRepository;
 
 import javax.persistence.*;
@@ -21,6 +22,17 @@ public class Decomposition {
 
     @OneToOne
     private GitRepository repository;
+
+    @OneToOne
+    private DecompositionParameters parameters;
+
+    public void setParameters(DecompositionParameters params){
+        this.parameters = params;
+    }
+
+    public DecompositionParameters getParameters(){
+        return this.parameters;
+    }
 
     public void setComponents(Set<Component> services){
         this.services = services;

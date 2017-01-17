@@ -1,6 +1,6 @@
 package ch.uzh.ifi.seal.monolith2microservices.services.decomposition;
 
-import ch.uzh.ifi.seal.monolith2microservices.dtos.DecompositionParametersDTO;
+import ch.uzh.ifi.seal.monolith2microservices.models.DecompositionParameters;
 import ch.uzh.ifi.seal.monolith2microservices.graph.LinearGraphCombination;
 import ch.uzh.ifi.seal.monolith2microservices.graph.MSTGraphClusterer;
 import ch.uzh.ifi.seal.monolith2microservices.models.couplings.BaseCoupling;
@@ -14,6 +14,7 @@ import ch.uzh.ifi.seal.monolith2microservices.models.graph.Decomposition;
 import ch.uzh.ifi.seal.monolith2microservices.persistence.ClassNodeRepository;
 import ch.uzh.ifi.seal.monolith2microservices.persistence.ComponentRepository;
 import ch.uzh.ifi.seal.monolith2microservices.persistence.DecompositionRepository;
+import ch.uzh.ifi.seal.monolith2microservices.persistence.ParametersRepository;
 import ch.uzh.ifi.seal.monolith2microservices.services.decomposition.contributors.ContributorCouplingEngine;
 import ch.uzh.ifi.seal.monolith2microservices.services.decomposition.logicalcoupling.LogicalCouplingEngine;
 import ch.uzh.ifi.seal.monolith2microservices.services.decomposition.semanticcoupling.SemanticCouplingEngine;
@@ -49,6 +50,9 @@ public class DecompositionService {
     DecompositionRepository decompositionRepository;
 
     @Autowired
+    ParametersRepository parametersRepository;
+
+    @Autowired
     HistoryService historyService;
 
     @Autowired
@@ -63,7 +67,7 @@ public class DecompositionService {
     @Autowired
     MicroserviceEvaluationService microserviceEvaluationService;
 
-    public Decomposition decompose(GitRepository repository, DecompositionParametersDTO parameters){
+    public Decomposition decompose(GitRepository repository, DecompositionParameters parameters){
 
         try {
 
@@ -118,9 +122,12 @@ public class DecompositionService {
                 logger.info(c.toString());
             });
 
+            parametersRepository.save(parameters);
+
             Decomposition decomposition = new Decomposition();
             decomposition.setComponents(components);
             decomposition.setRepository(repository);
+            decomposition.setParameters(parameters);
             decompositionRepository.save(decomposition);
 
             logger.info("Saved all decomposition info and components to database!");
@@ -147,7 +154,7 @@ public class DecompositionService {
         return semanticCouplingEngine.computeCouplings(repository);
     }
 
-    private List<LogicalCoupling> computeLogicalCouplings(GitRepository repository, DecompositionParametersDTO parameters) throws Exception{
+    private List<LogicalCoupling> computeLogicalCouplings(GitRepository repository, DecompositionParameters parameters) throws Exception{
         List<ChangeEvent> history = historyService.computeChangeEvents(repository);
         List<ChangeEvent> correctedHistory = historyService.cleanHistory(history);
         return logicalCouplingEngine.computeCouplings(correctedHistory, parameters.getIntervalSeconds());
