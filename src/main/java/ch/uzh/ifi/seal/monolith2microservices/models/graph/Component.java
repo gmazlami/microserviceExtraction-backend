@@ -1,5 +1,7 @@
 package ch.uzh.ifi.seal.monolith2microservices.models.graph;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +21,7 @@ public class Component {
     @OneToMany
     private List<ClassNode> nodes;
 
+    @JsonIgnore
     @Transient
     private boolean visited;
 

@@ -1,5 +1,7 @@
 package ch.uzh.ifi.seal.monolith2microservices.models.graph;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.io.File;
 import java.util.ArrayList;
@@ -15,11 +17,18 @@ public class ClassNode {
 
 	private String id;
 
+	@JsonIgnore
 	@Transient
 	private boolean visited;
 
+	@JsonIgnore
 	@Transient
 	private List<NodeWeightPair> neighbors;
+
+	public ClassNode(){
+		this.visited = false;
+		this.neighbors = new ArrayList<>();
+	}
 
 	public ClassNode(String id){
 		this.id = id;
@@ -60,14 +69,17 @@ public class ClassNode {
 	}
 
 
+	@JsonIgnore
 	public List<NodeWeightPair> getNeighbors() {
 		return neighbors;
 	}
 
+	@JsonIgnore
 	public int getDegree(){
 		return this.neighbors.size();
 	}
 
+	@JsonIgnore
 	public double getCombinedWeight(){
         return this.neighbors.stream().mapToDouble(n -> {
             return n.getWeight();

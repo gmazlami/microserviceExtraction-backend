@@ -3,7 +3,7 @@ package ch.uzh.ifi.seal.monolith2microservices.controllers;
 
 import ch.uzh.ifi.seal.monolith2microservices.dtos.RepositoryDTO;
 import ch.uzh.ifi.seal.monolith2microservices.models.git.GitRepository;
-import ch.uzh.ifi.seal.monolith2microservices.models.persistence.RepositoryRepository;
+import ch.uzh.ifi.seal.monolith2microservices.persistence.RepositoryRepository;
 import ch.uzh.ifi.seal.monolith2microservices.services.git.GitCloneService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;

@@ -5,7 +5,7 @@ import ch.uzh.ifi.seal.monolith2microservices.dtos.DecompositionDTO;
 import ch.uzh.ifi.seal.monolith2microservices.models.evaluation.EvaluationMetrics;
 import ch.uzh.ifi.seal.monolith2microservices.models.git.GitRepository;
 import ch.uzh.ifi.seal.monolith2microservices.models.graph.Decomposition;
-import ch.uzh.ifi.seal.monolith2microservices.models.persistence.RepositoryRepository;
+import ch.uzh.ifi.seal.monolith2microservices.persistence.RepositoryRepository;
 import ch.uzh.ifi.seal.monolith2microservices.services.decomposition.DecompositionService;
 import ch.uzh.ifi.seal.monolith2microservices.services.evaluation.EvaluationService;
 import org.slf4j.Logger;
