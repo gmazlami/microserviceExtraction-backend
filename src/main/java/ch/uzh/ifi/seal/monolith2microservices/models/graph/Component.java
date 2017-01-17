@@ -43,6 +43,7 @@ public class Component {
         this.visited = value;
     }
 
+    @JsonIgnore
     public boolean getVisited(){
         return this.visited;
     }
@@ -51,11 +52,13 @@ public class Component {
         return this.nodes;
     }
 
+    @JsonIgnore
     public int getSize() {
         return this.nodes.size();
     }
 
 
+    @JsonIgnore
     public List<String> getFilePaths(){
         return this.nodes.stream().map(classNode -> classNode.getId()).collect(Collectors.toList());
     }

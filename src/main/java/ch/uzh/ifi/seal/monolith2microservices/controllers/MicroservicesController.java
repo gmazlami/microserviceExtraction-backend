@@ -12,6 +12,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 /**
  * Created by gmazlami on 1/17/17.
  */
@@ -27,12 +29,18 @@ public class MicroservicesController {
     DecompositionRepository decompositionRepository;
 
 
-
     @CrossOrigin
     @RequestMapping(value="/microservices/{decompositionId}", method= RequestMethod.GET)
     public ResponseEntity<Decomposition> getMicroservice(@PathVariable long decompositionId) throws Exception{
         Decomposition decomposition = decompositionRepository.findById(decompositionId);
         return new ResponseEntity<Decomposition>(decomposition, HttpStatus.OK);
+    }
+
+    @CrossOrigin
+    @RequestMapping(value = "/microservices", method = RequestMethod.GET)
+    public ResponseEntity<List<Decomposition>> getMicroservices() throws Exception{
+        List<Decomposition> decompositions = decompositionRepository.findAll();
+        return new ResponseEntity<List<Decomposition>>(decompositions, HttpStatus.OK);
     }
 
 
