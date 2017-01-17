@@ -60,7 +60,6 @@ public class HistoryService {
 			for(DiffEntry entry: event.getChangedfiles()){
 				if(entry.getNewPath().equals("/dev/null") && !entry.getOldPath().equals(entry.getNewPath())){ //file was deleted
 					deletedFileNames.add(entry.getOldPath());
-					System.out.println(entry.getOldPath());
 				}
 			}
 
