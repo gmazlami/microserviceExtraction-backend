@@ -58,7 +58,7 @@ public class HistoryService {
 
 		for(ChangeEvent event: events){
 			for(DiffEntry entry: event.getChangedfiles()){
-				if(entry.getNewPath().equals("/dev/null") && !entry.getOldPath().equals(entry.getNewPath())){ //file was deleted
+				if(entry.getNewPath().equals(config.DEV_NULL) && !entry.getOldPath().equals(entry.getNewPath())){ //file was deleted
 					deletedFileNames.add(entry.getOldPath());
 				}
 			}
@@ -74,20 +74,18 @@ public class HistoryService {
 					if(entry.getNewPath().equals(fileName)){
 						event.removeFileName(fileName);
 					}
-					if(entry.getNewPath().equals("/dev/null")){
-						event.removeFileName("/dev/null");
+					if(entry.getNewPath().equals(config.DEV_NULL)){
+						event.removeFileName(config.DEV_NULL);
 					}
 				}
 			}
 
 		});
-
 		return events;
 	}
 
 
 	private List<ChangeEvent> correctRenamedFiles(List<ChangeEvent> events) {
-
 		int counter = 0;
 		for(ChangeEvent event: events){
 			for (String fileName: event.getChangedFileNames()){
@@ -95,13 +93,12 @@ public class HistoryService {
 				if (lastName != fileName){
 					event.renameChangedFileName(fileName,lastName);
 				}
-				if(fileName.equals("/dev/null")){ // file was deleted
+				if(fileName.equals(config.DEV_NULL)){ // file was deleted
 
 				}
 			}
 			counter++;
 		}
-
 		return events;
 	}
 

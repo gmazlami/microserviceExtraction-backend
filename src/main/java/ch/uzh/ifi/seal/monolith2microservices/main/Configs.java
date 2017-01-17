@@ -12,6 +12,8 @@ public class Configs {
 	
 	@Value("${git.localrepo}")
 	public String localRepositoryDirectory;
+
+	public final String DEV_NULL = "/dev/null";
 	
 
 }
