@@ -1,5 +1,6 @@
 package ch.uzh.ifi.seal.monolith2microservices.controllers;
 
+import ch.uzh.ifi.seal.monolith2microservices.dtos.DecompositionDTO;
 import ch.uzh.ifi.seal.monolith2microservices.models.graph.Decomposition;
 import ch.uzh.ifi.seal.monolith2microservices.persistence.DecompositionRepository;
 import org.slf4j.Logger;
@@ -12,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -38,9 +40,22 @@ public class MicroservicesController {
 
     @CrossOrigin
     @RequestMapping(value = "/microservices", method = RequestMethod.GET)
-    public ResponseEntity<List<Decomposition>> getMicroservices() throws Exception{
+    public ResponseEntity<List<DecompositionDTO>> getMicroservices() throws Exception{
         List<Decomposition> decompositions = decompositionRepository.findAll();
-        return new ResponseEntity<List<Decomposition>>(decompositions, HttpStatus.OK);
+
+        List<DecompositionDTO> dtos = new ArrayList<>();
+
+        for(Decomposition d: decompositions){
+            DecompositionDTO dto = new DecompositionDTO();
+            dto.setDecompositionId(d.getId());
+            dto.setRepo(d.getRepository());
+            dto.setParameters(d.getParameters());
+            if(dto.getRepo() != null){
+                dtos.add(dto);
+            }
+        }
+
+        return new ResponseEntity<List<DecompositionDTO>>(dtos, HttpStatus.OK);
     }
 
 

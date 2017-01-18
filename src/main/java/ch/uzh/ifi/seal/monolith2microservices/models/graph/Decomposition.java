@@ -26,6 +26,10 @@ public class Decomposition {
     @OneToOne
     private DecompositionParameters parameters;
 
+    public long getId(){
+        return this.id;
+    }
+
     public void setParameters(DecompositionParameters params){
         this.parameters = params;
     }
