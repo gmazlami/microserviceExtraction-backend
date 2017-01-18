@@ -1,13 +1,31 @@
 package ch.uzh.ifi.seal.monolith2microservices.models.graph;
 
+import javax.persistence.*;
+
+@Entity
 public class NodeWeightPair {
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private long id;
+
+	@OneToOne(cascade=CascadeType.ALL)
 	private ClassNode node;
+
+
 	private double weight;
 
 	public NodeWeightPair(ClassNode node, double weight) {
 		this.node = node;
 		this.weight = weight;
+	}
+
+	public NodeWeightPair(){
+		super();
+	}
+
+	public Long getId(){
+		return this.id;
 	}
 
 	public ClassNode getNode() {

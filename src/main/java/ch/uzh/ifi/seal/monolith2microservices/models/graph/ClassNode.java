@@ -22,7 +22,7 @@ public class ClassNode {
 	private boolean visited;
 
 	@JsonIgnore
-	@Transient
+	@ManyToMany(cascade=CascadeType.ALL)
 	private List<NodeWeightPair> neighbors;
 
 	public ClassNode(){
