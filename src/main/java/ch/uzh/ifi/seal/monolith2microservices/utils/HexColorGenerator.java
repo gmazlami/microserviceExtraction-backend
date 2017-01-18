@@ -5,9 +5,9 @@ package ch.uzh.ifi.seal.monolith2microservices.utils;
  */
 public class HexColorGenerator {
 
-    private final String[] colorCodes = {"#FF0000", "#00FFFF", "#0000FF", "#800080", "#FFFF00", "#00FF00", "#C0C0C0",
-            "#A52A2A", "#808080", "#008000", "#ADD8E6", "#F87217", "#800517", "#E38AAE",
-            "#FFF5EE", "#FFF8C6", "#4CC417"};
+    private final String[] colorCodes = {"#B6B6B4", "#5CB3FF", "#95B9C7", "#7FFFD4", "#99C68E", "#59E817", "#8AFB17",
+            "#FFF380", "#E2A76F", "#FF7F50", "#F75D59", "#EDC9AF", "#FCDFFF", "#FFF5EE",
+            "#EBDDE2", "#ADA96E", "#F0FFFF"};
 
     private int counter = 0;
 
