@@ -18,7 +18,7 @@ public class Component {
     @Id
     private Long id;
 
-    @OneToMany
+    @OneToMany(cascade={CascadeType.REMOVE})
     private List<ClassNode> nodes;
 
     @JsonIgnore

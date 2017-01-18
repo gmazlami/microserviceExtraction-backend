@@ -17,16 +17,16 @@ public class Decomposition {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @OneToMany
+    @OneToMany(cascade={CascadeType.REMOVE})
     private Set<Component> services;
 
-    @OneToOne
+    @OneToOne(cascade={CascadeType.REMOVE})
     private GitRepository repository;
 
-    @OneToOne
+    @OneToOne(cascade={CascadeType.REMOVE})
     private DecompositionParameters parameters;
 
-    public long getId(){
+    public Long getId(){
         return this.id;
     }
 

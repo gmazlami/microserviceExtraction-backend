@@ -1,12 +1,9 @@
 package ch.uzh.ifi.seal.monolith2microservices.models.git;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Lob;
-import javax.persistence.ManyToOne;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
+import javax.persistence.*;
 
 @Entity
 public class Class {
@@ -29,6 +26,7 @@ public class Class {
 	private String relativeFilePath;
 	
 	@ManyToOne
+	@OnDelete(action = OnDeleteAction.CASCADE)
 	private GitRepository repo;
 
 	public String getName() {

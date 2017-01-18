@@ -21,7 +21,7 @@ public class MicroserviceMetrics {
 
     private int LOC;
 
-    @OneToOne
+    @OneToOne(cascade={CascadeType.REMOVE})
     private Component microservice;
 
     public long getId() {

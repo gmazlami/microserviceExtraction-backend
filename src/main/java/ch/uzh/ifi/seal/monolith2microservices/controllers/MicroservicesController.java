@@ -3,6 +3,7 @@ package ch.uzh.ifi.seal.monolith2microservices.controllers;
 import ch.uzh.ifi.seal.monolith2microservices.dtos.DecompositionDTO;
 import ch.uzh.ifi.seal.monolith2microservices.models.graph.Decomposition;
 import ch.uzh.ifi.seal.monolith2microservices.persistence.DecompositionRepository;
+import ch.uzh.ifi.seal.monolith2microservices.persistence.RepositoryRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,9 @@ public class MicroservicesController {
     @Autowired
     DecompositionRepository decompositionRepository;
 
+    @Autowired
+    RepositoryRepository repositoryRepository;
+
 
     @CrossOrigin
     @RequestMapping(value="/microservices/{decompositionId}", method= RequestMethod.GET)
@@ -37,6 +41,7 @@ public class MicroservicesController {
         Decomposition decomposition = decompositionRepository.findById(decompositionId);
         return new ResponseEntity<Decomposition>(decomposition, HttpStatus.OK);
     }
+
 
     @CrossOrigin
     @RequestMapping(value = "/microservices", method = RequestMethod.GET)

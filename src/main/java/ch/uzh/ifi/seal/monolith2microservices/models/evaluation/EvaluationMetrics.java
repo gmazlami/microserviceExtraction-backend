@@ -15,7 +15,7 @@ public class EvaluationMetrics {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-    @OneToOne
+    @OneToOne(cascade={CascadeType.REMOVE})
     private Decomposition decomposition;
 
     private double contributorsPerMicroservice;

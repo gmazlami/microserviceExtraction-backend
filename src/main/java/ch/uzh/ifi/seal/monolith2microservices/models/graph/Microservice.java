@@ -4,14 +4,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import javax.persistence.Column;
-import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.Transient;
+import javax.persistence.*;
 
 @Entity
 public class Microservice {
@@ -26,7 +19,7 @@ public class Microservice {
 	@Transient
 	private List<Edge> graph = new ArrayList<>();
 	
-	@ManyToMany
+	@ManyToMany(cascade={CascadeType.REMOVE})
 	private List<Microservice> relations = new ArrayList<>();
 	
 	@Column(unique=true)
