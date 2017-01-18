@@ -1,5 +1,6 @@
 package ch.uzh.ifi.seal.monolith2microservices.controllers;
 
+import ch.uzh.ifi.seal.monolith2microservices.conversion.GraphRepresentation;
 import ch.uzh.ifi.seal.monolith2microservices.dtos.DecompositionDTO;
 import ch.uzh.ifi.seal.monolith2microservices.models.graph.Decomposition;
 import ch.uzh.ifi.seal.monolith2microservices.persistence.DecompositionRepository;
@@ -16,6 +17,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * Created by gmazlami on 1/17/17.
@@ -37,9 +40,10 @@ public class MicroservicesController {
 
     @CrossOrigin
     @RequestMapping(value="/microservices/{decompositionId}", method= RequestMethod.GET)
-    public ResponseEntity<Decomposition> getMicroservice(@PathVariable long decompositionId) throws Exception{
+    public ResponseEntity<Set<GraphRepresentation>> getMicroservice(@PathVariable long decompositionId) throws Exception{
         Decomposition decomposition = decompositionRepository.findById(decompositionId);
-        return new ResponseEntity<Decomposition>(decomposition, HttpStatus.OK);
+        Set<GraphRepresentation> graph = decomposition.getServices().stream().map(GraphRepresentation::from).collect(Collectors.toSet());
+        return new ResponseEntity<Set<GraphRepresentation>>(graph, HttpStatus.OK);
     }
 
 
