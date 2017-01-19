@@ -66,14 +66,12 @@ public class ContributorCouplingEngine {
 		Map<String,List<String>> fileAuthorMap = new HashMap<>();
 		
 		for(ChangeEvent event : changeHistory){
-			for(DiffEntry diffEntry: event.getChangedfiles()){
-				String fileName = diffEntry.getNewPath();
-				
+			for(String fileName: event.getChangedFileNames()){
 				if(fileAuthorMap.get(fileName) == null){
 					List<String> list = new ArrayList<>();
 					list.add(event.getAuthorEmailAddress());
 					fileAuthorMap.put(fileName, list);
-					
+
 				}else{
 					List<String> list = fileAuthorMap.get(fileName);
 					list.add(event.getAuthorEmailAddress());

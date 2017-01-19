@@ -147,7 +147,9 @@ public class DecompositionService {
     }
 
     private List<ContributorCoupling> computeContributorCouplings(GitRepository repository) throws Exception{
-        return contributorCouplingEngine.computeCouplings(historyService.computeChangeEvents(repository));
+        List<ChangeEvent> history = historyService.computeChangeEvents(repository);
+        List<ChangeEvent> correctedHistory = historyService.cleanHistory(history);
+        return contributorCouplingEngine.computeCouplings(correctedHistory);
     }
 
     private List<SemanticCoupling> computeSemanticCouplings(GitRepository repository) throws IOException{
