@@ -59,7 +59,7 @@ public class DecompositionController {
         Set<GraphRepresentation> graph = decomposition.getServices().stream().map(GraphRepresentation::from).collect(Collectors.toSet());
 
         // Compute evaluation metrics
-        EvaluationMetrics metrics = evaluationService.performEvaluation(decomposition);
+        //EvaluationMetrics metrics = evaluationService.performEvaluation(decomposition);
 
         return new ResponseEntity<>(graph,HttpStatus.OK);
     }

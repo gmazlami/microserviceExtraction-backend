@@ -47,6 +47,12 @@ public class ClassContentVisitor extends SimpleFileVisitor<Path> {
                 StringBuilder sb = new StringBuilder();
                 String currentLine;
                 while((currentLine = reader.readLine()) != null){
+                    //filter out import statements
+                    for(String importStatement: StopWords.IMPORT_KEYWORDS){
+                        if(currentLine.startsWith(importStatement)){
+                            continue;
+                        }
+                    }
                     sb.append(currentLine);
                 }
                 this.classes.add(new ClassContent(getRelativeFileName(path.toUri().toString()),filterInterface.filterFileContent(sb.toString())));
