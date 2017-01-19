@@ -9,6 +9,7 @@ import ch.uzh.ifi.seal.monolith2microservices.persistence.MicroserviceMetricsRep
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -36,18 +37,16 @@ public class EvaluationService {
     DecompositionMetricsRepository decompositionMetricsRepository;
 
 
-    public EvaluationMetrics performEvaluation(Decomposition decomposition){
+    @Async
+    public void performEvaluation(Decomposition decomposition){
         try{
             List<MicroserviceMetrics> microserviceMetrics = computeMicroserviceMetrics(decomposition);
             microserviceMetricsRepository.save(microserviceMetrics);
 
             EvaluationMetrics metrics = decompositionEvaluationService.computeMetrics(decomposition, microserviceMetrics);
             decompositionMetricsRepository.save(metrics);
-            return metrics;
-
         }catch (IOException ioe){
             logger.error(ioe.getMessage());
-            return new EvaluationMetrics();
         }
     }
 
