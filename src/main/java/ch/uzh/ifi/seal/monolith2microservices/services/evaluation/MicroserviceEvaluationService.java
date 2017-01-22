@@ -2,6 +2,7 @@ package ch.uzh.ifi.seal.monolith2microservices.services.evaluation;
 
 import ch.uzh.ifi.seal.monolith2microservices.main.Configs;
 import ch.uzh.ifi.seal.monolith2microservices.models.evaluation.MicroserviceMetrics;
+import ch.uzh.ifi.seal.monolith2microservices.models.git.ChangeEvent;
 import ch.uzh.ifi.seal.monolith2microservices.models.git.GitRepository;
 import ch.uzh.ifi.seal.monolith2microservices.models.graph.Component;
 import ch.uzh.ifi.seal.monolith2microservices.services.git.AuthorService;
@@ -32,25 +33,42 @@ public class MicroserviceEvaluationService {
 
 
 
-    public MicroserviceMetrics from(Component microservice, GitRepository repo) throws IOException{
+    public MicroserviceMetrics from(Component microservice, GitRepository repo, List<ChangeEvent> history) throws IOException{
         MicroserviceMetrics metrics = new MicroserviceMetrics(microservice);
-        metrics.setContributors(computeAuthorSet(microservice,repo));
+
+        Map<String,Set<String>> fileAuthorMap = generateAuthorMap(history);
+
+        metrics.setContributors(computeAuthorSet(microservice,fileAuthorMap));
         metrics.setSizeLoc(computeSizeInLoc(microservice, repo));
         return metrics;
     }
 
+    private Map<String,Set<String>> generateAuthorMap(List<ChangeEvent> history){
+        Map<String,Set<String>> fileAuthorMap = new HashMap<>();
+
+        for(ChangeEvent event: history){
+            for(String fileName: event.getChangedFileNames()){
+                if(fileAuthorMap.get(fileName)==null){
+                    Set<String> authorSet = new HashSet<>();
+                    authorSet.add(event.getAuthorEmailAddress());
+                    fileAuthorMap.put(fileName,authorSet);
+                }else{
+                    Set<String> authorSet = fileAuthorMap.get(fileName);
+                    authorSet.add(event.getAuthorEmailAddress());
+                    fileAuthorMap.put(fileName,authorSet);
+                }
+            }
+        }
+
+        return fileAuthorMap;
+    }
 
 
-    private  Set<String> computeAuthorSet(Component microservice, GitRepository repo){
-        Set<String> authorSet = new HashSet<String>();
+    private  Set<String> computeAuthorSet(Component microservice, Map<String, Set<String>> authorMap){
+        Set<String> authorSet = new HashSet<>();
 
         microservice.getNodes().forEach(classNode -> {
-            try{
-                authorSet.addAll(authorService.getContributingAuthors(repo, classNode.getId()));
-            }catch (Exception e){
-                logger.error("Error during computation of authorSet for ContributorPerMicroservice metric!");
-                logger.info(e.getMessage());
-            }
+            authorSet.addAll(authorMap.get(classNode.getId()));
         });
 
         return authorSet;

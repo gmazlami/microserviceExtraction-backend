@@ -71,6 +71,8 @@ public class DecompositionService {
 
         try {
 
+            List<ChangeEvent> history = computeHistory(repository);
+
             logger.info("DECOMPOSITION-------------------------");
             logger.info("STRATEGIES: Logical Coupling: " + parameters.isLogicalCoupling() + " Semantic Coupling: " + parameters.isSemanticCoupling() + "  Contributor Coupling: " + parameters.isContributorCoupling());
             logger.info("PARAMETERS: History Interval Size (s): " + parameters.getIntervalSeconds() + " Target Number of Services: " + parameters.getNumServices());
@@ -81,35 +83,35 @@ public class DecompositionService {
 
             if (parameters.isLogicalCoupling() && parameters.isSemanticCoupling() && parameters.isContributorCoupling()) {
 
-                couplings = LinearGraphCombination.create().withLogicalCouplings(computeLogicalCouplings(repository, parameters))
+                couplings = LinearGraphCombination.create().withLogicalCouplings(computeLogicalCouplings(history, parameters))
                         .withSemanticCouplings(computeSemanticCouplings(repository))
-                        .withContributorCouplings(computeContributorCouplings(repository)).generate();
+                        .withContributorCouplings(computeContributorCouplings(history)).generate();
 
             } else if (parameters.isLogicalCoupling() && parameters.isSemanticCoupling()) {
 
-                couplings = LinearGraphCombination.create().withLogicalCouplings(computeLogicalCouplings(repository, parameters))
+                couplings = LinearGraphCombination.create().withLogicalCouplings(computeLogicalCouplings(history, parameters))
                         .withSemanticCouplings(computeSemanticCouplings(repository)).generate();
 
             } else if (parameters.isLogicalCoupling() && parameters.isContributorCoupling()) {
 
-                couplings = LinearGraphCombination.create().withLogicalCouplings(computeLogicalCouplings(repository, parameters))
-                        .withContributorCouplings(computeContributorCouplings(repository)).generate();
+                couplings = LinearGraphCombination.create().withLogicalCouplings(computeLogicalCouplings(history, parameters))
+                        .withContributorCouplings(computeContributorCouplings(history)).generate();
 
             } else if (parameters.isContributorCoupling() && parameters.isSemanticCoupling()) {
 
-                couplings = LinearGraphCombination.create().withContributorCouplings(computeContributorCouplings(repository))
+                couplings = LinearGraphCombination.create().withContributorCouplings(computeContributorCouplings(history))
                         .withSemanticCouplings(computeSemanticCouplings(repository)).generate();
 
             } else if (parameters.isLogicalCoupling()) {
 
-                couplings = LinearGraphCombination.create().withLogicalCouplings(computeLogicalCouplings(repository, parameters)).generate();
+                couplings = LinearGraphCombination.create().withLogicalCouplings(computeLogicalCouplings(history, parameters)).generate();
 
             } else if (parameters.isSemanticCoupling()) {
 
                 couplings = LinearGraphCombination.create().withSemanticCouplings(computeSemanticCouplings(repository)).generate();
 
             } else if (parameters.isContributorCoupling()) {
-                couplings = LinearGraphCombination.create().withContributorCouplings(computeContributorCouplings(repository)).generate();
+                couplings = LinearGraphCombination.create().withContributorCouplings(computeContributorCouplings(history)).generate();
             }
 
             long strategyExecutionTimeMillis = System.currentTimeMillis() - strategyStartTimestamp;
@@ -136,6 +138,7 @@ public class DecompositionService {
             decomposition.setComponents(components);
             decomposition.setRepository(repository);
             decomposition.setParameters(parameters);
+            decomposition.setHistory(history);
             decomposition.setClusteringTime(clusteringExecutionTimeMillis);
             decomposition.setStrategyTime(strategyExecutionTimeMillis);
             decompositionRepository.save(decomposition);
@@ -156,20 +159,21 @@ public class DecompositionService {
         }
     }
 
-    private List<ContributorCoupling> computeContributorCouplings(GitRepository repository) throws Exception{
-        List<ChangeEvent> history = historyService.computeChangeEvents(repository);
-        List<ChangeEvent> correctedHistory = historyService.cleanHistory(history);
-        return contributorCouplingEngine.computeCouplings(correctedHistory);
+    private List<ChangeEvent> computeHistory(GitRepository repo) throws Exception{
+        List<ChangeEvent> history = historyService.computeChangeEvents(repo);
+        return historyService.cleanHistory(history);
+    }
+
+    private List<ContributorCoupling> computeContributorCouplings(List<ChangeEvent> history) throws Exception{
+        return contributorCouplingEngine.computeCouplings(history);
     }
 
     private List<SemanticCoupling> computeSemanticCouplings(GitRepository repository) throws IOException{
         return semanticCouplingEngine.computeCouplings(repository);
     }
 
-    private List<LogicalCoupling> computeLogicalCouplings(GitRepository repository, DecompositionParameters parameters) throws Exception{
-        List<ChangeEvent> history = historyService.computeChangeEvents(repository);
-        List<ChangeEvent> correctedHistory = historyService.cleanHistory(history);
-        return logicalCouplingEngine.computeCouplings(correctedHistory, parameters.getIntervalSeconds());
+    private List<LogicalCoupling> computeLogicalCouplings(List<ChangeEvent> history, DecompositionParameters parameters) throws Exception{
+        return logicalCouplingEngine.computeCouplings(history, parameters.getIntervalSeconds());
     }
 
 }

@@ -54,7 +54,7 @@ public class EvaluationService {
     private List<MicroserviceMetrics> computeMicroserviceMetrics(Decomposition decomposition) throws IOException{
         List<MicroserviceMetrics> microserviceMetrics = new ArrayList<>();
         for(Component microservice: decomposition.getServices()){
-            microserviceMetrics.add(microserviceEvaluationService.from(microservice, decomposition.getRepository()));
+            microserviceMetrics.add(microserviceEvaluationService.from(microservice, decomposition.getRepository(), decomposition.getHistory()));
         }
         return microserviceMetrics;
     }
