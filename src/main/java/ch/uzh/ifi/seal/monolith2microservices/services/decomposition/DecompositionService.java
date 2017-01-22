@@ -77,6 +77,8 @@ public class DecompositionService {
 
             List<BaseCoupling> couplings = new ArrayList<>();
 
+            long strategyStartTimestamp = System.currentTimeMillis();
+
             if (parameters.isLogicalCoupling() && parameters.isSemanticCoupling() && parameters.isContributorCoupling()) {
 
                 couplings = LinearGraphCombination.create().withLogicalCouplings(computeLogicalCouplings(repository, parameters))
@@ -110,7 +112,13 @@ public class DecompositionService {
                 couplings = LinearGraphCombination.create().withContributorCouplings(computeContributorCouplings(repository)).generate();
             }
 
+            long strategyExecutionTimeMillis = System.currentTimeMillis() - strategyStartTimestamp;
+
+            long clusteringStartTimestamp = System.currentTimeMillis();
+
             Set<Component> components = MSTGraphClusterer.clusterWithSplit(couplings, parameters.getSizeThreshold(), parameters.getNumServices());
+
+            long clusteringExecutionTimeMillis = System.currentTimeMillis() - clusteringStartTimestamp;
 
             logger.info("Saving decomposition to database.");
 
@@ -128,6 +136,8 @@ public class DecompositionService {
             decomposition.setComponents(components);
             decomposition.setRepository(repository);
             decomposition.setParameters(parameters);
+            decomposition.setClusteringTime(clusteringExecutionTimeMillis);
+            decomposition.setStrategyTime(strategyExecutionTimeMillis);
             decompositionRepository.save(decomposition);
 
             logger.info("Saved all decomposition info and components to database!");

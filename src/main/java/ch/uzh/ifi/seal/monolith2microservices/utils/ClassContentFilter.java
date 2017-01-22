@@ -49,7 +49,6 @@ public class ClassContentFilter implements FilterInterface {
         }
 
         singleTokens.removeAll(toBeRemoved);
-        singleTokens.forEach(System.out::println);
         return singleTokens;
     }
 }

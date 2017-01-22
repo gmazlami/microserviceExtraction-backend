@@ -28,6 +28,10 @@ public class EvaluationMetrics {
 
     private double similarity;
 
+    private long executionTimeMillisStrategy;
+
+    private long executionTimeMillisClustering;
+
     public long getId(){
         return this.id;
     }
@@ -82,5 +86,21 @@ public class EvaluationMetrics {
 
     public void setSimilarity(double similarity) {
         this.similarity = similarity;
+    }
+
+    public long getExecutionTimeMillisStrategy() {
+        return executionTimeMillisStrategy;
+    }
+
+    public void setExecutionTimeMillisStrategy(long executionTimeMillisStrategy) {
+        this.executionTimeMillisStrategy = executionTimeMillisStrategy;
+    }
+
+    public long getExecutionTimeMillisClustering() {
+        return executionTimeMillisClustering;
+    }
+
+    public void setExecutionTimeMillisClustering(long executionTimeMillisClustering) {
+        this.executionTimeMillisClustering = executionTimeMillisClustering;
     }
 }

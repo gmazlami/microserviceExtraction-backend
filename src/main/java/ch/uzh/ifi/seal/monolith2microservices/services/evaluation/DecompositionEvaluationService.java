@@ -44,6 +44,8 @@ public class DecompositionEvaluationService {
         metrics.setAverageLoc(computeAverageLoc(microserviceMetrics));
         metrics.setAverageClassNumber(computeMicroserviceSizeClasses(microserviceMetrics));
         metrics.setSimilarity(computeServiceSimilarity(decomposition));
+        metrics.setExecutionTimeMillisClustering(decomposition.getClusteringTime());
+        metrics.setExecutionTimeMillisStrategy(decomposition.getStrategyTime());
         return metrics;
     }
 
@@ -70,15 +72,19 @@ public class DecompositionEvaluationService {
     }
 
     private double computeServiceSimilarity(Decomposition decomposition) throws IOException{
-        List<Double> similarities = new ArrayList<>();
-        for(Component firstService :  decomposition.getServices()){
-            for(Component secondService: decomposition.getServices()){
-                if(firstService.getId() != secondService.getId()){
-                    similarities.add(similarityService.computeServiceSimilarity(decomposition.getRepository(),firstService,secondService));
+        if(decomposition.getServices().size() > 1){
+            List<Double> similarities = new ArrayList<>();
+            for(Component firstService :  decomposition.getServices()){
+                for(Component secondService: decomposition.getServices()){
+                    if(firstService.getId() != secondService.getId()){
+                        similarities.add(similarityService.computeServiceSimilarity(decomposition.getRepository(),firstService,secondService));
+                    }
                 }
             }
+            return similarities.stream().mapToDouble(Double::doubleValue).sum() / similarities.size();
+        }else{
+            return 1d;
         }
-        return similarities.stream().mapToDouble(Double::doubleValue).sum() / similarities.size();
     }
 
 

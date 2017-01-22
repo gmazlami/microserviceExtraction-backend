@@ -26,6 +26,12 @@ public class Decomposition {
     @OneToOne(cascade={CascadeType.REMOVE})
     private DecompositionParameters parameters;
 
+    @Transient
+    private long clusteringTime;
+
+    @Transient
+    private long strategyTime;
+
     public Long getId(){
         return this.id;
     }
@@ -54,4 +60,19 @@ public class Decomposition {
         this.repository = repo;
     }
 
+    public long getClusteringTime() {
+        return clusteringTime;
+    }
+
+    public void setClusteringTime(long clusteringTime) {
+        this.clusteringTime = clusteringTime;
+    }
+
+    public long getStrategyTime() {
+        return strategyTime;
+    }
+
+    public void setStrategyTime(long strategyTime) {
+        this.strategyTime = strategyTime;
+    }
 }
