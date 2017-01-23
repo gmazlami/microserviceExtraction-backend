@@ -4,6 +4,7 @@ import ch.uzh.ifi.seal.monolith2microservices.main.Configs;
 import ch.uzh.ifi.seal.monolith2microservices.models.evaluation.MicroserviceMetrics;
 import ch.uzh.ifi.seal.monolith2microservices.models.git.ChangeEvent;
 import ch.uzh.ifi.seal.monolith2microservices.models.git.GitRepository;
+import ch.uzh.ifi.seal.monolith2microservices.models.graph.ClassNode;
 import ch.uzh.ifi.seal.monolith2microservices.models.graph.Component;
 import ch.uzh.ifi.seal.monolith2microservices.services.git.AuthorService;
 import org.slf4j.Logger;
@@ -67,9 +68,13 @@ public class MicroserviceEvaluationService {
     private  Set<String> computeAuthorSet(Component microservice, Map<String, Set<String>> authorMap){
         Set<String> authorSet = new HashSet<>();
 
-        microservice.getNodes().forEach(classNode -> {
-            authorSet.addAll(authorMap.get(classNode.getId()));
-        });
+        for(ClassNode node : microservice.getNodes()){
+            Set<String> authors = authorMap.get(node.getId());
+            if(authors != null){
+                authorSet.addAll(authors);
+            }
+        }
+
 
         return authorSet;
     }
