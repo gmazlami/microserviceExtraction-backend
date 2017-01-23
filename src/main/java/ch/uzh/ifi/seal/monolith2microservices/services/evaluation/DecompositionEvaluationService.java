@@ -54,21 +54,21 @@ public class DecompositionEvaluationService {
     }
 
     private double computeContributorOverlapping(List<MicroserviceMetrics> microserviceMetrics){
-        List<Integer> overlappingContributors = new ArrayList<>();
+        List<Double> overlappingContributors = new ArrayList<>();
         microserviceMetrics.forEach( firstServiceMetric -> {
             microserviceMetrics.forEach( secondServiceMetric -> {
-                overlappingContributors.add(getNumberOfOverlappingContributors(firstServiceMetric.getContributors(), secondServiceMetric.getContributors()));
+                overlappingContributors.add((double) getNumberOfOverlappingContributors(firstServiceMetric.getContributors(), secondServiceMetric.getContributors()));
             });
         });
-        return overlappingContributors.stream().mapToInt(Integer::intValue).sum() / overlappingContributors.size();
+        return overlappingContributors.stream().mapToDouble(Double::doubleValue).sum() / overlappingContributors.size();
     }
 
     private double computeAverageLoc(List<MicroserviceMetrics> microserviceMetrics){
-        return microserviceMetrics.stream().map(metric -> metric.getSizeInLoc()).mapToInt(Integer::intValue).sum() / microserviceMetrics.size();
+        return microserviceMetrics.stream().map(metric -> (double) metric.getSizeInLoc()).mapToDouble(Double::doubleValue).sum() / microserviceMetrics.size();
     }
 
     private double computeMicroserviceSizeClasses(List<MicroserviceMetrics> microserviceMetrics){
-        return microserviceMetrics.stream().map(metric -> metric.getSizeInClasses()).mapToInt(Integer::intValue).sum() / microserviceMetrics.size();
+        return microserviceMetrics.stream().map(metric -> (double) metric.getSizeInClasses()).mapToDouble(Double::doubleValue).sum() / microserviceMetrics.size();
     }
 
     private double computeServiceSimilarity(Decomposition decomposition) throws IOException{
