@@ -50,7 +50,7 @@ public class DecompositionEvaluationService {
     }
 
     private double computeContributorPerMicroservice(List<MicroserviceMetrics> microserviceMetrics){
-        return microserviceMetrics.stream().map(metric -> metric.getNumOfContributors()).mapToInt(Integer::intValue).sum() / microserviceMetrics.size();
+        return microserviceMetrics.stream().map(metric -> metric.getNumOfContributors()).mapToDouble(Double::doubleValue).sum() / microserviceMetrics.size();
     }
 
     private double computeContributorOverlapping(List<MicroserviceMetrics> microserviceMetrics){

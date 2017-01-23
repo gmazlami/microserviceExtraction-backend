@@ -48,8 +48,8 @@ public class MicroserviceMetrics {
         return this.contributors;
     }
 
-    public int getNumOfContributors(){
-        return this.contributors.size();
+    public double getNumOfContributors(){
+        return (double) this.contributors.size();
     }
 
     public int getSizeInLoc(){
