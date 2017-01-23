@@ -75,7 +75,7 @@ public class ClassContentVisitor extends SimpleFileVisitor<Path> {
         }else{
             qualifiedPathName = packageNameArray[1];
         }
-        return qualifiedPathName.replace(this.repo.getDirectoryName(),"").substring(1);
+        return qualifiedPathName.replace(this.repo.getDirectoryName(),"").substring(2);
     }
 
 
