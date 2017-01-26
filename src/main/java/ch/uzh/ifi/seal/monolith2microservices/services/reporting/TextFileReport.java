@@ -11,10 +11,10 @@ import java.nio.file.Paths;
 import java.util.Set;
 
 public class TextFileReport {
-	
+
+	private final static String homePath = System.getProperty("user.home");
+
 	public static void generate(GitRepository repo, Set<Component> components) throws Exception {
-		String homePath = System.getProperty("user.home");
-		
 		Path outputPath = Paths.get(homePath + "/" + repo.getName() + "_" + repo.getId()+ ".txt");
 		
 		BufferedWriter writer = new BufferedWriter(Files.newBufferedWriter(outputPath));
@@ -41,6 +41,14 @@ public class TextFileReport {
 		
 		writer.close();
 
+	}
+
+
+	public static void writeToFile(String content, String fileName) throws Exception{
+		Path outputPath = Paths.get(homePath + "/" + fileName);
+		BufferedWriter writer = new BufferedWriter(Files.newBufferedWriter(outputPath));
+		writer.write(content);
+		writer.close();
 	}
 
 }

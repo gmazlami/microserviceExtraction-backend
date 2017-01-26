@@ -103,4 +103,19 @@ public class EvaluationMetrics {
     public void setExecutionTimeMillisClustering(long executionTimeMillisClustering) {
         this.executionTimeMillisClustering = executionTimeMillisClustering;
     }
+
+    @Override
+    public String toString() {
+        return "EvaluationMetrics{" +
+                "id=" + id +
+                ", decomposition=" + decomposition +
+                ", contributorsPerMicroservice=" + contributorsPerMicroservice +
+                ", contributorOverlapping=" + contributorOverlapping +
+                ", averageLoc=" + averageLoc +
+                ", averageClassNumber=" + averageClassNumber +
+                ", similarity=" + similarity +
+                ", executionTimeMillisStrategy=" + executionTimeMillisStrategy +
+                ", executionTimeMillisClustering=" + executionTimeMillisClustering +
+                '}';
+    }
 }
